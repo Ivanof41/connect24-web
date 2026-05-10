@@ -1,0 +1,388 @@
+---
+---
+
+<section class="calculadora" id="calculadora">
+  <div class="calc-bg"></div>
+  <div class="container calc-inner">
+
+    <div class="calc-header reveal">
+      <span class="eyebrow" style="color:var(--c24-teal)">Calculadora</span>
+      <h2>Descubre cuántas horas<br><em>puedes liberar.</em></h2>
+      <p class="section-desc">Selecciona tu tipo de negocio. Nosotros hacemos el resto.</p>
+    </div>
+
+    <!-- Tabs verticales -->
+    <div class="vertical-tabs reveal reveal-delay-1">
+      <button class="vtab active" id="tab-hotel">
+        🏨 Hotel / Agroturismo
+      </button>
+      <button class="vtab" id="tab-alimentacion">
+        🍽️ Comercial / Alimentación
+      </button>
+      <button class="vtab" id="tab-residencial">
+        🏠 Residencial / Vacacional
+      </button>
+    </div>
+
+    <div class="calc-box reveal reveal-delay-2">
+      <div class="calc-layout">
+
+        <!-- INPUT HOTEL -->
+        <div id="input-hotel" class="calc-input">
+          <div class="calc-label-row">
+            <span class="calc-label-text">Número de habitaciones</span>
+            <span class="calc-label-val" id="val-hab">100</span>
+          </div>
+          <input
+            type="range" min="50" max="250"
+            value="100" step="50"
+            id="slider-hab"
+          />
+          <div class="slider-limits">
+            <span>50</span>
+            <span>100</span>
+            <span>150</span>
+            <span>250+</span>
+          </div>
+        </div>
+
+        <!-- INPUT ALIMENTACIÓN -->
+        <div id="input-alimentacion" class="calc-input" style="display:none">
+          <div class="calc-label-row">
+            <span class="calc-label-text">Número de cámaras frigoríficas</span>
+            <span class="calc-label-val" id="val-cam">10</span>
+          </div>
+          <input
+            type="range" min="5" max="20"
+            value="10" step="5"
+            id="slider-cam"
+          />
+          <div class="slider-limits">
+            <span>5</span>
+            <span>10</span>
+            <span>15</span>
+            <span>20+</span>
+          </div>
+        </div>
+
+        <!-- INPUT RESIDENCIAL -->
+        <div id="input-residencial" class="calc-input" style="display:none">
+          <p class="calc-label-text" style="margin-bottom:1.25rem">Tamaño de la vivienda</p>
+          <div class="segment-select">
+            <button class="seg-btn active" data-seg="s">150 — 250 m²</button>
+            <button class="seg-btn" data-seg="m">250 — 500 m²</button>
+            <button class="seg-btn" data-seg="l">Más de 500 m²</button>
+          </div>
+        </div>
+
+        <!-- RESULTADO -->
+        <div class="calc-result">
+          <p class="result-label">Horas liberadas al año</p>
+          <div class="result-number" id="result-num">990</div>
+          <p class="result-unit">horas / año</p>
+          <p class="result-desc" id="result-desc">
+            de trabajo repetitivo que tu equipo dejará de hacer
+          </p>
+          <button class="btn btn-primary result-cta" id="resultCta">
+            Quiero liberar esas horas →
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .calculadora {
+    padding: 7rem 2rem;
+    background: var(--c24-navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid de fondo sutil */
+  .calc-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(0,180,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,180,160,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  :global([data-theme="dark"]) .calc-bg {
+    background-image:
+      linear-gradient(rgba(0,180,160,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,180,160,0.06) 1px, transparent 1px);
+  }
+
+  .calc-inner { position: relative; z-index: 1; }
+
+  /* ── Header ── */
+  .calc-header { margin-bottom: 2.5rem; }
+  .calc-header h2 {
+    color: white;
+    margin-bottom: 1rem;
+  }
+  .calc-header h2 em {
+    font-style: italic;
+    color: var(--c24-teal);
+  }
+  .calc-header .section-desc {
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── Tabs ── */
+  .vertical-tabs {
+    display: flex; gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .vtab {
+    padding: 0.65rem 1.4rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-weight: 500; font-size: 0.88rem;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .vtab:hover:not(.active) {
+    border-color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.8);
+  }
+  .vtab.active {
+    background: var(--c24-teal);
+    border-color: var(--c24-teal);
+    color: white;
+  }
+
+  /* ── Box ── */
+  .calc-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,180,160,0.2);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+  }
+
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* ── Inputs ── */
+  .calc-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .calc-label-text {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.6);
+  }
+  .calc-label-val {
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 1.1rem;
+    color: var(--c24-teal);
+  }
+
+  /* Slider */
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    outline: none;
+    margin-bottom: 0.75rem;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--c24-teal);
+    cursor: pointer;
+    border: 3px solid var(--c24-navy);
+    transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .slider-limits {
+    display: flex;
+    justify-content: space-between;
+  }
+  .slider-limits span {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Segment buttons */
+  .segment-select {
+    display: flex; flex-direction: column; gap: 0.65rem;
+  }
+  .seg-btn {
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font-body); font-size: 0.9rem;
+    cursor: pointer; transition: all 0.2s; text-align: left;
+  }
+  .seg-btn:hover:not(.active) {
+    border-color: rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.8);
+  }
+  .seg-btn.active {
+    background: rgba(0,180,160,0.15);
+    border-color: var(--c24-teal);
+    color: white;
+  }
+
+  /* ── Resultado ── */
+  .calc-result {
+    background: rgba(0,180,160,0.08);
+    border: 1px solid rgba(0,180,160,0.2);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+  }
+  .result-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.75rem;
+  }
+  .result-number {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    font-weight: 700;
+    color: var(--c24-teal);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    transition: all 0.3s var(--ease-out);
+  }
+  .result-unit {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1rem;
+  }
+  .result-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+    min-height: 2.5rem;
+  }
+  .result-cta { width: 100%; justify-content: center; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .calc-layout { grid-template-columns: 1fr; }
+    .calc-box { padding: 1.75rem; }
+    .calculadora { padding: 5rem 1.5rem; }
+  }
+</style>
+
+<script>
+  // ── Datos ──
+  const horasHotel:        Record<number, number> = { 50: 610, 100: 990, 150: 1440, 250: 2030 };
+  const horasAlimentacion: Record<number, number> = { 5: 85, 10: 134, 15: 158, 20: 195 };
+  const horasResidencial:  Record<string, number> = { s: 45, m: 85, l: 145 };
+
+  let currentVertical = 'hotel';
+  let currentSegmento = 's';
+
+  // ── Tabs ──
+  document.querySelectorAll('.vtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const id = btn.id.replace('tab-', '');
+      currentVertical = id;
+      ['hotel', 'alimentacion', 'residencial'].forEach(v => {
+        const el = document.getElementById(`input-${v}`);
+        if (el) el.style.display = v === id ? 'block' : 'none';
+      });
+      calcular();
+    });
+  });
+
+  // ── Slider hotel ──
+  document.getElementById('slider-hab')?.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value);
+    const display = document.getElementById('val-hab');
+    if (display) display.textContent = val === 250 ? '250+' : String(val);
+    calcular();
+  });
+
+  // ── Slider alimentación ──
+  document.getElementById('slider-cam')?.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value);
+    const display = document.getElementById('val-cam');
+    if (display) display.textContent = val === 20 ? '20+' : String(val);
+    calcular();
+  });
+
+  // ── Segment residencial ──
+  document.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSegmento = btn.getAttribute('data-seg') || 's';
+      calcular();
+    });
+  });
+
+  // ── Calcular ──
+  function calcular() {
+    let horas = 0;
+    let desc  = 'de trabajo repetitivo que tu equipo dejará de hacer';
+
+    if (currentVertical === 'hotel') {
+      const val = parseInt((document.getElementById('slider-hab') as HTMLInputElement).value);
+      horas = horasHotel[val] || 990;
+      desc  = `en un hotel de ${val === 250 ? '250+' : val} hab — registros, comprobaciones y cumplimiento normativo`;
+    } else if (currentVertical === 'alimentacion') {
+      const val = parseInt((document.getElementById('slider-cam') as HTMLInputElement).value);
+      horas = horasAlimentacion[val] || 134;
+      desc  = `con ${val === 20 ? '20+' : val} cámaras — control APPCC, rondas de temperatura y registros`;
+    } else {
+      horas = horasResidencial[currentSegmento] || 85;
+      desc  = 'entre visitas de comprobación, incidencias no detectadas y desplazamientos evitados';
+    }
+
+    const numEl  = document.getElementById('result-num');
+    const descEl = document.getElementById('result-desc');
+    if (numEl)  numEl.textContent  = horas.toLocaleString('es-ES');
+    if (descEl) descEl.textContent = desc;
+  }
+
+  // ── CTA resultado → modal ──
+  document.getElementById('resultCta')?.addEventListener('click', () => {
+    document.getElementById('modal')?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  calcular();
+</script>

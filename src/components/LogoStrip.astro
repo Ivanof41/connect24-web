@@ -1,0 +1,109 @@
+---
+---
+
+<div class="logo-strip">
+  <p class="logo-strip-label">Con la confianza de</p>
+  <div class="logo-strip-wrapper">
+    <div class="logo-strip-track">
+      <span>HOTEL ES MOLÍ</span>
+      <span class="sep">·</span>
+      <span>FINCA BINISSALEM</span>
+      <span class="sep">·</span>
+      <span>GRUP FERRER</span>
+      <span class="sep">·</span>
+      <span>CLARET HOTEL</span>
+      <span class="sep">·</span>
+      <span>DISTRIBUCIONS BCN</span>
+      <span class="sep">·</span>
+      <span>VILLA SARRIÀ</span>
+      <span class="sep">·</span>
+      <!-- Duplicado para loop infinito -->
+      <span>HOTEL ES MOLÍ</span>
+      <span class="sep">·</span>
+      <span>FINCA BINISSALEM</span>
+      <span class="sep">·</span>
+      <span>GRUP FERRER</span>
+      <span class="sep">·</span>
+      <span>CLARET HOTEL</span>
+      <span class="sep">·</span>
+      <span>DISTRIBUCIONS BCN</span>
+      <span class="sep">·</span>
+      <span>VILLA SARRIÀ</span>
+      <span class="sep">·</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .logo-strip {
+    padding: 2rem 0;
+    border-top: 1px solid var(--c24-border);
+    border-bottom: 1px solid var(--c24-border);
+    background: var(--c24-surface);
+    overflow: hidden;
+  }
+
+  .logo-strip-label {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c24-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .logo-strip-wrapper {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .logo-strip-track {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    width: max-content;
+    animation: scrollTrack 35s linear infinite;
+  }
+  .logo-strip-track:hover {
+    animation-play-state: paused;
+  }
+
+  .logo-strip-track span {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c24-text-muted);
+    opacity: 0.5;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .logo-strip-track span:hover { opacity: 0.9; }
+
+  .logo-strip-track .sep {
+    color: var(--c24-teal);
+    opacity: 0.4;
+    font-size: 1.2rem;
+    letter-spacing: 0;
+  }
+
+  @keyframes scrollTrack {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>

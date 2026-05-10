@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@0,300;0,400;0,500&display=swap');
+
+/* ── TOKENS ── */
+:root {
+  --c24-navy:        #0D2D44;
+  --c24-teal:        #00B4A0;
+  --c24-teal-dark:   #008F7E;
+  --c24-teal-light:  #E1F5EE;
+  --c24-text:        #0D2D44;
+  --c24-text-muted:  #4A6070;
+  --c24-bg:          #F0F6FC;
+  --c24-border:      rgba(13,45,68,0.10);
+  --c24-dropdown-bg: #FFFFFF;
+  --c24-surface:     #FFFFFF;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-pill: 100px;
+
+  --shadow-sm:   0 2px 8px rgba(13,45,68,0.06);
+  --shadow-md:   0 4px 24px rgba(13,45,68,0.10);
+  --shadow-teal: 0 0 32px rgba(0,180,160,0.3);
+
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── MODO OSCURO ── */
+[data-theme="dark"] {
+  --c24-bg:          #080F18;
+  --c24-text:        #F0F6FF;
+  --c24-text-muted:  #7A98B5;
+  --c24-border:      rgba(255,255,255,0.07);
+  --c24-surface:     #0F1E30;
+  --c24-dropdown-bg: #0D1829;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  color: var(--c24-text);
+  background: var(--c24-bg);
+  overflow-x: hidden;
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+/* ── TIPOGRAFÍA ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--c24-text);
+}
+h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); }
+h3 { font-size: 1.1rem; font-weight: 600; font-family: var(--font-body); }
+
+.eyebrow {
+  display: block;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c24-teal); margin-bottom: 0.75rem;
+  font-family: var(--font-body);
+}
+.section-desc {
+  font-size: 1rem; color: var(--c24-text-muted);
+  max-width: 520px; line-height: 1.8;
+  margin-bottom: 2.5rem; font-weight: 300;
+}
+.accent      { color: var(--c24-teal); }
+.accent-dark { color: var(--c24-teal-dark); }
+
+/* ── BOTONES ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-body); font-weight: 500; font-size: 0.9rem;
+  padding: 0.75rem 1.5rem; border-radius: var(--radius-sm);
+  transition: all 0.25s var(--ease-out);
+  cursor: pointer; border: none; white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.btn-primary {
+  background: var(--c24-teal); color: white;
+  box-shadow: 0 0 28px rgba(0,180,160,0.3);
+}
+.btn-primary:hover {
+  background: var(--c24-teal-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(0,180,160,0.5);
+}
+.btn-ghost {
+  background: transparent; color: var(--c24-text);
+  border: 1px solid var(--c24-border);
+}
+.btn-ghost:hover { border-color: var(--c24-teal); color: var(--c24-teal); transform: translateY(-2px); }
+.btn-navy { background: var(--c24-navy); color: white; }
+.btn-navy:hover { background: var(--c24-teal-dark); transform: translateY(-2px); box-shadow: var(--shadow-teal); }
+.btn-white { background: white; color: var(--c24-navy); }
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+/* ── LAYOUT ── */
+.container { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+.section-pad { padding: 7rem 2rem; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out); }
+.reveal.visible  { opacity: 1; transform: translateY(0); }
+.reveal-delay-1  { transition-delay: 0.1s; }
+.reveal-delay-2  { transition-delay: 0.2s; }
+.reveal-delay-3  { transition-delay: 0.3s; }
+.reveal-delay-4  { transition-delay: 0.4s; }

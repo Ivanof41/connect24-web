@@ -1,0 +1,185 @@
+---
+---
+
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <img src="/logo.png" alt="Connect24" class="nav-logo-img" />
+  </a>
+
+  <div class="nav-links">
+    <a href="#como">Cómo funciona</a>
+    <a href="#calculadora">Calculadora</a>
+    <a href="https://go.connect24.io" target="_blank" rel="noopener">GO! Instalación</a>
+  </div>
+
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+      <span class="theme-icon">☀️</span>
+    </button>
+
+    <a
+      href="https://panel.connect24.io/es/login"
+      target="_blank"
+      rel="noopener"
+      class="btn btn-primary nav-acceso"
+    >
+      Acceso
+    </a>
+
+    <button class="nav-burger" id="navBurger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#como" class="mobile-link">Cómo funciona</a>
+  <a href="#calculadora" class="mobile-link">Calculadora</a>
+  <a href="https://go.connect24.io" target="_blank" rel="noopener" class="mobile-link">GO! Instalación</a>
+  
+    href="https://panel.connect24.io/es/login"
+    target="_blank"
+    rel="noopener"
+    class="btn btn-primary"
+    style="margin-top:0.75rem;justify-content:center"
+  >
+    Acceso
+  </a>
+</div>
+
+<style>
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 68px;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+  #nav.scrolled {
+    border-color: var(--c24-border);
+    box-shadow: 0 2px 20px rgba(13,45,68,0.07);
+  }
+  :global([data-theme="dark"]) #nav {
+    background: rgba(10,25,41,0.95);
+  }
+
+  /* Logo */
+  .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
+  .nav-logo-img {
+    height: 60px; width: auto;
+    transition: filter 0.25s;
+  }
+  :global([data-theme="dark"]) .nav-logo-img {
+    filter: brightness(0) invert(1);
+  }
+
+  /* Links centro */
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    justify-content: center;
+  }
+  .nav-links a {
+    font-size: 0.88rem; color: var(--c24-text-muted);
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--c24-teal); }
+
+  /* Derecha */
+  .nav-right {
+    display: flex; align-items: center;
+    gap: 0.75rem; justify-content: flex-end;
+  }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--c24-border);
+    width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.9rem;
+    transition: border-color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    border-color: var(--c24-teal);
+    background: rgba(0,180,160,0.06);
+  }
+
+  /* Acceso */
+  .nav-acceso { padding: 0.5rem 1.2rem; font-size: 0.88rem; }
+
+  /* Burger */
+  .nav-burger {
+    display: none; flex-direction: column; gap: 5px;
+    width: 36px; height: 36px; align-items: center; justify-content: center;
+    background: none; border: none; cursor: pointer;
+  }
+  .nav-burger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--c24-text); border-radius: 2px;
+    transition: background 0.25s;
+  }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: none; flex-direction: column;
+    position: fixed; top: 68px; left: 0; right: 0;
+    background: var(--c24-bg);
+    padding: 1.5rem 2rem; z-index: 99;
+    border-top: 1px solid var(--c24-border);
+    box-shadow: 0 8px 24px rgba(13,45,68,0.08);
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-link {
+    font-size: 1rem; color: var(--c24-text);
+    padding: 0.75rem 0; border-bottom: 1px solid var(--c24-border);
+  }
+  .mobile-link:hover { color: var(--c24-teal); }
+
+  @media (max-width: 768px) {
+    #nav { grid-template-columns: auto auto; }
+    .nav-links  { display: none; }
+    .nav-acceso { display: none; }
+    .nav-burger { display: flex; }
+  }
+</style>
+
+<script>
+  // Scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Mobile menu
+  const mobileNav = document.getElementById('mobileNav');
+  document.getElementById('navBurger')?.addEventListener('click', () => {
+    mobileNav?.classList.toggle('open');
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => mobileNav?.classList.remove('open'));
+  });
+
+  // Tema claro/oscuro
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = themeToggle?.querySelector('.theme-icon');
+
+  const savedTheme = localStorage.getItem('c24-theme') || 'light';
+  html.setAttribute('data-theme', savedTheme);
+  if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+  themeToggle?.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('c24-theme', next);
+    if (themeIcon) themeIcon.textContent = next === 'dark' ? '🌙' : '☀️';
+  });
+</script>

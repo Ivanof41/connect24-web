@@ -1,0 +1,257 @@
+---
+---
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+
+    <!-- Columna izquierda -->
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Automatización de instalaciones técnicas
+      </div>
+
+      <h1 class="hero-title">
+        ¿Cuánto talento estás
+        <em>malgastando</em>
+        para hacer el trabajo
+        de <em>connect24</em>?
+      </h1>
+
+      <p class="hero-sub">
+        Automatizamos las comprobaciones operativas y el cumplimiento
+        normativo de tus instalaciones, para que tu equipo se encargue
+        de lo que realmente importa.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="heroCtaBtn">
+          Calcula las horas que puedes liberar →
+        </button>
+        <a href="#como" class="btn btn-ghost">Ver cómo funciona</a>
+      </div>
+
+      <div class="hero-trust">
+        <span>✓ Sin permanencia</span>
+        <span>✓ Onboarding en 5 días</span>
+        <span>✓ Datos en Europa</span>
+      </div>
+
+    </div>
+
+    <!-- Columna derecha — Mockup -->
+    <div class="hero-mockup">
+
+      <div class="badge-float badge-float--1">
+        <span class="badge-dot badge-dot--green"></span>
+        Legionella — En rango
+      </div>
+      <div class="badge-float badge-float--2">
+        <span class="badge-dot badge-dot--teal"></span>
+        Consumo eléctrico −18%
+      </div>
+      <div class="badge-float badge-float--3">
+        <span class="badge-dot badge-dot--green"></span>
+        Temp ACS: 61.4°C — OK
+      </div>
+
+      <div class="mockup-frame">
+        <img
+          src="/Oficina.png"
+          alt="Centro de control Connect24"
+          class="mockup-img"
+        />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 9rem 2rem 6rem;
+    overflow: hidden;
+    background: var(--c24-bg);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  /* ── Badge ── */
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--c24-teal-light);
+    color: var(--c24-teal);
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 1.75rem;
+    opacity: 0;
+    animation: fadeUp 0.5s var(--ease-out) 0.1s forwards;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--c24-teal); flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ── Headline ── */
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--c24-text);
+    opacity: 0;
+    animation: fadeUp 0.7s var(--ease-out) 0.2s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--c24-teal);
+  }
+
+  /* ── Subtagline ── */
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--c24-text-muted);
+    line-height: 1.8; font-weight: 300;
+    max-width: 440px;
+    margin-bottom: 2.25rem;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-out) 0.45s forwards;
+  }
+
+  /* ── CTAs ── */
+  .hero-actions {
+    display: flex; align-items: center;
+    gap: 0.75rem; flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-out) 0.6s forwards;
+  }
+
+  /* ── Trust ── */
+  .hero-trust {
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-out) 0.75s forwards;
+  }
+  .hero-trust span {
+    font-size: 0.78rem;
+    color: var(--c24-text-muted);
+    font-weight: 400;
+  }
+
+  /* ── Mockup ── */
+  .hero-mockup {
+    position: relative;
+    opacity: 0;
+    animation: fadeLeft 0.8s var(--ease-out) 0.35s forwards;
+  }
+
+  .mockup-frame {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--c24-border);
+    box-shadow:
+      0 32px 80px rgba(13,45,68,0.15),
+      0 8px 24px rgba(13,45,68,0.08);
+  }
+
+  .mockup-img { width: 100%; display: block; }
+
+  /* ── Floating badges ── */
+  .badge-float {
+    position: absolute;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: var(--c24-surface);
+    border: 1px solid var(--c24-border);
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.75rem; font-weight: 500;
+    color: var(--c24-text);
+    box-shadow: 0 4px 20px rgba(13,45,68,0.10);
+    white-space: nowrap; z-index: 2; opacity: 0;
+  }
+  .badge-float--1 {
+    top: -14px; left: -16px;
+    animation: fadeUp 0.4s var(--ease-out) 1.0s forwards;
+  }
+  .badge-float--2 {
+    top: 38%; right: -20px;
+    animation: fadeUp 0.4s var(--ease-out) 1.2s forwards;
+  }
+  .badge-float--3 {
+    bottom: -14px; left: 12%;
+    animation: fadeUp 0.4s var(--ease-out) 1.4s forwards;
+  }
+
+  /* ── Badge dots ── */
+  .badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .badge-dot--green {
+    background: #22c55e;
+    animation: glowGreen 2s ease-in-out infinite;
+  }
+  .badge-dot--teal {
+    background: var(--c24-teal);
+    animation: glowTeal 2.4s ease-in-out infinite;
+  }
+
+  /* ── Keyframes ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(36px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(1.6); }
+  }
+  @keyframes glowGreen {
+    0%, 100% { box-shadow: 0 0 3px rgba(34,197,94,0.4); }
+    50%       { box-shadow: 0 0 10px 3px rgba(34,197,94,0.75); }
+  }
+  @keyframes glowTeal {
+    0%, 100% { box-shadow: 0 0 3px rgba(0,180,160,0.4); }
+    50%       { box-shadow: 0 0 10px 3px rgba(0,180,160,0.75); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-mockup { display: none; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 8rem 1.5rem 4rem; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { justify-content: center; }
+    .hero-trust { gap: 1rem; }
+  }
+</style>
+
+<script>
+  document.getElementById('heroCtaBtn')?.addEventListener('click', () => {
+    document.getElementById('calculadora')?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
