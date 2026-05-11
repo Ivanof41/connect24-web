@@ -5,45 +5,121 @@
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
 
-    <div class="modal-body" id="modalBody">
-      <h3>Libera tu equipo</h3>
-      <p class="modal-sub">
-        Cuéntanos tu instalación. Te respondemos en menos de 24h con un plan concreto.
-      </p>
+    <div class="progress-bar">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-steps">
+        <span class="progress-step active" id="pstep-1">1</span>
+        <span class="progress-step" id="pstep-2">2</span>
+        <span class="progress-step" id="pstep-3">3</span>
+      </div>
+    </div>
+
+    <!-- PASO 1 -->
+    <div class="modal-step" id="step-1">
+      <h3>¿Qué tipo de instalación tienes?</h3>
+      <p class="modal-sub">Selecciona la que mejor describe tu negocio.</p>
+      <div class="vertical-cards">
+        <button class="vcard" data-vertical="hotel">
+          <span class="vcard-icon">🏨</span>
+          <div>
+            <span class="vcard-title">Hotel / Agroturismo</span>
+            <span class="vcard-desc">Hoteles, fincas, agroturismos y alojamientos rurales</span>
+          </div>
+        </button>
+        <button class="vcard" data-vertical="alimentacion">
+          <span class="vcard-icon">🍽️</span>
+          <div>
+            <span class="vcard-title">Comercial / Alimentación</span>
+            <span class="vcard-desc">Restaurantes, supermercados, catering y alimentación</span>
+          </div>
+        </button>
+        <button class="vcard" data-vertical="residencial">
+          <span class="vcard-icon">🏠</span>
+          <div>
+            <span class="vcard-title">Residencial / Vacacional</span>
+            <span class="vcard-desc">Viviendas, apartamentos y propiedades vacacionales</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="modal-step" id="step-2" style="display:none">
+      <h3>Cuéntanos un poco más</h3>
+      <p class="modal-sub">Así podemos darte una estimación más precisa.</p>
+
+      <div id="detail-hotel" class="detail-block">
+        <div class="detail-label-row">
+          <span class="detail-label">Número de habitaciones</span>
+          <span class="detail-val" id="modal-val-hab">100</span>
+        </div>
+        <input type="range" min="50" max="250" value="100" step="1" id="modal-slider-hab" />
+        <div class="detail-limits">
+          <span>50</span><span>100</span><span>150</span><span>200</span><span>250+</span>
+        </div>
+      </div>
+
+      <div id="detail-alimentacion" class="detail-block" style="display:none">
+        <div class="detail-label-row">
+          <span class="detail-label">Número de cámaras frigoríficas</span>
+          <span class="detail-val" id="modal-val-cam">10</span>
+        </div>
+        <input type="range" min="5" max="20" value="10" step="1" id="modal-slider-cam" />
+        <div class="detail-limits">
+          <span>5</span><span>10</span><span>15</span><span>20+</span>
+        </div>
+      </div>
+
+      <div id="detail-residencial" class="detail-block" style="display:none">
+        <p class="detail-label" style="margin-bottom:0.75rem">Tamaño de la vivienda</p>
+        <div class="seg-group">
+          <button class="seg-opt active" data-seg="s">150 — 250 m²</button>
+          <button class="seg-opt" data-seg="m">250 — 500 m²</button>
+          <button class="seg-opt" data-seg="l">Más de 500 m²</button>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:1.5rem">
+        <label>¿Qué es lo que más te preocupa gestionar ahora mismo?</label>
+        <textarea id="modal-concern" placeholder="Ej: Los registros de Legionella, el control de temperaturas..." rows="3"></textarea>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn btn-ghost btn-back" id="back-1">← Atrás</button>
+        <button class="btn btn-primary" id="next-2">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="modal-step" id="step-3" style="display:none">
+      <h3>Ya casi estamos</h3>
+      <p class="modal-sub">Déjanos tus datos y te respondemos en menos de 24h con un plan concreto.</p>
 
       <div class="form-row">
         <div class="form-group">
           <label>Nombre</label>
-          <input type="text" placeholder="Tu nombre" />
+          <input type="text" id="modal-nombre" placeholder="Tu nombre" />
         </div>
         <div class="form-group">
           <label>Empresa</label>
-          <input type="text" placeholder="Nombre del negocio" />
+          <input type="text" id="modal-empresa" placeholder="Nombre del negocio" />
         </div>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="tu@empresa.com" />
+        <input type="email" id="modal-email" placeholder="tu@empresa.com" />
       </div>
       <div class="form-group">
         <label>Teléfono</label>
-        <input type="tel" placeholder="+34 600 000 000" />
-      </div>
-      <div class="form-group">
-        <label>Tipo de instalación</label>
-        <select>
-          <option value="">Selecciona...</option>
-          <option>Hotel / Agroturismo</option>
-          <option>Restaurante / Catering / Alimentación</option>
-          <option>Residencial / Vacacional</option>
-          <option>Instalación deportiva</option>
-          <option>Otro</option>
-        </select>
+        <input type="tel" id="modal-tel" placeholder="+34 600 000 000" />
       </div>
 
-      <button class="btn btn-primary btn-submit" id="modalSubmit">
-        Quiero liberar horas →
-      </button>
+      <div class="step-actions">
+        <button class="btn btn-ghost btn-back" id="back-2">← Atrás</button>
+        <button class="btn btn-primary btn-submit" id="modalSubmit">Enviar →</button>
+      </div>
       <p class="modal-privacy">Sin compromiso · Te respondemos en menos de 24h</p>
     </div>
 
@@ -88,78 +164,125 @@
     font-size: 0.85rem; cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
   }
-  .modal-close:hover {
-    border-color: var(--c24-teal);
-    color: var(--c24-teal);
+  .modal-close:hover { border-color: var(--c24-teal); color: var(--c24-teal); }
+
+  .progress-bar { margin-bottom: 2rem; }
+  .progress-track {
+    height: 3px; background: var(--c24-border);
+    border-radius: 2px; margin-bottom: 0.75rem; overflow: hidden;
   }
+  .progress-fill {
+    height: 100%; background: var(--c24-teal);
+    border-radius: 2px; width: 33.3%;
+    transition: width 0.4s var(--ease-out);
+  }
+  .progress-steps { display: flex; justify-content: space-between; }
+  .progress-step {
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--c24-text-muted);
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid var(--c24-border);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .progress-step.active { background: var(--c24-teal); border-color: var(--c24-teal); color: white; }
+  .progress-step.done { background: rgba(69,191,162,0.15); border-color: var(--c24-teal); color: var(--c24-teal); }
 
   h3 {
     font-family: var(--font-display);
-    font-size: 1.5rem; font-weight: 700;
-    color: var(--c24-text);
-    margin-bottom: 0.5rem;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--c24-text); margin-bottom: 0.4rem;
     letter-spacing: -0.02em;
   }
-
   .modal-sub {
-    font-size: 0.9rem;
+    font-size: 0.88rem; color: var(--c24-text-muted);
+    margin-bottom: 1.75rem; line-height: 1.6;
+  }
+
+  .vertical-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+  .vcard {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--c24-bg);
+    border: 1.5px solid var(--c24-border);
+    border-radius: var(--radius-md);
+    cursor: pointer; text-align: left;
+    transition: all 0.2s; width: 100%;
+  }
+  .vcard:hover { border-color: var(--c24-teal); box-shadow: 0 4px 16px rgba(69,191,162,0.08); }
+  .vcard.selected { border-color: var(--c24-teal); background: rgba(69,191,162,0.06); }
+  .vcard-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .vcard-title { font-size: 0.92rem; font-weight: 600; color: var(--c24-text); display: block; }
+  .vcard-desc { font-size: 0.78rem; color: var(--c24-text-muted); display: block; margin-top: 0.15rem; }
+
+  .detail-label-row {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 0.75rem;
+  }
+  .detail-label { font-size: 0.85rem; color: var(--c24-text-muted); }
+  .detail-val { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--c24-teal); }
+
+  input[type="range"] {
+    width: 100%; -webkit-appearance: none;
+    height: 4px;
+    background: linear-gradient(to right, var(--c24-teal) 25%, var(--c24-border) 25%);
+    border-radius: 2px; outline: none; margin-bottom: 0.5rem;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--c24-teal); cursor: pointer;
+    border: 2px solid var(--c24-surface);
+    transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .detail-limits { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+  .detail-limits span { font-size: 0.7rem; color: var(--c24-text-muted); opacity: 0.5; }
+
+  .seg-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .seg-opt {
+    padding: 0.7rem 1rem; border-radius: var(--radius-sm);
+    background: var(--c24-bg); border: 1.5px solid var(--c24-border);
     color: var(--c24-text-muted);
-    margin-bottom: 1.75rem;
-    line-height: 1.6;
+    font-family: var(--font-body); font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s; text-align: left;
   }
+  .seg-opt:hover:not(.active) { border-color: var(--c24-teal); color: var(--c24-text); }
+  .seg-opt.active { background: rgba(69,191,162,0.08); border-color: var(--c24-teal); color: var(--c24-teal); }
 
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1rem; }
   .form-group label {
-    display: block;
-    font-size: 0.75rem; font-weight: 600;
-    color: var(--c24-text-muted);
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    display: block; font-size: 0.72rem; font-weight: 600;
+    color: var(--c24-text-muted); margin-bottom: 0.4rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
   }
   .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.75rem 1rem;
+  .form-group textarea {
+    width: 100%; padding: 0.75rem 1rem;
     border: 1.5px solid var(--c24-border);
     border-radius: var(--radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--c24-text);
-    background: var(--c24-bg);
-    transition: border-color 0.15s;
-    outline: none;
-    -webkit-appearance: none;
+    font-family: var(--font-body); font-size: 0.9rem;
+    color: var(--c24-text); background: var(--c24-bg);
+    transition: border-color 0.15s; outline: none; resize: none;
   }
   .form-group input:focus,
-  .form-group select:focus {
+  .form-group textarea:focus {
     border-color: var(--c24-teal);
-    box-shadow: 0 0 0 3px rgba(0,180,160,0.1);
+    box-shadow: 0 0 0 3px rgba(69,191,162,0.1);
   }
 
-  .btn-submit {
-    width: 100%;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
+  .step-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn-back { flex-shrink: 0; }
+  .btn-submit { flex: 1; justify-content: center; }
+  .step-actions .btn-primary { flex: 1; justify-content: center; }
 
   .modal-privacy {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--c24-text-muted);
-    margin-top: 1rem;
-    opacity: 0.6;
+    text-align: center; font-size: 0.75rem;
+    color: var(--c24-text-muted); margin-top: 1rem; opacity: 0.6;
   }
 
-  /* ── Responsive ── */
   @media (max-width: 540px) {
     .modal { padding: 2rem 1.5rem; }
     .form-row { grid-template-columns: 1fr; }
@@ -167,51 +290,217 @@
 </style>
 
 <script>
-  // Cerrar con botón
+  let currentStep = 1;
+  let selectedVertical = '';
+  let selectedSegmento = 's';
+
+  function setSliderValue(input: HTMLInputElement, val: number, min: number, max: number, displayId: string, suffix: string) {
+    input.value = String(val);
+    const pct = ((val - min) / (max - min)) * 100;
+    input.style.background = `linear-gradient(to right, var(--c24-teal) ${pct}%, var(--c24-border) ${pct}%)`;
+    const display = document.getElementById(displayId);
+    if (display) display.textContent = val === max ? `${max}+` : String(val);
+  }
+
+  function setVertical(vertical: string) {
+    selectedVertical = vertical;
+    ['hotel', 'alimentacion', 'residencial'].forEach(v => {
+      const el = document.getElementById(`detail-${v}`);
+      if (el) el.style.display = v === vertical ? 'block' : 'none';
+    });
+    document.querySelectorAll('.vcard').forEach(c => {
+      c.classList.toggle('selected', c.getAttribute('data-vertical') === vertical);
+    });
+  }
+
+  function goToStep(step: number) {
+    [1, 2, 3].forEach(s => {
+      const el = document.getElementById(`step-${s}`);
+      if (el) el.style.display = 'none';
+    });
+    const current = document.getElementById(`step-${step}`);
+    if (current) current.style.display = 'block';
+
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = `${(step / 3) * 100}%`;
+
+    [1, 2, 3].forEach(s => {
+      const el = document.getElementById(`pstep-${s}`);
+      if (!el) return;
+      el.classList.remove('active', 'done');
+      if (s < step) el.classList.add('done');
+      if (s === step) el.classList.add('active');
+    });
+
+    currentStep = step;
+  }
+
+  // ── Escucha evento de la calculadora ──
+  document.addEventListener('openModalFromCalc', (e: Event) => {
+    const detail = (e as CustomEvent).detail;
+
+    // Pre-seleccionar vertical
+    setVertical(detail.vertical);
+
+    // Pre-rellenar slider según vertical
+    const sliderHab = document.getElementById('modal-slider-hab') as HTMLInputElement | null;
+    const sliderCam = document.getElementById('modal-slider-cam') as HTMLInputElement | null;
+
+    if (detail.vertical === 'hotel' && sliderHab) {
+      setSliderValue(sliderHab, detail.habValue, 50, 250, 'modal-val-hab', '+');
+    } else if (detail.vertical === 'alimentacion' && sliderCam) {
+      setSliderValue(sliderCam, detail.camValue, 5, 20, 'modal-val-cam', '+');
+    } else if (detail.vertical === 'residencial') {
+      selectedSegmento = detail.segmento;
+      document.querySelectorAll('.seg-opt').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-seg') === detail.segmento);
+      });
+    }
+
+    // Ir directamente al paso 2
+    goToStep(2);
+  });
+
+  // ── Paso 1 — selección manual ──
+  document.querySelectorAll('.vcard').forEach(card => {
+    card.addEventListener('click', () => {
+      setVertical(card.getAttribute('data-vertical') || '');
+      setTimeout(() => goToStep(2), 200);
+    });
+  });
+
+  // ── Sliders del modal ──
+  const modalSliderHab = document.getElementById('modal-slider-hab') as HTMLInputElement | null;
+  modalSliderHab?.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    const val = parseInt(input.value);
+    const pct = ((val - 50) / (250 - 50)) * 100;
+    input.style.background = `linear-gradient(to right, var(--c24-teal) ${pct}%, var(--c24-border) ${pct}%)`;
+    const display = document.getElementById('modal-val-hab');
+    if (display) display.textContent = val === 250 ? '250+' : String(val);
+  });
+
+  const modalSliderCam = document.getElementById('modal-slider-cam') as HTMLInputElement | null;
+  modalSliderCam?.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    const val = parseInt(input.value);
+    const pct = ((val - 5) / (20 - 5)) * 100;
+    input.style.background = `linear-gradient(to right, var(--c24-teal) ${pct}%, var(--c24-border) ${pct}%)`;
+    const display = document.getElementById('modal-val-cam');
+    if (display) display.textContent = val === 20 ? '20+' : String(val);
+  });
+
+  // ── Segmentos residencial ──
+  document.querySelectorAll('.seg-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.seg-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedSegmento = btn.getAttribute('data-seg') || 's';
+    });
+  });
+
+  // ── Navegación ──
+  document.getElementById('next-2')?.addEventListener('click', () => goToStep(3));
+  document.getElementById('back-1')?.addEventListener('click', () => goToStep(1));
+  document.getElementById('back-2')?.addEventListener('click', () => goToStep(2));
+
+  // ── Submit → mailto ──
+  document.getElementById('modalSubmit')?.addEventListener('click', () => {
+    const nombre  = (document.getElementById('modal-nombre')  as HTMLInputElement)?.value || '';
+    const empresa = (document.getElementById('modal-empresa') as HTMLInputElement)?.value || '';
+    const email   = (document.getElementById('modal-email')   as HTMLInputElement)?.value || '';
+    const tel     = (document.getElementById('modal-tel')     as HTMLInputElement)?.value || '';
+    const concern = (document.getElementById('modal-concern') as HTMLTextAreaElement)?.value || '';
+
+    const verticalLabels: Record<string, string> = {
+      hotel: 'Hotel / Agroturismo',
+      alimentacion: 'Comercial / Alimentación',
+      residencial: 'Residencial / Vacacional',
+    };
+
+    let detalle = '';
+    if (selectedVertical === 'hotel') {
+      const hab = (document.getElementById('modal-slider-hab') as HTMLInputElement)?.value || '100';
+      detalle = `Número de habitaciones: ${hab}`;
+    } else if (selectedVertical === 'alimentacion') {
+      const cam = (document.getElementById('modal-slider-cam') as HTMLInputElement)?.value || '10';
+      detalle = `Número de cámaras frigoríficas: ${cam}`;
+    } else {
+      const segLabels: Record<string, string> = { s: '150-250 m²', m: '250-500 m²', l: 'Más de 500 m²' };
+      detalle = `Tamaño vivienda: ${segLabels[selectedSegmento]}`;
+    }
+
+    const subject = encodeURIComponent(`Solicitud Connect24 — ${verticalLabels[selectedVertical] || 'Nueva instalación'}`);
+    const body = encodeURIComponent(
+`Hola equipo Connect24,
+
+Me gustaría recibir información sobre cómo automatizar mi instalación.
+
+— DATOS DE CONTACTO —
+Nombre: ${nombre}
+Empresa: ${empresa}
+Email: ${email}
+Teléfono: ${tel}
+
+— MI INSTALACIÓN —
+Tipo: ${verticalLabels[selectedVertical] || '-'}
+${detalle}
+
+— LO QUE MÁS ME PREOCUPA —
+${concern || 'No especificado'}
+
+Quedo a la espera de vuestro contacto.
+Gracias.`
+    );
+
+    window.location.href = `mailto:hola@connect24.io?subject=${subject}&body=${body}`;
+
+    const modal = document.querySelector('.modal') as HTMLElement;
+    if (modal) {
+      modal.innerHTML = `
+        <div style="text-align:center;padding:2rem 0">
+          <div style="width:64px;height:64px;border-radius:50%;
+            background:rgba(69,191,162,0.12);
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.75rem;margin:0 auto 1.5rem;color:var(--c24-teal)">✓</div>
+          <h3 style="margin-bottom:0.75rem">¡Enviado!</h3>
+          <p style="color:var(--c24-text-muted);font-size:0.92rem;line-height:1.6;
+            max-width:320px;margin:0 auto 2rem">
+            Tu cliente de correo se abrirá en un momento. Si no ocurre,
+            escríbenos directamente a
+            <a href="mailto:hola@connect24.io" style="color:var(--c24-teal)">hola@connect24.io</a>
+          </p>
+          <button
+            onclick="document.getElementById('modal').classList.remove('active');document.body.style.overflow='';"
+            class="btn btn-primary"
+            style="margin:0 auto"
+          >Cerrar</button>
+        </div>`;
+    }
+  });
+
+  // ── Cerrar modal ──
   document.getElementById('modalClose')?.addEventListener('click', () => {
     document.getElementById('modal')?.classList.remove('active');
     document.body.style.overflow = '';
+    setTimeout(() => goToStep(1), 300);
   });
 
-  // Cerrar clickando fuera
   document.getElementById('modal')?.addEventListener('click', (e) => {
     if (e.target === document.getElementById('modal')) {
       document.getElementById('modal')?.classList.remove('active');
       document.body.style.overflow = '';
+      setTimeout(() => goToStep(1), 300);
     }
   });
 
-  // Cerrar con Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       document.getElementById('modal')?.classList.remove('active');
       document.body.style.overflow = '';
+      setTimeout(() => goToStep(1), 300);
     }
   });
 
-  // Submit
-  document.getElementById('modalSubmit')?.addEventListener('click', () => {
-    const body = document.getElementById('modalBody');
-    if (!body) return;
-    body.innerHTML = `
-      <div style="text-align:center;padding:2rem 0">
-        <div style="width:64px;height:64px;border-radius:50%;
-          background:rgba(0,180,160,0.12);
-          display:flex;align-items:center;justify-content:center;
-          font-size:1.75rem;margin:0 auto 1.5rem;color:var(--c24-teal)">✓</div>
-        <h3 style="margin-bottom:0.75rem">¡Recibido!</h3>
-        <p style="color:var(--c24-text-muted);font-size:0.92rem;line-height:1.6;
-          max-width:320px;margin:0 auto 2rem">
-          Te contactamos en menos de 24h para ver exactamente cuántas
-          horas puede liberar tu instalación.
-        </p>
-        <button
-          onclick="document.getElementById('modal').classList.remove('active');document.body.style.overflow='';"
-          class="btn btn-primary"
-          style="margin:0 auto"
-        >
-          Cerrar
-        </button>
-      </div>`;
-  });
+  goToStep(1);
 </script>

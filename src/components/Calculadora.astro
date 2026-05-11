@@ -11,7 +11,6 @@
       <p class="section-desc">Selecciona tu tipo de negocio. Nosotros hacemos el resto.</p>
     </div>
 
-    <!-- Tabs verticales -->
     <div class="vertical-tabs reveal reveal-delay-1">
       <button class="vtab active" id="tab-hotel">
         🏨 Hotel / Agroturismo
@@ -35,14 +34,15 @@
           </div>
           <input
             type="range" min="50" max="250"
-            value="100" step="50"
+            value="100" step="1"
             id="slider-hab"
           />
           <div class="slider-limits">
-            <span>50</span>
-            <span>100</span>
-            <span>150</span>
-            <span>250+</span>
+            <span style="left:0%;transform:none">50</span>
+            <span style="left:25%">100</span>
+            <span style="left:50%">150</span>
+            <span style="left:75%">200</span>
+            <span style="left:100%;transform:translateX(-100%)">250+</span>
           </div>
         </div>
 
@@ -54,14 +54,14 @@
           </div>
           <input
             type="range" min="5" max="20"
-            value="10" step="5"
+            value="10" step="1"
             id="slider-cam"
           />
           <div class="slider-limits">
-            <span>5</span>
-            <span>10</span>
-            <span>15</span>
-            <span>20+</span>
+            <span style="left:0%;transform:none">5</span>
+            <span style="left:33.3%">10</span>
+            <span style="left:66.6%">15</span>
+            <span style="left:100%;transform:translateX(-100%)">20+</span>
           </div>
         </div>
 
@@ -102,41 +102,29 @@
     overflow: hidden;
   }
 
-  /* Grid de fondo sutil */
   .calc-bg {
     position: absolute; inset: 0; pointer-events: none;
     background-image:
-      linear-gradient(rgba(0,180,160,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,180,160,0.04) 1px, transparent 1px);
+      linear-gradient(rgba(69,191,162,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(69,191,162,0.04) 1px, transparent 1px);
     background-size: 48px 48px;
   }
   :global([data-theme="dark"]) .calc-bg {
     background-image:
-      linear-gradient(rgba(0,180,160,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,180,160,0.06) 1px, transparent 1px);
+      linear-gradient(rgba(69,191,162,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(69,191,162,0.06) 1px, transparent 1px);
   }
 
   .calc-inner { position: relative; z-index: 1; }
 
-  /* ── Header ── */
   .calc-header { margin-bottom: 2.5rem; }
-  .calc-header h2 {
-    color: white;
-    margin-bottom: 1rem;
-  }
-  .calc-header h2 em {
-    font-style: italic;
-    color: var(--c24-teal);
-  }
-  .calc-header .section-desc {
-    color: rgba(255,255,255,0.45);
-  }
+  .calc-header h2 { color: white; margin-bottom: 1rem; }
+  .calc-header h2 em { font-style: italic; color: var(--c24-teal); }
+  .calc-header .section-desc { color: rgba(255,255,255,0.45); }
 
-  /* ── Tabs ── */
   .vertical-tabs {
     display: flex; gap: 0.75rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+    margin-bottom: 2rem; flex-wrap: wrap;
   }
   .vtab {
     padding: 0.65rem 1.4rem;
@@ -145,8 +133,7 @@
     font-weight: 500; font-size: 0.88rem;
     border: 1.5px solid rgba(255,255,255,0.15);
     color: rgba(255,255,255,0.5);
-    background: transparent;
-    cursor: pointer;
+    background: transparent; cursor: pointer;
     transition: all 0.2s;
   }
   .vtab:hover:not(.active) {
@@ -159,77 +146,60 @@
     color: white;
   }
 
-  /* ── Box ── */
   .calc-box {
     background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(0,180,160,0.2);
+    border: 1px solid rgba(69,191,162,0.2);
     border-radius: var(--radius-lg);
     padding: 2.5rem;
   }
-
   .calc-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
+    gap: 3rem; align-items: center;
   }
 
-  /* ── Inputs ── */
   .calc-label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 1rem;
   }
-  .calc-label-text {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.6);
-  }
+  .calc-label-text { font-size: 0.88rem; color: rgba(255,255,255,0.6); }
   .calc-label-val {
     font-family: var(--font-display);
     font-weight: 700; font-size: 1.1rem;
     color: var(--c24-teal);
   }
 
-  /* Slider */
   input[type="range"] {
-    width: 100%;
-    -webkit-appearance: none;
+    width: 100%; -webkit-appearance: none;
     height: 4px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 2px;
-    outline: none;
-    margin-bottom: 0.75rem;
+    background: linear-gradient(to right, var(--c24-teal) 25%, rgba(255,255,255,0.15) 25%);
+    border-radius: 2px; outline: none; margin-bottom: 0.75rem;
+    transition: background 0.15s;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--c24-teal);
-    cursor: pointer;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--c24-teal); cursor: pointer;
     border: 3px solid var(--c24-navy);
     transition: transform 0.15s;
   }
-  input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
   .slider-limits {
-    display: flex;
-    justify-content: space-between;
+    position: relative;
+    height: 1.2rem;
+    margin-top: 0.5rem;
   }
   .slider-limits span {
+    position: absolute;
     font-size: 0.72rem;
     color: rgba(255,255,255,0.3);
+    transform: translateX(-50%);
   }
 
-  /* Segment buttons */
-  .segment-select {
-    display: flex; flex-direction: column; gap: 0.65rem;
-  }
+  .segment-select { display: flex; flex-direction: column; gap: 0.65rem; }
   .seg-btn {
-    padding: 0.8rem 1.2rem;
-    border-radius: var(--radius-md);
+    padding: 0.8rem 1.2rem; border-radius: var(--radius-md);
     background: rgba(255,255,255,0.04);
     border: 1.5px solid rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.55);
@@ -241,50 +211,39 @@
     color: rgba(255,255,255,0.8);
   }
   .seg-btn.active {
-    background: rgba(0,180,160,0.15);
-    border-color: var(--c24-teal);
-    color: white;
+    background: rgba(69,191,162,0.15);
+    border-color: var(--c24-teal); color: white;
   }
 
-  /* ── Resultado ── */
   .calc-result {
-    background: rgba(0,180,160,0.08);
-    border: 1px solid rgba(0,180,160,0.2);
+    background: rgba(69,191,162,0.08);
+    border: 1px solid rgba(69,191,162,0.2);
     border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    text-align: center;
+    padding: 2.5rem; text-align: center;
   }
   .result-label {
     font-size: 0.75rem; font-weight: 600;
     letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 0.75rem;
+    color: rgba(255,255,255,0.4); margin-bottom: 0.75rem;
   }
   .result-number {
     font-family: var(--font-display);
     font-size: clamp(3.5rem, 6vw, 5rem);
-    font-weight: 700;
-    color: var(--c24-teal);
-    letter-spacing: -0.03em;
-    line-height: 1;
+    font-weight: 700; color: var(--c24-teal);
+    letter-spacing: -0.03em; line-height: 1;
     margin-bottom: 0.25rem;
     transition: all 0.3s var(--ease-out);
   }
   .result-unit {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.4);
+    font-size: 0.9rem; color: rgba(255,255,255,0.4);
     margin-bottom: 1rem;
   }
   .result-desc {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.35);
-    line-height: 1.6;
-    margin-bottom: 1.75rem;
-    min-height: 2.5rem;
+    font-size: 0.82rem; color: rgba(255,255,255,0.35);
+    line-height: 1.6; margin-bottom: 1.75rem; min-height: 2.5rem;
   }
   .result-cta { width: 100%; justify-content: center; }
 
-  /* ── Responsive ── */
   @media (max-width: 768px) {
     .calc-layout { grid-template-columns: 1fr; }
     .calc-box { padding: 1.75rem; }
@@ -293,15 +252,43 @@
 </style>
 
 <script>
-  // ── Datos ──
-  const horasHotel:        Record<number, number> = { 50: 610, 100: 990, 150: 1440, 250: 2030 };
-  const horasAlimentacion: Record<number, number> = { 5: 85, 10: 134, 15: 158, 20: 195 };
-  const horasResidencial:  Record<string, number> = { s: 45, m: 85, l: 145 };
+  const anclaHotel = [
+    { x: 50,  y: 610  },
+    { x: 100, y: 990  },
+    { x: 150, y: 1440 },
+    { x: 200, y: 1735 },
+    { x: 250, y: 2030 },
+  ];
+  const anclaAlimentacion = [
+    { x: 5,  y: 85  },
+    { x: 10, y: 134 },
+    { x: 15, y: 158 },
+    { x: 20, y: 195 },
+  ];
+  const horasResidencial: Record<string, number> = { s: 45, m: 85, l: 145 };
 
   let currentVertical = 'hotel';
   let currentSegmento = 's';
 
-  // ── Tabs ──
+  function interpolar(val: number, anclas: {x: number, y: number}[]): number {
+    if (val <= anclas[0].x) return anclas[0].y;
+    if (val >= anclas[anclas.length - 1].x) return anclas[anclas.length - 1].y;
+    for (let i = 0; i < anclas.length - 1; i++) {
+      const a = anclas[i];
+      const b = anclas[i + 1];
+      if (val >= a.x && val <= b.x) {
+        const t = (val - a.x) / (b.x - a.x);
+        return Math.round(a.y + t * (b.y - a.y));
+      }
+    }
+    return anclas[0].y;
+  }
+
+  function updateSliderTrack(input: HTMLInputElement, min: number, max: number) {
+    const pct = ((parseInt(input.value) - min) / (max - min)) * 100;
+    input.style.background = `linear-gradient(to right, var(--c24-teal) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
+  }
+
   document.querySelectorAll('.vtab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
@@ -316,23 +303,26 @@
     });
   });
 
-  // ── Slider hotel ──
-  document.getElementById('slider-hab')?.addEventListener('input', (e) => {
-    const val = parseInt((e.target as HTMLInputElement).value);
+  const sliderHab = document.getElementById('slider-hab') as HTMLInputElement | null;
+  sliderHab?.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    const val = parseInt(input.value);
+    updateSliderTrack(input, 50, 250);
     const display = document.getElementById('val-hab');
     if (display) display.textContent = val === 250 ? '250+' : String(val);
     calcular();
   });
 
-  // ── Slider alimentación ──
-  document.getElementById('slider-cam')?.addEventListener('input', (e) => {
-    const val = parseInt((e.target as HTMLInputElement).value);
+  const sliderCam = document.getElementById('slider-cam') as HTMLInputElement | null;
+  sliderCam?.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    const val = parseInt(input.value);
+    updateSliderTrack(input, 5, 20);
     const display = document.getElementById('val-cam');
     if (display) display.textContent = val === 20 ? '20+' : String(val);
     calcular();
   });
 
-  // ── Segment residencial ──
   document.querySelectorAll('.seg-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
@@ -342,18 +332,17 @@
     });
   });
 
-  // ── Calcular ──
   function calcular() {
     let horas = 0;
     let desc  = 'de trabajo repetitivo que tu equipo dejará de hacer';
 
     if (currentVertical === 'hotel') {
       const val = parseInt((document.getElementById('slider-hab') as HTMLInputElement).value);
-      horas = horasHotel[val] || 990;
+      horas = interpolar(val, anclaHotel);
       desc  = `en un hotel de ${val === 250 ? '250+' : val} hab — registros, comprobaciones y cumplimiento normativo`;
     } else if (currentVertical === 'alimentacion') {
       const val = parseInt((document.getElementById('slider-cam') as HTMLInputElement).value);
-      horas = horasAlimentacion[val] || 134;
+      horas = interpolar(val, anclaAlimentacion);
       desc  = `con ${val === 20 ? '20+' : val} cámaras — control APPCC, rondas de temperatura y registros`;
     } else {
       horas = horasResidencial[currentSegmento] || 85;
@@ -366,13 +355,28 @@
     if (descEl) descEl.textContent = desc;
   }
 
-  // ── CTA resultado → modal ──
+  if (sliderHab) updateSliderTrack(sliderHab, 50, 250);
+  if (sliderCam) updateSliderTrack(sliderCam, 5, 20);
+
+  // ── CTA → dispara evento con datos de la calculadora ──
   document.getElementById('resultCta')?.addEventListener('click', () => {
+    const sliderHabEl = document.getElementById('slider-hab') as HTMLInputElement;
+    const sliderCamEl = document.getElementById('slider-cam') as HTMLInputElement;
+
+    const payload = {
+      vertical:  currentVertical,
+      segmento:  currentSegmento,
+      habValue:  sliderHabEl ? parseInt(sliderHabEl.value) : 100,
+      camValue:  sliderCamEl ? parseInt(sliderCamEl.value) : 10,
+    };
+
+    // Disparar evento personalizado con los datos
+    document.dispatchEvent(new CustomEvent('openModalFromCalc', { detail: payload }));
+
     document.getElementById('modal')?.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
 
-  // ── Scroll reveal ──
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
