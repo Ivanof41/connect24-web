@@ -11,18 +11,23 @@ import PruebaSocial from '../components/PruebaSocial.astro';
 import CtaFinal from '../components/CtaFinal.astro';
 import Modal from '../components/Modal.astro';
 import Footer from '../components/Footer.astro';
+
+import { getLang, useTranslations } from '../i18n/index';
+
+const lang = getLang(Astro.url);
+const t    = useTranslations(lang);
 ---
 
-<Layout>
-  <Nav />
-  <Hero />
-  <LogoStrip />
-  <Problema />
-  <ComoFunciona />
-  <Calculadora />
-  <Diferenciacion />
-  <PruebaSocial />
-  <CtaFinal />
-  <Modal />
-  <Footer />
+<Layout title={`Connect24 — ${t.hero.title1} ${t.hero.title2}?`}>
+  <Nav t={t.nav} lang={lang} />
+  <Hero t={t.hero} />
+  <LogoStrip t={t.logostrip} />
+  <Problema t={t.problema} />
+  <ComoFunciona t={t.como} />
+  <Calculadora t={t.calculadora} />
+  <Diferenciacion t={t.diferencia} />
+  <PruebaSocial t={t.social} />
+  <CtaFinal t={t.cta} />
+  <Modal t={t.modal} t_calc={t.calculadora} />
+  <Footer t={t.footer} />
 </Layout>

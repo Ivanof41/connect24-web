@@ -1,4 +1,29 @@
 ---
+interface Props {
+  t: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    desc: string;
+    tab1: string;
+    tab2: string;
+    tab3: string;
+    label_hab: string;
+    label_cam: string;
+    label_res: string;
+    seg_s: string;
+    seg_m: string;
+    seg_l: string;
+    result_label: string;
+    result_unit: string;
+    result_desc: string;
+    result_cta: string;
+    desc_hotel: string;
+    desc_cam: string;
+    desc_res: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <section class="calculadora" id="calculadora">
@@ -6,21 +31,15 @@
   <div class="container calc-inner">
 
     <div class="calc-header reveal">
-      <span class="eyebrow" style="color:var(--c24-teal)">Calculadora</span>
-      <h2>Descubre cuántas horas<br><em>puedes liberar.</em></h2>
-      <p class="section-desc">Selecciona tu tipo de negocio. Nosotros hacemos el resto.</p>
+      <span class="eyebrow" style="color:var(--c24-teal)">{t.eyebrow}</span>
+      <h2>{t.title1}<br/><em>{t.title2}</em></h2>
+      <p class="section-desc">{t.desc}</p>
     </div>
 
     <div class="vertical-tabs reveal reveal-delay-1">
-      <button class="vtab active" id="tab-hotel">
-        🏨 Hotel / Agroturismo
-      </button>
-      <button class="vtab" id="tab-alimentacion">
-        🍽️ Comercial / Alimentación
-      </button>
-      <button class="vtab" id="tab-residencial">
-        🏠 Residencial / Vacacional
-      </button>
+      <button class="vtab active" id="tab-hotel">{t.tab1}</button>
+      <button class="vtab" id="tab-alimentacion">{t.tab2}</button>
+      <button class="vtab" id="tab-residencial">{t.tab3}</button>
     </div>
 
     <div class="calc-box reveal reveal-delay-2">
@@ -29,14 +48,10 @@
         <!-- INPUT HOTEL -->
         <div id="input-hotel" class="calc-input">
           <div class="calc-label-row">
-            <span class="calc-label-text">Número de habitaciones</span>
+            <span class="calc-label-text">{t.label_hab}</span>
             <span class="calc-label-val" id="val-hab">100</span>
           </div>
-          <input
-            type="range" min="50" max="250"
-            value="100" step="1"
-            id="slider-hab"
-          />
+          <input type="range" min="50" max="250" value="100" step="1" id="slider-hab" />
           <div class="slider-limits">
             <span style="left:0%;transform:none">50</span>
             <span style="left:25%">100</span>
@@ -49,14 +64,10 @@
         <!-- INPUT ALIMENTACIÓN -->
         <div id="input-alimentacion" class="calc-input" style="display:none">
           <div class="calc-label-row">
-            <span class="calc-label-text">Número de cámaras frigoríficas</span>
+            <span class="calc-label-text">{t.label_cam}</span>
             <span class="calc-label-val" id="val-cam">10</span>
           </div>
-          <input
-            type="range" min="5" max="20"
-            value="10" step="1"
-            id="slider-cam"
-          />
+          <input type="range" min="5" max="20" value="10" step="1" id="slider-cam" />
           <div class="slider-limits">
             <span style="left:0%;transform:none">5</span>
             <span style="left:33.3%">10</span>
@@ -67,24 +78,22 @@
 
         <!-- INPUT RESIDENCIAL -->
         <div id="input-residencial" class="calc-input" style="display:none">
-          <p class="calc-label-text" style="margin-bottom:1.25rem">Tamaño de la vivienda</p>
+          <p class="calc-label-text" style="margin-bottom:1.25rem">{t.label_res}</p>
           <div class="segment-select">
-            <button class="seg-btn active" data-seg="s">150 — 250 m²</button>
-            <button class="seg-btn" data-seg="m">250 — 500 m²</button>
-            <button class="seg-btn" data-seg="l">Más de 500 m²</button>
+            <button class="seg-btn active" data-seg="s">{t.seg_s}</button>
+            <button class="seg-btn" data-seg="m">{t.seg_m}</button>
+            <button class="seg-btn" data-seg="l">{t.seg_l}</button>
           </div>
         </div>
 
         <!-- RESULTADO -->
         <div class="calc-result">
-          <p class="result-label">Horas liberadas al año</p>
+          <p class="result-label">{t.result_label}</p>
           <div class="result-number" id="result-num">990</div>
-          <p class="result-unit">horas / año</p>
-          <p class="result-desc" id="result-desc">
-            de trabajo repetitivo que tu equipo dejará de hacer
-          </p>
+          <p class="result-unit">{t.result_unit}</p>
+          <p class="result-desc" id="result-desc">{t.result_desc}</p>
           <button class="btn btn-primary result-cta" id="resultCta">
-            Quiero liberar esas horas →
+            {t.result_cta}
           </button>
         </div>
 
@@ -251,7 +260,7 @@
   }
 </style>
 
-<script>
+<script define:vars={{ descHotel: t.desc_hotel, descCam: t.desc_cam, descRes: t.desc_res, resultDesc: t.result_desc }}>
   const anclaHotel = [
     { x: 50,  y: 610  },
     { x: 100, y: 990  },
@@ -265,12 +274,12 @@
     { x: 15, y: 158 },
     { x: 20, y: 195 },
   ];
-  const horasResidencial: Record<string, number> = { s: 45, m: 85, l: 145 };
+  const horasResidencial = { s: 45, m: 85, l: 145 };
 
   let currentVertical = 'hotel';
   let currentSegmento = 's';
 
-  function interpolar(val: number, anclas: {x: number, y: number}[]): number {
+  function interpolar(val, anclas) {
     if (val <= anclas[0].x) return anclas[0].y;
     if (val >= anclas[anclas.length - 1].x) return anclas[anclas.length - 1].y;
     for (let i = 0; i < anclas.length - 1; i++) {
@@ -284,7 +293,7 @@
     return anclas[0].y;
   }
 
-  function updateSliderTrack(input: HTMLInputElement, min: number, max: number) {
+  function updateSliderTrack(input, min, max) {
     const pct = ((parseInt(input.value) - min) / (max - min)) * 100;
     input.style.background = `linear-gradient(to right, var(--c24-teal) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
   }
@@ -303,21 +312,19 @@
     });
   });
 
-  const sliderHab = document.getElementById('slider-hab') as HTMLInputElement | null;
+  const sliderHab = document.getElementById('slider-hab');
   sliderHab?.addEventListener('input', (e) => {
-    const input = e.target as HTMLInputElement;
-    const val = parseInt(input.value);
-    updateSliderTrack(input, 50, 250);
+    const val = parseInt(e.target.value);
+    updateSliderTrack(e.target, 50, 250);
     const display = document.getElementById('val-hab');
     if (display) display.textContent = val === 250 ? '250+' : String(val);
     calcular();
   });
 
-  const sliderCam = document.getElementById('slider-cam') as HTMLInputElement | null;
+  const sliderCam = document.getElementById('slider-cam');
   sliderCam?.addEventListener('input', (e) => {
-    const input = e.target as HTMLInputElement;
-    const val = parseInt(input.value);
-    updateSliderTrack(input, 5, 20);
+    const val = parseInt(e.target.value);
+    updateSliderTrack(e.target, 5, 20);
     const display = document.getElementById('val-cam');
     if (display) display.textContent = val === 20 ? '20+' : String(val);
     calcular();
@@ -334,19 +341,19 @@
 
   function calcular() {
     let horas = 0;
-    let desc  = 'de trabajo repetitivo que tu equipo dejará de hacer';
+    let desc  = resultDesc;
 
     if (currentVertical === 'hotel') {
-      const val = parseInt((document.getElementById('slider-hab') as HTMLInputElement).value);
+      const val = parseInt(document.getElementById('slider-hab').value);
       horas = interpolar(val, anclaHotel);
-      desc  = `en un hotel de ${val === 250 ? '250+' : val} hab — registros, comprobaciones y cumplimiento normativo`;
+      desc  = `${val === 250 ? '250+' : val} ${descHotel}`;
     } else if (currentVertical === 'alimentacion') {
-      const val = parseInt((document.getElementById('slider-cam') as HTMLInputElement).value);
+      const val = parseInt(document.getElementById('slider-cam').value);
       horas = interpolar(val, anclaAlimentacion);
-      desc  = `con ${val === 20 ? '20+' : val} cámaras — control APPCC, rondas de temperatura y registros`;
+      desc  = `${val === 20 ? '20+' : val} ${descCam}`;
     } else {
       horas = horasResidencial[currentSegmento] || 85;
-      desc  = 'entre visitas de comprobación, incidencias no detectadas y desplazamientos evitados';
+      desc  = descRes;
     }
 
     const numEl  = document.getElementById('result-num');
@@ -358,21 +365,16 @@
   if (sliderHab) updateSliderTrack(sliderHab, 50, 250);
   if (sliderCam) updateSliderTrack(sliderCam, 5, 20);
 
-  // ── CTA → dispara evento con datos de la calculadora ──
   document.getElementById('resultCta')?.addEventListener('click', () => {
-    const sliderHabEl = document.getElementById('slider-hab') as HTMLInputElement;
-    const sliderCamEl = document.getElementById('slider-cam') as HTMLInputElement;
-
+    const sliderHabEl = document.getElementById('slider-hab');
+    const sliderCamEl = document.getElementById('slider-cam');
     const payload = {
       vertical:  currentVertical,
       segmento:  currentSegmento,
       habValue:  sliderHabEl ? parseInt(sliderHabEl.value) : 100,
       camValue:  sliderCamEl ? parseInt(sliderCamEl.value) : 10,
     };
-
-    // Disparar evento personalizado con los datos
     document.dispatchEvent(new CustomEvent('openModalFromCalc', { detail: payload }));
-
     document.getElementById('modal')?.classList.add('active');
     document.body.style.overflow = 'hidden';
   });

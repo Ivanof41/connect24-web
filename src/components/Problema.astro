@@ -1,62 +1,42 @@
 ---
+interface Props {
+  t: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    items: string[];
+    remate1: string;
+    remate2: string;
+    remate3: string;
+    cta: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <section class="problema" id="problema">
   <div class="container">
 
     <div class="problema-header reveal">
-      <span class="eyebrow">El problema</span>
-      <h2>Cada día, alguien de tu equipo<br>hace esto.</h2>
-      <p class="section-desc">Tareas necesarias. Repetitivas. Sin valor. Y que ocurren cada día en tu instalación.</p>
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2>{t.title}</h2>
+      <p class="section-desc">{t.desc}</p>
     </div>
 
     <div class="checklist reveal reveal-delay-1">
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Comprobar y anotar temperaturas de cámaras frigoríficas</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Registrar los parámetros de la piscina</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Rellenar el registro de Legionella</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Revisar el nivel de depósitos y aljibes</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Comprobar la presión de las bombas</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Verificar que la climatización funciona</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Controlar el consumo eléctrico del mes</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Abrir órdenes de trabajo en el GMAO</span>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">✓</span>
-        <span>Preparar el informe para la próxima inspección</span>
-      </div>
+      {t.items.map((item) => (
+        <div class="check-item">
+          <span class="check-icon">✓</span>
+          <span>{item}</span>
+        </div>
+      ))}
     </div>
 
     <div class="problema-remate reveal reveal-delay-2">
       <p class="remate-text">
-        Tareas necesarias. Repetitivas. Sin valor.<br>
-        <em>Connect24 las hace todas. Solo.</em>
+        {t.remate1} <em>{t.remate2}</em>.<br/>{t.remate3}
       </p>
-      <a href="#calculadora" class="btn btn-primary">
-        Ver cuántas horas liberas →
-      </a>
+      <a href="#calculadora" class="btn btn-primary">{t.cta}</a>
     </div>
 
   </div>
@@ -74,7 +54,6 @@
   }
   .problema-header h2 { margin-bottom: 1rem; }
 
-  /* ── Checklist ── */
   .checklist {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -94,13 +73,13 @@
   }
   .check-item:hover {
     border-color: var(--c24-teal);
-    box-shadow: 0 4px 16px rgba(0,180,160,0.08);
+    box-shadow: 0 4px 16px rgba(69,191,162,0.08);
   }
 
   .check-icon {
     width: 28px; height: 28px;
     border-radius: 50%;
-    background: rgba(0,180,160,0.1);
+    background: rgba(69,191,162,0.1);
     color: var(--c24-teal);
     display: flex; align-items: center; justify-content: center;
     font-size: 0.78rem; font-weight: 700;
@@ -114,7 +93,6 @@
     line-height: 1.4;
   }
 
-  /* ── Remate ── */
   .problema-remate {
     background: var(--c24-navy);
     border-radius: var(--radius-lg);
@@ -137,27 +115,17 @@
     color: white;
     line-height: 1.4;
   }
-  :global([data-theme="dark"]) .remate-text {
-    color: var(--c24-text);
-  }
-  .remate-text em {
-    font-style: italic;
-    color: var(--c24-teal);
-  }
+  :global([data-theme="dark"]) .remate-text { color: var(--c24-text); }
+  .remate-text em { font-style: italic; color: var(--c24-teal); }
 
   @media (max-width: 640px) {
     .problema { padding: 5rem 1.5rem; }
-    .problema-remate {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 2rem;
-    }
+    .problema-remate { flex-direction: column; align-items: flex-start; padding: 2rem; }
     .problema-remate .btn { width: 100%; justify-content: center; }
   }
 </style>
 
 <script>
-  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

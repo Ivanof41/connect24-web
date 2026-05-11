@@ -1,4 +1,16 @@
 ---
+interface Props {
+  t: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    desc: string;
+    btn1: string;
+    btn2: string;
+    note: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <section class="cta-final">
@@ -6,28 +18,23 @@
   <div class="container cta-inner">
 
     <div class="reveal">
-      <span class="eyebrow" style="color:var(--c24-teal)">Empieza hoy</span>
-      <h2>¿Listo para liberar<br><em>a tu equipo?</em></h2>
-      <p class="cta-sub">
-        Cuéntanos cómo es tu instalación. En menos de 24h te decimos
-        exactamente qué podemos automatizar.
-      </p>
+      <span class="eyebrow" style="color:var(--c24-teal)">{t.eyebrow}</span>
+      <h2>{t.title1}<br/><em>{t.title2}</em></h2>
+      <p class="cta-sub">{t.desc}</p>
       <div class="cta-actions">
         <button class="btn btn-primary cta-btn" id="ctaFinalBtn">
-          Quiero liberar horas →
+          {t.btn1}
         </button>
-        <a
+        
           href="https://go.connect24.io"
           target="_blank"
           rel="noopener"
           class="btn btn-ghost cta-btn-ghost"
         >
-          Conocer GO! Instalación
+          {t.btn2}
         </a>
       </div>
-      <p class="cta-note">
-        Sin compromiso · Sin instalar nada todavía · Respuesta en menos de 24h
-      </p>
+      <p class="cta-note">{t.note}</p>
     </div>
 
   </div>
@@ -42,12 +49,11 @@
     text-align: center;
   }
 
-  /* Glow de fondo */
   .cta-bg {
     position: absolute; inset: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,180,160,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 50% 0%, rgba(0,180,160,0.06) 0%, transparent 60%);
+      radial-gradient(ellipse 60% 60% at 50% 100%, rgba(69,191,162,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 50% 0%, rgba(69,191,162,0.06) 0%, transparent 60%);
   }
 
   .cta-inner {
@@ -55,20 +61,13 @@
     max-width: 680px;
   }
 
-  h2 {
-    color: white;
-    margin-bottom: 1.25rem;
-  }
-  h2 em {
-    font-style: italic;
-    color: var(--c24-teal);
-  }
+  h2 { color: white; margin-bottom: 1.25rem; }
+  h2 em { font-style: italic; color: var(--c24-teal); }
 
   .cta-sub {
     font-size: 1rem;
     color: rgba(255,255,255,0.55);
-    line-height: 1.8;
-    font-weight: 300;
+    line-height: 1.8; font-weight: 300;
     max-width: 480px;
     margin: 0 auto 2.5rem;
   }
@@ -77,8 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 1rem; flex-wrap: wrap;
     margin-bottom: 1.5rem;
   }
 
@@ -97,7 +95,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* ── Responsive ── */
   @media (max-width: 640px) {
     .cta-final { padding: 5rem 1.5rem; }
     .cta-actions { flex-direction: column; align-items: stretch; }

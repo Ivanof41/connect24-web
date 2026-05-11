@@ -1,8 +1,14 @@
 ---
+interface Props {
+  t: {
+    label: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <div class="logo-strip">
-  <p class="logo-strip-label">Con la confianza de</p>
+  <p class="logo-strip-label">{t.label}</p>
   <div class="logo-strip-wrapper">
     <div class="logo-strip-track">
       <span>HOTEL ES MOLÍ</span>
@@ -78,9 +84,7 @@
     width: max-content;
     animation: scrollTrack 35s linear infinite;
   }
-  .logo-strip-track:hover {
-    animation-play-state: paused;
-  }
+  .logo-strip-track:hover { animation-play-state: paused; }
 
   .logo-strip-track span {
     font-family: var(--font-body);

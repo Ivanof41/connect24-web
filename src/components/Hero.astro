@@ -1,4 +1,25 @@
 ---
+interface Props {
+  t: {
+    badge: string;
+    title1: string;
+    title2: string;
+    title3: string;
+    title4: string;
+    sub: string;
+    cta1: string;
+    cta2: string;
+    trust1: string;
+    trust2: string;
+    trust3: string;
+    badge1: string;
+    badge2: string;
+    badge3: string;
+    badge4: string;
+    badge5: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <section class="hero" id="hero">
@@ -9,33 +30,31 @@
 
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        Automatización de instalaciones técnicas
+        {t.badge}
       </div>
 
       <h1 class="hero-title">
-        ¿Cuánto talento estás
-        <em>malgastando</em>
-        para hacer el trabajo
-        de <em>connect24</em>?
+        {t.title1}
+        <em>{t.title2}</em>
+        {t.title3}
+        {' '}
+        {t.title4 && <span>{t.title4} </span>}
+        <em>connect24</em>?
       </h1>
 
-      <p class="hero-sub">
-        Automatizamos las comprobaciones operativas y el cumplimiento
-        normativo de tus instalaciones, para que tu equipo se encargue
-        de lo que realmente importa.
-      </p>
+      <p class="hero-sub">{t.sub}</p>
 
       <div class="hero-actions">
         <button class="btn btn-primary" id="heroCtaBtn">
-          Calcula las horas que puedes liberar →
+          {t.cta1}
         </button>
-        <a href="#como" class="btn btn-ghost">Ver cómo funciona</a>
+        <a href="#como" class="btn btn-ghost">{t.cta2}</a>
       </div>
 
       <div class="hero-trust">
-        <span>✓ Sin permanencia</span>
-        <span>✓ Onboarding en 5 días</span>
-        <span>✓ Datos en Europa</span>
+        <span>{t.trust1}</span>
+        <span>{t.trust2}</span>
+        <span>{t.trust3}</span>
       </div>
 
     </div>
@@ -43,34 +62,25 @@
     <!-- Columna derecha — Mockup -->
     <div class="hero-mockup">
 
-      <!-- Arriba izquierda -->
       <div class="badge-float badge-float--1">
         <span class="badge-dot badge-dot--green"></span>
-        Legionella — En rango
+        {t.badge1}
       </div>
-
-      <!-- Arriba derecha -->
       <div class="badge-float badge-float--2">
         <span class="badge-dot badge-dot--teal"></span>
-        Consumo eléctrico −18%
+        {t.badge2}
       </div>
-
-      <!-- Derecha centro -->
       <div class="badge-float badge-float--3">
         <span class="badge-dot badge-dot--teal"></span>
-        Cámara frigorífica: −2°C — OK
+        {t.badge3}
       </div>
-
-      <!-- Abajo derecha -->
       <div class="badge-float badge-float--4">
         <span class="badge-dot badge-dot--green"></span>
-        Temp ACS: 61.4°C — OK
+        {t.badge4}
       </div>
-
-      <!-- Abajo izquierda -->
       <div class="badge-float badge-float--5">
         <span class="badge-dot badge-dot--teal"></span>
-        Consumo agua: 132.8 m³
+        {t.badge5}
       </div>
 
       <div class="mockup-frame">
@@ -105,7 +115,6 @@
     align-items: center;
   }
 
-  /* ── Badge ── */
   .hero-badge {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: var(--c24-teal-light);
@@ -124,7 +133,6 @@
     animation: pulse 2s ease-in-out infinite;
   }
 
-  /* ── Headline ── */
   .hero-title {
     font-family: var(--font-display);
     font-size: clamp(2.4rem, 4vw, 3.8rem);
@@ -141,7 +149,6 @@
     color: var(--c24-teal);
   }
 
-  /* ── Subtagline ── */
   .hero-sub {
     font-size: 1rem;
     color: var(--c24-text-muted);
@@ -152,7 +159,6 @@
     animation: fadeUp 0.6s var(--ease-out) 0.45s forwards;
   }
 
-  /* ── CTAs ── */
   .hero-actions {
     display: flex; align-items: center;
     gap: 0.75rem; flex-wrap: wrap;
@@ -161,7 +167,6 @@
     animation: fadeUp 0.6s var(--ease-out) 0.6s forwards;
   }
 
-  /* ── Trust ── */
   .hero-trust {
     display: flex; align-items: center; gap: 1.5rem;
     flex-wrap: wrap;
@@ -174,7 +179,6 @@
     font-weight: 400;
   }
 
-  /* ── Mockup ── */
   .hero-mockup {
     position: relative;
     opacity: 0;
@@ -189,10 +193,8 @@
       0 32px 80px rgba(0,60,91,0.12),
       0 8px 24px rgba(0,60,91,0.06);
   }
-
   .mockup-img { width: 100%; display: block; }
 
-  /* ── Floating badges ── */
   .badge-float {
     position: absolute;
     display: flex; align-items: center; gap: 0.45rem;
@@ -205,48 +207,16 @@
     box-shadow: 0 4px 20px rgba(0,60,91,0.10);
     white-space: nowrap; z-index: 2; opacity: 0;
   }
+  .badge-float--1 { top: -14px; left: -16px; animation: fadeUp 0.4s var(--ease-out) 1.0s forwards; }
+  .badge-float--2 { top: -14px; right: -16px; animation: fadeUp 0.4s var(--ease-out) 1.2s forwards; }
+  .badge-float--3 { top: 42%; right: -20px; animation: fadeUp 0.4s var(--ease-out) 1.4s forwards; }
+  .badge-float--4 { bottom: -14px; right: 10%; animation: fadeUp 0.4s var(--ease-out) 1.6s forwards; }
+  .badge-float--5 { bottom: -14px; left: -16px; animation: fadeUp 0.4s var(--ease-out) 1.8s forwards; }
 
-  /* Arriba izquierda */
-  .badge-float--1 {
-    top: -14px; left: -16px;
-    animation: fadeUp 0.4s var(--ease-out) 1.0s forwards;
-  }
-  /* Arriba derecha */
-  .badge-float--2 {
-    top: -14px; right: -16px;
-    animation: fadeUp 0.4s var(--ease-out) 1.2s forwards;
-  }
-  /* Derecha centro */
-  .badge-float--3 {
-    top: 42%; right: -20px;
-    animation: fadeUp 0.4s var(--ease-out) 1.4s forwards;
-  }
-  /* Abajo derecha */
-  .badge-float--4 {
-    bottom: -14px; right: 10%;
-    animation: fadeUp 0.4s var(--ease-out) 1.6s forwards;
-  }
-  /* Abajo izquierda */
-  .badge-float--5 {
-    bottom: -14px; left: -16px;
-    animation: fadeUp 0.4s var(--ease-out) 1.8s forwards;
-  }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .badge-dot--green { background: #22c55e; animation: glowGreen 2s ease-in-out infinite; }
+  .badge-dot--teal  { background: var(--c24-teal); animation: glowTeal 2.4s ease-in-out infinite; }
 
-  /* ── Badge dots ── */
-  .badge-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%; flex-shrink: 0;
-  }
-  .badge-dot--green {
-    background: #22c55e;
-    animation: glowGreen 2s ease-in-out infinite;
-  }
-  .badge-dot--teal {
-    background: var(--c24-teal);
-    animation: glowTeal 2.4s ease-in-out infinite;
-  }
-
-  /* ── Keyframes ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -268,7 +238,6 @@
     50%       { box-shadow: 0 0 10px 3px rgba(69,191,162,0.75); }
   }
 
-  /* ── Responsive ── */
   @media (max-width: 960px) {
     .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
     .hero-mockup { display: none; }

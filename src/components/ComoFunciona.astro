@@ -1,47 +1,66 @@
 ---
+interface Props {
+  t: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    desc: string;
+    step1_label: string;
+    step1_title: string;
+    step1_desc: string;
+    step2_label: string;
+    step2_title: string;
+    step2_desc: string;
+    step3_label: string;
+    step3_title: string;
+    step3_desc: string;
+    remate1: string;
+    remate2: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <section class="como" id="como">
   <div class="container">
 
     <div class="como-header reveal">
-      <span class="eyebrow">Metodología</span>
-      <h2>Del dato a la acción.<br><em>Solo.</em></h2>
-      <p class="section-desc">Tres pasos que eliminan la gestión manual de tu instalación.</p>
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2>{t.title1}<br/><em>{t.title2}</em></h2>
+      <p class="section-desc">{t.desc}</p>
     </div>
 
     <div class="steps-grid">
 
       <div class="step reveal reveal-delay-1">
         <div class="step-num step-num--1">01</div>
-        <span class="step-label">Captura</span>
-        <h3>El dato entra solo</h3>
-        <p>Conectamos con tus instalaciones mediante tecnología IoT o integraciones con tus sistemas existentes. 24 horas al día, sin intervención humana.</p>
+        <span class="step-label">{t.step1_label}</span>
+        <h3>{t.step1_title}</h3>
+        <p>{t.step1_desc}</p>
       </div>
 
       <div class="step-arrow reveal reveal-delay-2">→</div>
 
       <div class="step reveal reveal-delay-2">
         <div class="step-num step-num--2">02</div>
-        <span class="step-label">Inteligencia</span>
-        <h3>El sistema entiende</h3>
-        <p>Nuestro motor analiza cada dato en contexto. No es una alarma cuando supera un umbral. Es entender qué está pasando realmente en cada momento.</p>
+        <span class="step-label">{t.step2_label}</span>
+        <h3>{t.step2_title}</h3>
+        <p>{t.step2_desc}</p>
       </div>
 
       <div class="step-arrow reveal reveal-delay-3">→</div>
 
       <div class="step reveal reveal-delay-3">
         <div class="step-num step-num--3">03</div>
-        <span class="step-label">Acción</span>
-        <h3>La tarea se hace</h3>
-        <p>El sistema actúa. Registra, alerta, llama, genera informes, crea órdenes de trabajo. Sin que nadie tenga que pedirlo.</p>
+        <span class="step-label">{t.step3_label}</span>
+        <h3>{t.step3_title}</h3>
+        <p>{t.step3_desc}</p>
       </div>
 
     </div>
 
     <p class="como-remate reveal">
-      Conectamos con lo que ya tienes.
-      <em>Y con lo que aún no tienes.</em>
+      {t.remate1} <em>{t.remate2}</em>
     </p>
 
   </div>
@@ -60,12 +79,8 @@
     margin-bottom: 4rem;
   }
   .como-header h2 { margin-bottom: 1rem; }
-  .como-header h2 em {
-    font-style: italic;
-    color: var(--c24-teal);
-  }
+  .como-header h2 em { font-style: italic; color: var(--c24-teal); }
 
-  /* ── Steps ── */
   .steps-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr auto 1fr;
@@ -83,7 +98,7 @@
   }
   .step:hover {
     border-color: var(--c24-teal);
-    box-shadow: 0 8px 32px rgba(0,180,160,0.08);
+    box-shadow: 0 8px 32px rgba(69,191,162,0.08);
   }
 
   .step-num {
@@ -95,27 +110,15 @@
     margin-bottom: 1.25rem;
     letter-spacing: 0.02em;
   }
-  .step-num--1 {
-    background: var(--c24-navy);
-    color: var(--c24-teal);
-    border: 2px solid var(--c24-teal);
-  }
-  .step-num--2 {
-    background: var(--c24-teal);
-    color: white;
-  }
-  .step-num--3 {
-    background: var(--c24-teal-light);
-    color: var(--c24-teal);
-    border: 2px solid var(--c24-teal);
-  }
+  .step-num--1 { background: var(--c24-navy); color: var(--c24-teal); border: 2px solid var(--c24-teal); }
+  .step-num--2 { background: var(--c24-teal); color: white; }
+  .step-num--3 { background: var(--c24-teal-light); color: var(--c24-teal); border: 2px solid var(--c24-teal); }
 
   .step-label {
     display: block;
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--c24-teal);
-    margin-bottom: 0.5rem;
+    color: var(--c24-teal); margin-bottom: 0.5rem;
   }
 
   .step h3 {
@@ -129,11 +132,9 @@
   .step p {
     font-size: 0.9rem;
     color: var(--c24-text-muted);
-    line-height: 1.7;
-    font-weight: 300;
+    line-height: 1.7; font-weight: 300;
   }
 
-  /* ── Arrows ── */
   .step-arrow {
     font-size: 1.5rem;
     color: var(--c24-teal);
@@ -142,7 +143,6 @@
     padding-top: 1rem;
   }
 
-  /* ── Remate ── */
   .como-remate {
     text-align: center;
     font-family: var(--font-display);
@@ -151,20 +151,11 @@
     color: var(--c24-text);
     letter-spacing: -0.01em;
   }
-  .como-remate em {
-    font-style: italic;
-    color: var(--c24-teal);
-  }
+  .como-remate em { font-style: italic; color: var(--c24-teal); }
 
-  /* ── Responsive ── */
   @media (max-width: 860px) {
-    .steps-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .step-arrow {
-      display: none;
-    }
+    .steps-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .step-arrow { display: none; }
   }
   @media (max-width: 640px) {
     .como { padding: 5rem 1.5rem; }

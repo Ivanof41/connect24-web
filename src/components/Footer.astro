@@ -1,4 +1,26 @@
 ---
+interface Props {
+  t: {
+    tagline: string;
+    col1_title: string;
+    col2_title: string;
+    col3_title: string;
+    como: string;
+    calculadora: string;
+    acceder: string;
+    go: string;
+    sol1: string;
+    sol2: string;
+    sol3: string;
+    sol4: string;
+    emp1: string;
+    emp2: string;
+    emp3: string;
+    emp4: string;
+    copy: string;
+  };
+}
+const { t } = Astro.props;
 ---
 
 <footer class="footer">
@@ -9,59 +31,48 @@
       <img
         src="/logo.png"
         alt="Connect24"
-        class="footer-logo footer-logo--light"
+        class="footer-logo"
       />
-      <img
-        src="/logo.png"
-        alt="Connect24"
-        class="footer-logo footer-logo--dark"
-      />
-      <p class="footer-tagline">
-        Automatizamos las comprobaciones operativas y el cumplimiento
-        normativo de instalaciones técnicas.
-      </p>
+      <p class="footer-tagline">{t.tagline}</p>
       <div class="footer-badges">
         <span>🇪🇺 GDPR Compliant</span>
         <span>📡 IoT & LoRaWAN</span>
-        <span>🔒 Datos en Europa</span>
+        <span>🔒 {t.copy.includes('Europa') ? 'Datos en Europa' : 'Data in Europe'}</span>
       </div>
     </div>
 
-    <!-- Links -->
-    <div class="footer-links">
+    <!-- Col 1 -->
+    <div class="footer-col">
+      <h4>{t.col1_title}</h4>
+      <a href="#como">{t.como}</a>
+      <a href="#calculadora">{t.calculadora}</a>
+      <a href="https://panel.connect24.io/es/login" target="_blank" rel="noopener">{t.acceder}</a>
+      <a href="https://go.connect24.io" target="_blank" rel="noopener">{t.go}</a>
+    </div>
 
-      <div class="footer-col">
-        <h4>Plataforma</h4>
-        <a href="#como">Cómo funciona</a>
-        <a href="#calculadora">Calculadora</a>
-        <a href="https://panel.connect24.io/es/login" target="_blank" rel="noopener">Acceder</a>
-        <a href="https://go.connect24.io" target="_blank" rel="noopener">GO! Instalación</a>
-      </div>
+    <!-- Col 2 -->
+    <div class="footer-col">
+      <h4>{t.col2_title}</h4>
+      <a href="/soluciones/operativa-tecnica">{t.sol1}</a>
+      <a href="/soluciones/gestion-energetica">{t.sol2}</a>
+      <a href="/soluciones/ciclo-del-agua">{t.sol3}</a>
+      <a href="/soluciones/auditoria-audix">{t.sol4}</a>
+    </div>
 
-      <div class="footer-col">
-        <h4>Soluciones</h4>
-        <a href="/soluciones/operativa-tecnica">Operativa Técnica</a>
-        <a href="/soluciones/gestion-energetica">Gestión Energética</a>
-        <a href="/soluciones/ciclo-del-agua">Ciclo del Agua</a>
-        <a href="/soluciones/auditoria-audix">Auditoría Audix</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Empresa</h4>
-        <a href="/nosotros/casos-de-exito">Casos de éxito</a>
-        <a href="/nosotros/partners">Partners</a>
-        <a href="/innovacion">Innovación</a>
-        <a href="/contacto">Contacto</a>
-      </div>
-
+    <!-- Col 3 -->
+    <div class="footer-col">
+      <h4>{t.col3_title}</h4>
+      <a href="/nosotros/casos-de-exito">{t.emp1}</a>
+      <a href="/nosotros/partners">{t.emp2}</a>
+      <a href="/innovacion">{t.emp3}</a>
+      <a href="/contacto">{t.emp4}</a>
     </div>
 
   </div>
 
-  <!-- Bottom bar -->
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
-      <p>© 2026 Connect24 · Carrer de Pere Dezcallar i Net, 13 · Palma, Illes Balears</p>
+      <p>{t.copy}</p>
       <div class="footer-bottom-links">
         <a href="mailto:hola@connect24.io">hola@connect24.io</a>
         <a href="tel:+34871153883">+34 871 153 883</a>
@@ -86,62 +97,40 @@
     border-bottom: 1px solid rgba(255,255,255,0.07);
   }
 
-  /* ── Brand ── */
   .footer-brand {}
 
   .footer-logo {
     height: 40px; width: auto;
     margin-bottom: 1.25rem;
-  }
-  .footer-logo--light {
-    display: block;
     filter: brightness(0) invert(1);
   }
-  .footer-logo--dark { display: none; }
-
-  :global([data-theme="dark"]) .footer-logo--light { display: block; filter: brightness(0) invert(1); }
-  :global([data-theme="dark"]) .footer-logo--dark  { display: none; }
 
   .footer-tagline {
     font-size: 0.85rem;
     color: rgba(255,255,255,0.4);
-    line-height: 1.7;
-    font-weight: 300;
+    line-height: 1.7; font-weight: 300;
     max-width: 260px;
     margin-bottom: 1.5rem;
   }
 
   .footer-badges {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
   }
   .footer-badges span {
     font-size: 0.75rem;
     color: rgba(255,255,255,0.3);
   }
 
-  /* ── Links ── */
-  .footer-links {
-    display: contents;
+  .footer-col {
+    display: flex; flex-direction: column; gap: 0.65rem;
   }
-
   .footer-col h4 {
     font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: rgba(255,255,255,0.35);
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.6rem;
   }
-
-  .footer-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
-
   .footer-col a {
     font-size: 0.88rem;
     color: rgba(255,255,255,0.5);
@@ -149,28 +138,18 @@
   }
   .footer-col a:hover { color: var(--c24-teal); }
 
-  /* ── Bottom bar ── */
-  .footer-bottom {
-    padding: 1.5rem 0;
-  }
-
+  .footer-bottom { padding: 1.5rem 0; }
   .footer-bottom-inner {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-wrap: wrap; gap: 1rem;
   }
-
   .footer-bottom p {
     font-size: 0.78rem;
     color: rgba(255,255,255,0.25);
   }
-
   .footer-bottom-links {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
   }
   .footer-bottom-links a {
     font-size: 0.78rem;
@@ -179,15 +158,9 @@
   }
   .footer-bottom-links a:hover { color: var(--c24-teal); }
 
-  /* ── Responsive ── */
   @media (max-width: 860px) {
-    .footer-inner {
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-    .footer-brand {
-      grid-column: 1 / -1;
-    }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
   }
   @media (max-width: 540px) {
     .footer-inner { grid-template-columns: 1fr; }

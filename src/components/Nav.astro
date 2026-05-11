@@ -1,4 +1,14 @@
 ---
+interface Props {
+  t: {
+    como: string;
+    calculadora: string;
+    go: string;
+    acceso: string;
+  };
+  lang: string;
+}
+const { t, lang } = Astro.props;
 ---
 
 <nav id="nav">
@@ -7,23 +17,53 @@
   </a>
 
   <div class="nav-links">
-    <a href="#como">Cómo funciona</a>
-    <a href="#calculadora">Calculadora</a>
-    <a href="https://go.connect24.io" target="_blank" rel="noopener">GO! Instalación</a>
+    <a href="#como">{t.como}</a>
+    <a href="#calculadora">{t.calculadora}</a>
+    <a href="https://go.connect24.io" target="_blank" rel="noopener">{t.go}</a>
   </div>
 
   <div class="nav-right">
+
+    <!-- Selector de idioma -->
+    <div class="lang-selector" id="langSelector">
+      <button class="lang-btn" id="langBtn">
+        <img src="https://flagcdn.com/16x12/es.png" alt="ES" id="langFlag" />
+        <span id="langCode">ES</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <a href="/" class="lang-option" data-lang="es">
+          <img src="https://flagcdn.com/16x12/es.png" alt="ES" />
+          <span>Español</span>
+        </a>
+        <a href="/en" class="lang-option" data-lang="en">
+          <img src="https://flagcdn.com/16x12/gb.png" alt="EN" />
+          <span>English</span>
+        </a>
+        <a href="/ca" class="lang-option" data-lang="ca">
+          <span class="senyera"></span>
+          <span>Català</span>
+        </a>
+        <a href="/de" class="lang-option" data-lang="de">
+          <img src="https://flagcdn.com/16x12/de.png" alt="DE" />
+          <span>Deutsch</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tema -->
     <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
       <span class="theme-icon">☀️</span>
     </button>
 
+    <!-- Acceso -->
     <a
       href="https://panel.connect24.io/es/login"
       target="_blank"
       rel="noopener"
       class="btn btn-primary nav-acceso"
     >
-      Acceso
+      {t.acceso}
     </a>
 
     <button class="nav-burger" id="navBurger" aria-label="Menú">
@@ -33,17 +73,23 @@
 </nav>
 
 <div class="mobile-nav" id="mobileNav">
-  <a href="#como" class="mobile-link">Cómo funciona</a>
-  <a href="#calculadora" class="mobile-link">Calculadora</a>
-  <a href="https://go.connect24.io" target="_blank" rel="noopener" class="mobile-link">GO! Instalación</a>
-  
+  <a href="#como" class="mobile-link">{t.como}</a>
+  <a href="#calculadora" class="mobile-link">{t.calculadora}</a>
+  <a href="https://go.connect24.io" target="_blank" rel="noopener" class="mobile-link">{t.go}</a>
+  <div class="mobile-langs">
+    <a href="/" class="mobile-lang" data-lang="es">🇪🇸 Español</a>
+    <a href="/en" class="mobile-lang" data-lang="en">🇬🇧 English</a>
+    <a href="/ca" class="mobile-lang" data-lang="ca">🏴 Català</a>
+    <a href="/de" class="mobile-lang" data-lang="de">🇩🇪 Deutsch</a>
+  </div>
+  <a
     href="https://panel.connect24.io/es/login"
     target="_blank"
     rel="noopener"
     class="btn btn-primary"
     style="margin-top:0.75rem;justify-content:center"
   >
-    Acceso
+    {t.acceso}
   </a>
 </div>
 
@@ -63,23 +109,16 @@
   }
   #nav.scrolled {
     border-color: var(--c24-border);
-    box-shadow: 0 2px 20px rgba(13,45,68,0.07);
+    box-shadow: 0 2px 20px rgba(0,60,91,0.07);
   }
   :global([data-theme="dark"]) #nav {
-    background: rgba(10,25,41,0.95);
+    background: rgba(8,15,24,0.95);
   }
 
-  /* Logo */
   .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
-  .nav-logo-img {
-    height: 60px; width: auto;
-    transition: filter 0.25s;
-  }
-  :global([data-theme="dark"]) .nav-logo-img {
-    filter: brightness(0) invert(1);
-  }
+  .nav-logo-img { height: 60px; width: auto; transition: filter 0.25s; }
+  :global([data-theme="dark"]) .nav-logo-img { filter: brightness(0) invert(1); }
 
-  /* Links centro */
   .nav-links {
     display: flex; align-items: center; gap: 2rem;
     justify-content: center;
@@ -90,13 +129,66 @@
   }
   .nav-links a:hover { color: var(--c24-teal); }
 
-  /* Derecha */
   .nav-right {
     display: flex; align-items: center;
     gap: 0.75rem; justify-content: flex-end;
   }
 
-  /* Theme toggle */
+  /* ── Lang selector ── */
+  .lang-selector { position: relative; }
+  .lang-btn {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: none;
+    border: 1px solid var(--c24-border);
+    border-radius: 8px;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--c24-text-muted);
+    transition: border-color 0.15s, color 0.15s;
+    height: 34px;
+  }
+  .lang-btn:hover { border-color: var(--c24-teal); color: var(--c24-text); }
+  .lang-btn svg { opacity: 0.5; transition: transform 0.2s; }
+  .lang-selector.open .lang-btn svg { transform: rotate(180deg); }
+
+  .lang-menu {
+    display: none;
+    position: absolute; top: calc(100% + 8px); right: 0;
+    background: var(--c24-surface);
+    border: 1px solid var(--c24-border);
+    border-radius: 12px;
+    padding: 0.4rem;
+    min-width: 140px;
+    box-shadow: 0 8px 24px rgba(0,60,91,0.12);
+    z-index: 10;
+  }
+  :global([data-theme="dark"]) .lang-menu { background: var(--c24-dropdown-bg); }
+  .lang-selector.open .lang-menu { display: flex; flex-direction: column; }
+
+  .lang-option {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--c24-text-muted);
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+  }
+  .lang-option:hover { background: rgba(69,191,162,0.08); color: var(--c24-teal); }
+  .lang-option.active { color: var(--c24-teal); font-weight: 600; }
+
+  .senyera {
+    display: inline-block; width: 16px; height: 12px;
+    background: repeating-linear-gradient(
+      180deg,
+      #FCDD09 0px, #FCDD09 1.7px,
+      #DA121A 1.7px, #DA121A 3.4px
+    );
+    border-radius: 1px; flex-shrink: 0;
+  }
+
   .theme-toggle {
     background: none;
     border: 1px solid var(--c24-border);
@@ -106,15 +198,10 @@
     transition: border-color 0.15s, background 0.15s;
     flex-shrink: 0;
   }
-  .theme-toggle:hover {
-    border-color: var(--c24-teal);
-    background: rgba(0,180,160,0.06);
-  }
+  .theme-toggle:hover { border-color: var(--c24-teal); background: rgba(69,191,162,0.06); }
 
-  /* Acceso */
   .nav-acceso { padding: 0.5rem 1.2rem; font-size: 0.88rem; }
 
-  /* Burger */
   .nav-burger {
     display: none; flex-direction: column; gap: 5px;
     width: 36px; height: 36px; align-items: center; justify-content: center;
@@ -123,17 +210,15 @@
   .nav-burger span {
     display: block; width: 22px; height: 2px;
     background: var(--c24-text); border-radius: 2px;
-    transition: background 0.25s;
   }
 
-  /* Mobile nav */
   .mobile-nav {
     display: none; flex-direction: column;
     position: fixed; top: 68px; left: 0; right: 0;
     background: var(--c24-bg);
     padding: 1.5rem 2rem; z-index: 99;
     border-top: 1px solid var(--c24-border);
-    box-shadow: 0 8px 24px rgba(13,45,68,0.08);
+    box-shadow: 0 8px 24px rgba(0,60,91,0.08);
   }
   .mobile-nav.open { display: flex; }
   .mobile-link {
@@ -142,22 +227,40 @@
   }
   .mobile-link:hover { color: var(--c24-teal); }
 
+  .mobile-langs {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--c24-border);
+  }
+  .mobile-lang {
+    font-size: 0.85rem; color: var(--c24-text-muted);
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--c24-border);
+    border-radius: var(--radius-pill);
+    transition: all 0.15s;
+  }
+  .mobile-lang:hover, .mobile-lang.active {
+    border-color: var(--c24-teal);
+    color: var(--c24-teal);
+  }
+
   @media (max-width: 768px) {
     #nav { grid-template-columns: auto auto; }
     .nav-links  { display: none; }
     .nav-acceso { display: none; }
     .nav-burger { display: flex; }
+    .lang-selector { display: none; }
   }
 </style>
 
-<script>
-  // Scroll state
+<script define:vars={{ lang }}>
+  // ── Scroll state ──
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav?.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
-  // Mobile menu
+  // ── Mobile menu ──
   const mobileNav = document.getElementById('mobileNav');
   document.getElementById('navBurger')?.addEventListener('click', () => {
     mobileNav?.classList.toggle('open');
@@ -166,7 +269,49 @@
     link.addEventListener('click', () => mobileNav?.classList.remove('open'));
   });
 
-  // Tema claro/oscuro
+  // ── Lang selector ──
+  const langSelector = document.getElementById('langSelector');
+  const langBtn      = document.getElementById('langBtn');
+  const langCode     = document.getElementById('langCode');
+  const langFlag     = document.getElementById('langFlag');
+
+  langBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    langSelector?.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!langSelector?.contains(e.target)) {
+      langSelector?.classList.remove('open');
+    }
+  });
+
+  // Actualizar botón con idioma actual
+  const flagMap = { es: 'https://flagcdn.com/16x12/es.png', en: 'https://flagcdn.com/16x12/gb.png', de: 'https://flagcdn.com/16x12/de.png', ca: '' };
+  const codeMap = { es: 'ES', en: 'EN', ca: 'CA', de: 'DE' };
+
+  if (langCode) langCode.textContent = codeMap[lang] || 'ES';
+  if (langFlag) {
+    if (lang === 'ca') {
+      langFlag.style.display = 'none';
+      const senyera = document.createElement('span');
+      senyera.className = 'senyera';
+      langFlag.parentNode?.insertBefore(senyera, langFlag);
+    } else {
+      langFlag.src = flagMap[lang] || flagMap.es;
+    }
+  }
+
+  // Marcar activo en menú desktop
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    if (opt.getAttribute('data-lang') === lang) opt.classList.add('active');
+  });
+
+  // Marcar activo en menú mobile
+  document.querySelectorAll('.mobile-lang').forEach(opt => {
+    if (opt.getAttribute('data-lang') === lang) opt.classList.add('active');
+  });
+
+  // ── Tema claro/oscuro ──
   const html = document.documentElement;
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = themeToggle?.querySelector('.theme-icon');
