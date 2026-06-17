@@ -1,0 +1,17 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import ProximamentePage from '../../../components/ProximamentePage.astro';
+import Footer from '../../../components/Footer.astro';
+import { es } from '../../../i18n/es';
+---
+<Layout title="Integraciones — Connect24">
+  <Nav t={es.nav} lang="es" />
+  <ProximamentePage
+    title="Integraciones"
+    desc="Conectamos con tu PMS, GMAO, BMS y cualquier sistema existente. Sin reemplazar lo que ya tienes."
+    back="/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Gestión Técnica Hotelera"
+  />
+  <Footer t={es.footer} />
+</Layout>

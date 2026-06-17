@@ -1,0 +1,513 @@
+---
+interface Props {
+  t: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    items: readonly string[];
+    remate1: string;
+    remate2: string;
+    remate3: string;
+    cta: string;
+    solucion_eyebrow: string;
+    solucion_title: string;
+    solucion_desc: string;
+    solucion_cta: string;
+    badge_manual: string;
+    badge_auto: string;
+    counter: string;
+  };
+}
+const { t } = Astro.props;
+const N = t.items.length;
+---
+
+<section class="ps" id="problema">
+
+  <!-- ── DESKTOP: sticky scroll ── -->
+  <div class="ps-outer">
+    <div class="ps-sticky" id="ps-sticky">
+      <div class="container ps-inner">
+
+        <!-- Left: narrative panel -->
+        <div class="ps-left">
+          <div class="ps-track" aria-hidden="true">
+            <div class="ps-fill" id="ps-fill"></div>
+          </div>
+
+          <div class="ps-phases">
+            <!-- Phase 1: El Problema -->
+            <div class="ps-phase ps-p">
+              <span class="eyebrow">{t.eyebrow}</span>
+              <h2>{t.title}</h2>
+              <p class="section-desc">{t.desc}</p>
+            </div>
+
+            <!-- Phase 2: La Solución -->
+            <div class="ps-phase ps-s" aria-hidden="true">
+              <span class="eyebrow">{t.solucion_eyebrow}</span>
+              <h2>{t.solucion_title}</h2>
+              <p class="section-desc">{t.solucion_desc}</p>
+              <div class="ps-stat">
+                <span class="stat-n" id="ps-count">0</span>
+                <span class="stat-sep">/</span>
+                <span class="stat-tot">{N}</span>
+                <span class="stat-lbl">&nbsp;{t.counter}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: card grid -->
+        <div class="ps-right">
+          {t.items.map((item, i) => (
+            <div class="ps-card" data-i={i}>
+              <div class="ps-icon">
+                <span class="icon-b" aria-hidden="true">!</span>
+                <span class="icon-a" aria-hidden="true">✓</span>
+              </div>
+              <div class="ps-body">
+                <span class="ps-text">{item}</span>
+                <div class="ps-bdg">
+                  <span class="bdg-b">{t.badge_manual}</span>
+                  <span class="bdg-a">{t.badge_auto}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MOBILE: linear scroll ── -->
+  <div class="ps-mob">
+    <div class="container">
+      <div class="ps-m-hdr reveal">
+        <span class="eyebrow">{t.eyebrow}</span>
+        <h2>{t.title}</h2>
+        <p class="section-desc">{t.desc}</p>
+      </div>
+      <div class="ps-m-grid reveal reveal-delay-1" id="ps-m-grid">
+        {t.items.map((item, i) => (
+          <div class="ps-card" data-mi={i}>
+            <div class="ps-icon">
+              <span class="icon-b" aria-hidden="true">!</span>
+              <span class="icon-a" aria-hidden="true">✓</span>
+            </div>
+            <div class="ps-body">
+              <span class="ps-text">{item}</span>
+              <div class="ps-bdg">
+                <span class="bdg-b">{t.badge_manual}</span>
+                <span class="bdg-a">{t.badge_auto}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="ps-m-remate reveal reveal-delay-2">
+        <p class="remate-text">{t.remate1} <em>{t.remate2}</em>.<br />{t.remate3}</p>
+        <a href="#calculadora" class="btn btn-primary">{t.cta}</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ── SECTION ── */
+.ps { background: var(--c24-bg); }
+
+/* ════════════════════════════════
+   DESKTOP STICKY SCROLL
+   ════════════════════════════════ */
+.ps-outer {
+  position: relative;
+  height: 220vh;
+}
+
+.ps-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+/* Fondo con glow teal que aparece en la fase solución */
+.ps-sticky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 65% 50%,
+    rgba(69, 191, 162, 0.14) 0%,
+    rgba(69, 191, 162, 0.05) 55%,
+    transparent 75%);
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.ps-sticky.in-solucion::after { opacity: 1; }
+
+.ps-inner {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 5rem;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left narrative panel ── */
+.ps-left {
+  position: relative;
+  padding: 2.5rem 2rem 2.5rem 2.75rem;
+  border-radius: var(--radius-lg);
+  background: #DCA24C;
+  transition: background-color 0.7s ease;
+}
+.ps-sticky.in-solucion .ps-left {
+  background-color: #34D399;
+}
+:global([data-theme="dark"]) .ps-left {
+  background: rgba(251, 133, 0, 0.3);
+}
+:global([data-theme="dark"]) .ps-sticky.in-solucion .ps-left {
+  background-color: #059669;
+}
+
+/* Texto blanco en ambas fases */
+.ps-left .eyebrow { color: rgba(255, 255, 255, 0.8); }
+.ps-left h2       { color: white; }
+.ps-left p        { color: rgba(255, 255, 255, 0.85); }
+.ps-left .stat-n  { color: white; }
+.ps-left .stat-sep,
+.ps-left .stat-tot,
+.ps-left .stat-lbl { color: rgba(255, 255, 255, 0.65); }
+
+.ps-track {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 0 3px 3px 0;
+  overflow: hidden;
+}
+.ps-fill {
+  width: 100%;
+  height: 0%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+}
+
+/* Phase stack: both in same grid cell */
+.ps-phases { display: grid; }
+.ps-phase {
+  grid-row: 1;
+  grid-column: 1;
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+
+.ps-p {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.ps-s {
+  opacity: 0;
+  transform: translateY(28px);
+  pointer-events: none;
+}
+
+.ps-sticky.in-solucion .ps-p {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+.ps-sticky.in-solucion .ps-s {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Stat counter in solution phase */
+.ps-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin-top: 1.5rem;
+}
+.stat-n {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--c24-teal);
+  line-height: 1;
+  min-width: 2.5ch;
+  transition: transform 0.2s var(--ease-out);
+}
+.stat-sep,
+.stat-tot {
+  font-size: 1.3rem;
+  color: var(--c24-text-muted);
+  font-weight: 300;
+}
+.stat-lbl {
+  font-size: 0.72rem;
+  color: var(--c24-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 500;
+  align-self: center;
+}
+
+/* ── Right card grid ── */
+.ps-right {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* ════════════════════════════════
+   CARD  (shared desktop + mobile)
+   ════════════════════════════════ */
+.ps-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: #DCA24C;
+  border: 1px solid rgba(180, 90, 0, 0.15);
+  border-radius: var(--radius-md);
+  transition:
+    border-color 0.5s ease,
+    background-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+:global([data-theme="dark"]) .ps-card {
+  background: rgba(251, 133, 0, 0.2);
+  border-color: rgba(251, 133, 0, 0.3);
+}
+.ps-card.solved {
+  border-color: rgba(255, 255, 255, 0.25);
+  background-color: #34D399;
+  box-shadow: none;
+}
+:global([data-theme="dark"]) .ps-card.solved {
+  background-color: #059669;
+}
+
+/* Icon circle */
+.ps-icon {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.ps-icon span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.icon-b {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  opacity: 1;
+  transform: scale(1);
+}
+.icon-a {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  opacity: 0;
+  transform: scale(0.3);
+}
+.ps-card.solved .icon-b { opacity: 0; transform: scale(0.3); }
+.ps-card.solved .icon-a { opacity: 1; transform: scale(1); }
+
+/* Card body */
+.ps-body { flex: 1; min-width: 0; }
+.ps-text {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.4rem;
+}
+
+/* Badges */
+.ps-bdg {
+  position: relative;
+  height: 1rem;
+}
+.ps-bdg span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+.bdg-b { color: rgba(255, 255, 255, 0.8); opacity: 1; }
+.bdg-a { color: rgba(255, 255, 255, 0.9); opacity: 0; }
+.ps-card.solved .bdg-b { opacity: 0; }
+.ps-card.solved .bdg-a { opacity: 1; }
+
+/* ════════════════════════════════
+   MOBILE LINEAR LAYOUT
+   ════════════════════════════════ */
+.ps-mob { display: none; }
+
+.ps-m-hdr { margin-bottom: 2.5rem; }
+.ps-m-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 3rem;
+}
+.ps-m-remate {
+  background: var(--c24-navy);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+:global([data-theme="dark"]) .ps-m-remate {
+  background: var(--c24-surface);
+  border: 1px solid var(--c24-border);
+}
+.remate-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  color: white;
+  line-height: 1.4;
+}
+:global([data-theme="dark"]) .remate-text { color: var(--c24-text); }
+.remate-text em { font-style: italic; color: var(--c24-teal); }
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 900px) {
+  .ps-outer { display: none; }
+  .ps-mob {
+    display: block;
+    padding: 5rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .ps-m-grid { grid-template-columns: 1fr; }
+  .ps-m-remate {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+  }
+  .ps-m-remate .btn { width: 100%; justify-content: center; }
+}
+</style>
+
+<script>
+(function () {
+  const sticky = document.getElementById('ps-sticky');
+  if (!sticky) return;
+
+  if (window.matchMedia('(max-width: 900px)').matches) {
+    // Mobile: solve cards with IntersectionObserver as they enter viewport
+    const mGrid = document.getElementById('ps-m-grid');
+    if (!mGrid) return;
+    const mCards = Array.from(mGrid.querySelectorAll('.ps-card'));
+    const mObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = Number((e.target as HTMLElement).dataset.mi ?? 0);
+            setTimeout(() => e.target.classList.add('solved'), idx * 80);
+            mObs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    mCards.forEach((c) => mObs.observe(c));
+    return;
+  }
+
+  // Desktop sticky scroll
+  const outer = sticky.parentElement as HTMLElement;
+  const fill  = document.getElementById('ps-fill') as HTMLElement;
+  const countEl = document.getElementById('ps-count') as HTMLElement;
+  const phaseP  = sticky.querySelector<HTMLElement>('.ps-p');
+  const phaseS  = sticky.querySelector<HTMLElement>('.ps-s');
+  const cards   = Array.from(sticky.querySelectorAll<HTMLElement>('.ps-card'));
+  const N = cards.length;
+
+  let prevSolved = -1;
+  let prevPhase  = false;
+  let ticking    = false;
+
+  function update() {
+    const rect     = outer.getBoundingClientRect();
+    const maxScroll = outer.offsetHeight - window.innerHeight;
+    const scrolled  = Math.max(0, -rect.top);
+    const p         = Math.min(1, scrolled / maxScroll);
+
+    // Progress bar — direct, no transition
+    fill.style.height = (p * 100).toFixed(2) + '%';
+
+    // Phase crossfade at 25%
+    const inSol = p >= 0.25;
+    if (inSol !== prevPhase) {
+      sticky.classList.toggle('in-solucion', inSol);
+      phaseP?.setAttribute('aria-hidden', inSol ? 'true' : 'false');
+      phaseS?.setAttribute('aria-hidden', inSol ? 'false' : 'true');
+      prevPhase = inSol;
+    }
+
+    // Cards: solve one by one from 32% → 78%
+    let solved = 0;
+    cards.forEach((card, i) => {
+      const threshold = 0.32 + (i / (N - 1)) * 0.46;
+      const should = p >= threshold;
+      card.classList.toggle('solved', should);
+      if (should) solved++;
+    });
+
+    // Counter
+    if (solved !== prevSolved) {
+      countEl.textContent = String(solved);
+      prevSolved = solved;
+    }
+  }
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { update(); ticking = false; });
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  update();
+})();
+</script>

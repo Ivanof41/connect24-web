@@ -1,0 +1,16 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import ProximamentePage from '../../../components/ProximamentePage.astro';
+import Footer from '../../../components/Footer.astro';
+import { es } from '../../../i18n/es';
+---
+<Layout title="Gestión Técnica Hotelera — Connect24">
+  <Nav t={es.nav} lang="es" />
+  <ProximamentePage
+    title="Gestión Técnica Hotelera"
+    desc="Automatización operativa para hoteles, resorts y agroturismos. Control total de tus instalaciones técnicas sin intervención manual."
+    back="/"
+  />
+  <Footer t={es.footer} />
+</Layout>

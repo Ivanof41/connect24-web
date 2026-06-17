@@ -2,8 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import LogoStrip from '../components/LogoStrip.astro';
-import Problema from '../components/Problema.astro';
+import ProblemaYSolucion from '../components/ProblemaYSolucion.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Calculadora from '../components/Calculadora.astro';
 import Diferenciacion from '../components/Diferenciacion.astro';
@@ -18,11 +17,10 @@ const lang = getLang(Astro.url);
 const t    = useTranslations(lang);
 ---
 
-<Layout title={`Connect24 — ${t.hero.title1} ${t.hero.title2}?`}>
+<Layout title={`Connect24 — ${t.hero.slogan1}. ${t.hero.slogan2}.`}>
   <Nav t={t.nav} lang={lang} />
   <Hero t={t.hero} />
-  <LogoStrip t={t.logostrip} />
-  <Problema t={t.problema} />
+  <ProblemaYSolucion t={t.problema} />
   <ComoFunciona t={t.como} />
   <Calculadora t={t.calculadora} />
   <Diferenciacion t={t.diferencia} />

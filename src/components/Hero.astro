@@ -1,257 +1,700 @@
 ---
 interface Props {
   t: {
-    badge: string;
-    title1: string;
-    title2: string;
-    title3: string;
-    title4: string;
+    slogan1: string;
+    slogan2: string;
+    words: readonly string[];
     sub: string;
-    cta1: string;
-    cta2: string;
-    trust1: string;
-    trust2: string;
-    trust3: string;
-    badge1: string;
-    badge2: string;
-    badge3: string;
-    badge4: string;
-    badge5: string;
+    stat1: string;
+    stat2: string;
+    stat3: string;
+    labelReview: string;
+    labelDone: string;
+    c_lowLevel: string;
+    c_outRange: string;
+    c_legRisk: string;
+    c_gmaoNow: string;
+    c_waTech: string;
+    c_mailCert: string;
+    c_l1a: string; c_l1b: string;
+    c_l2a: string; c_l2b: string;
+    c_l3a: string; c_l3b: string;
+    c_r1a: string; c_r1b: string;
+    c_r2a: string; c_r2b: string;
+    c_r3a: string; c_r3b: string;
+    c_bomba: string; c_completado: string;
+    c_notificado: string; c_llamada: string;
+    c_generado: string; c_activada: string;
+    c_noSignal: string; c_anomaly: string;
+    c_lowVent: string; c_hace3min: string;
+    c_auto: string;
   };
 }
 const { t } = Astro.props;
+const wordsJson = JSON.stringify(Array.from(t.words));
 ---
 
 <section class="hero" id="hero">
+
+
   <div class="hero-inner">
 
-    <!-- Columna izquierda -->
+    <!-- ── Left column: headline + sub + trust ── -->
     <div class="hero-content">
-
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        {t.badge}
-      </div>
-
       <h1 class="hero-title">
-        {t.title1}
-        <em>{t.title2}</em>
-        {t.title3}
-        {' '}
-        {t.title4 && <span>{t.title4} </span>}
-        <em>connect24</em>?
+        <span class="ht-line1">{t.slogan1}</span>
+        <span class="ht-line2">{t.slogan2}</span>
+        <span class="ht-line3">
+          <span class="ht-tw" id="heroTw" data-words={wordsJson}></span><span class="ht-cursor" aria-hidden="true">|</span>
+        </span>
       </h1>
-
       <p class="hero-sub">{t.sub}</p>
-
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="heroCtaBtn">
-          {t.cta1}
-        </button>
-        <a href="#como" class="btn btn-ghost">{t.cta2}</a>
+      <div class="hero-stats">
+        <div class="hstat">
+          <span class="hstat-val">+900h</span>
+          <span class="hstat-desc">{t.stat1}</span>
+        </div>
+        <div class="hstat-sep"></div>
+        <div class="hstat">
+          <span class="hstat-val">25k€</span>
+          <span class="hstat-desc">{t.stat2}</span>
+        </div>
+        <div class="hstat-sep"></div>
+        <div class="hstat">
+          <span class="hstat-val">24/7</span>
+          <span class="hstat-desc">{t.stat3}</span>
+        </div>
       </div>
-
-      <div class="hero-trust">
-        <span>{t.trust1}</span>
-        <span>{t.trust2}</span>
-        <span>{t.trust3}</span>
-      </div>
-
     </div>
 
-    <!-- Columna derecha — Mockup -->
-    <div class="hero-mockup">
+    <!-- ── Right column: 3D building + animated cards ── -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="bstage">
 
-      <div class="badge-float badge-float--1">
-        <span class="badge-dot badge-dot--green"></span>
-        {t.badge1}
-      </div>
-      <div class="badge-float badge-float--2">
-        <span class="badge-dot badge-dot--teal"></span>
-        {t.badge2}
-      </div>
-      <div class="badge-float badge-float--3">
-        <span class="badge-dot badge-dot--teal"></span>
-        {t.badge3}
-      </div>
-      <div class="badge-float badge-float--4">
-        <span class="badge-dot badge-dot--green"></span>
-        {t.badge4}
-      </div>
-      <div class="badge-float badge-float--5">
-        <span class="badge-dot badge-dot--teal"></span>
-        {t.badge5}
-      </div>
+        <!-- SVG connector lines (absolute overlay) -->
+        <!--
+          Stage layout (px): left(220) + gap(70) + building(130) + gap(60) + right(190) = 670
+          Cards centered in 330px stage (108px h, 14px gap → total col = 352px → offset -11px):
+            Card 1 center: y=43  |  Card 2: y=165  |  Card 3: y=287
+          Building (300px h) centered in 330px → top y=15, thirds at y=105, 165, 225
+        -->
+        <svg class="bconn" viewBox="0 0 670 330" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <!-- RED: alert flows card→building. userSpaceOnUse avoids zero-height bbox issue -->
+            <linearGradient id="lgL" x1="220" y1="0" x2="290" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#dc2626" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#dc2626" stop-opacity="0.15"/>
+            </linearGradient>
+            <!-- GREEN: response flows building→card -->
+            <linearGradient id="lgR" x1="420" y1="0" x2="480" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#16a34a" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#16a34a" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <!-- Left: x=220 (card right edge) → x=290 (building left) -->
+          <path class="cl cl1" d="M220,43  Q255,43  290,105"  stroke="url(#lgL)" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <path class="cl cl2" d="M220,165 Q255,152 290,165"  stroke="url(#lgL)" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <path class="cl cl3" d="M220,287 Q255,287 290,225"  stroke="url(#lgL)" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <!-- Right: x=420 (building right) → x=480 (right card left edge) -->
+          <path class="cl cl4" d="M420,105 Q452,43  480,43"   stroke="url(#lgR)" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <path class="cl cl5" d="M420,165 Q452,152 480,165"  stroke="url(#lgR)" stroke-width="1.6" stroke-dasharray="7 4"/>
+          <path class="cl cl6" d="M420,225 Q452,287 480,287"  stroke="url(#lgR)" stroke-width="1.6" stroke-dasharray="7 4"/>
+        </svg>
 
-      <div class="mockup-frame">
-        <img
-          src="/Oficina.png"
-          alt="Centro de control Connect24"
-          class="mockup-img"
-        />
-      </div>
+        <!-- Left cards column (problems detected) -->
+        <div class="bcol bcol--left">
 
+          <!-- Group 1 -->
+          <div class="bcard" data-group="0">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l1a}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">48%</div>
+              <div class="bcard-desc">{t.c_lowLevel}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l1b}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">47.2°C</div>
+              <div class="bcard-desc">{t.c_legRisk}</div>
+            </div>
+          </div>
+
+          <!-- Group 2 -->
+          <div class="bcard" data-group="1">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l2a}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">pH 6.9</div>
+              <div class="bcard-desc">{t.c_outRange}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l2b}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">−3°C</div>
+              <div class="bcard-desc">{t.c_noSignal}</div>
+            </div>
+          </div>
+
+          <!-- Group 3 -->
+          <div class="bcard" data-group="2">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l3a}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">+18%</div>
+              <div class="bcard-desc">{t.c_anomaly}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_l3b}</span>
+                <span class="bcard-badge bcard-badge--review">{t.labelReview}</span>
+              </div>
+              <div class="bcard-val">1240 ppm</div>
+              <div class="bcard-desc">{t.c_lowVent}</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Center: Architectural sketch building (3/4 perspective) -->
+        <div class="bbuilding">
+          <img src="/Edificio.svg" alt="" class="bbuilding-img" />
+        </div>
+
+        <!-- Right cards column (automated responses) -->
+        <div class="bcol bcol--right">
+
+          <!-- Group 1 response -->
+          <div class="bcard" data-group="0">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r1a}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_bomba}</div>
+              <div class="bcard-desc">{t.c_gmaoNow}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r1b}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_completado}</div>
+              <div class="bcard-desc">{t.c_mailCert}</div>
+            </div>
+          </div>
+
+          <!-- Group 2 response -->
+          <div class="bcard" data-group="1">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r2a}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_notificado}</div>
+              <div class="bcard-desc">{t.c_waTech}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r2b}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_llamada}</div>
+              <div class="bcard-desc">{t.c_hace3min}</div>
+            </div>
+          </div>
+
+          <!-- Group 3 response -->
+          <div class="bcard" data-group="2">
+            <div class="bcard-state bcard-a is-active">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r3a}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_generado}</div>
+              <div class="bcard-desc">{t.c_mailCert}</div>
+            </div>
+            <div class="bcard-state bcard-b">
+              <div class="bcard-top">
+                <span class="bcard-label">{t.c_r3b}</span>
+                <span class="bcard-badge bcard-badge--done">{t.labelDone}</span>
+              </div>
+              <div class="bcard-val bcard-val--done">{t.c_activada}</div>
+              <div class="bcard-desc">{t.c_auto}</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
+
   </div>
 </section>
 
 <style>
+  /* ── Section ── */
   .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     padding: 9rem 2rem 6rem;
     overflow: hidden;
-    background: var(--c24-bg);
+    background: #e6f7f4;
+  }
+  :global([data-theme="dark"]) .hero { background: var(--c24-bg); }
+
+  /* ── Building light effect ── */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    /* Light mode: white glow on teal bg */
+    background:
+      radial-gradient(ellipse 32% 60% at 70% 50%, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.30) 45%, transparent 72%),
+      radial-gradient(ellipse 62% 88% at 70% 50%, rgba(0,60,91,0.06) 0%, transparent 80%),
+      radial-gradient(ellipse 38% 18% at 70% 84%, rgba(255,255,255,0.55) 0%, transparent 68%),
+      radial-gradient(ellipse 20% 25% at 70% 17%, rgba(255,255,255,0.45) 0%, transparent 62%);
+    animation: glowPulse 7s ease-in-out infinite;
+  }
+  :global([data-theme="dark"]) .hero::before {
+    background:
+      radial-gradient(ellipse 28% 55% at 70% 50%, rgba(69,191,162,0.32) 0%, rgba(69,191,162,0.08) 52%, transparent 74%),
+      radial-gradient(ellipse 62% 88% at 70% 50%, rgba(0,60,91,0.22) 0%, transparent 80%),
+      radial-gradient(ellipse 38% 18% at 70% 84%, rgba(69,191,162,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 18% 22% at 70% 17%, rgba(69,191,162,0.14) 0%, transparent 65%);
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.68; }
   }
 
   .hero-inner {
+    position: relative;
+    z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 0.9fr 1.4fr;
     gap: 4rem;
     align-items: center;
   }
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--c24-teal-light);
-    color: var(--c24-teal);
-    font-size: 0.7rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.35rem 0.9rem;
-    border-radius: var(--radius-pill);
-    margin-bottom: 1.75rem;
+  /* ── Left content ── */
+  .hero-content {
     opacity: 0;
-    animation: fadeUp 0.5s var(--ease-out) 0.1s forwards;
-  }
-  .hero-badge-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--c24-teal); flex-shrink: 0;
-    animation: pulse 2s ease-in-out infinite;
+    animation: fadeUp 0.7s var(--ease-out) 0.15s forwards;
   }
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-size: clamp(2.6rem, 4.2vw, 4rem);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
     color: var(--c24-text);
-    opacity: 0;
-    animation: fadeUp 0.7s var(--ease-out) 0.2s forwards;
+    margin-bottom: 1.6rem;
   }
-  .hero-title em {
+
+  .ht-line1,
+  .ht-line2,
+  .ht-line3 { display: block; }
+
+  .ht-line1 { color: var(--c24-navy); }
+  :global([data-theme="dark"]) .ht-line1 { color: #ffffff; }
+
+  .ht-line2 {
     font-style: italic;
     color: var(--c24-teal);
+  }
+
+  .ht-line3 {
+    font-style: italic;
+    color: var(--c24-teal);
+    min-height: 1.25em;
+  }
+
+  .ht-tw { display: inline; }
+
+  .ht-cursor {
+    display: inline-block;
+    color: var(--c24-teal);
+    font-style: normal;
+    margin-left: 1px;
+    animation: cursorBlink 1s ease-in-out infinite;
+  }
+
+  @keyframes cursorBlink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
   }
 
   .hero-sub {
     font-size: 1rem;
     color: var(--c24-text-muted);
-    line-height: 1.8; font-weight: 300;
-    max-width: 440px;
-    margin-bottom: 2.25rem;
-    opacity: 0;
-    animation: fadeUp 0.6s var(--ease-out) 0.45s forwards;
+    line-height: 1.8;
+    font-weight: 300;
+    max-width: 420px;
+    margin-bottom: 2rem;
   }
 
-  .hero-actions {
-    display: flex; align-items: center;
-    gap: 0.75rem; flex-wrap: wrap;
-    margin-bottom: 1.75rem;
-    opacity: 0;
-    animation: fadeUp 0.6s var(--ease-out) 0.6s forwards;
+  .hero-stats {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
   }
-
-  .hero-trust {
-    display: flex; align-items: center; gap: 1.5rem;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.6s var(--ease-out) 0.75s forwards;
+  .hstat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 0 1.4rem 0 0;
   }
-  .hero-trust span {
-    font-size: 0.78rem;
+  .hstat:first-child { padding-left: 0; }
+  .hstat-val {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--c24-navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  :global([data-theme="dark"]) .hstat-val { color: var(--c24-teal); }
+  .hstat-desc {
+    font-size: 0.72rem;
     color: var(--c24-text-muted);
     font-weight: 400;
+    line-height: 1.3;
+    max-width: 90px;
+  }
+  .hstat-sep {
+    width: 1px;
+    background: var(--c24-border);
+    align-self: stretch;
+    margin: 2px 1.4rem 2px 0;
+    flex-shrink: 0;
   }
 
-  .hero-mockup {
-    position: relative;
+  /* ── Right visual ── */
+  .hero-visual {
     opacity: 0;
     animation: fadeLeft 0.8s var(--ease-out) 0.35s forwards;
   }
 
-  .mockup-frame {
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--c24-border);
-    box-shadow:
-      0 32px 80px rgba(0,60,91,0.12),
-      0 8px 24px rgba(0,60,91,0.06);
+  /* Building stage: flex row — left cards | building | right cards */
+  .bstage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    height: 330px;
   }
-  .mockup-img { width: 100%; display: block; }
+  /* Asymmetric gaps: 70px left of building, 60px right — building fully isolated */
+  .bcol--left  { margin-right: 70px; }
+  .bcol--right { margin-left: 60px; }
 
-  .badge-float {
+  /* Connector SVG overlay */
+  .bconn {
     position: absolute;
-    display: flex; align-items: center; gap: 0.45rem;
-    background: var(--c24-surface);
-    border: 1px solid var(--c24-border);
-    border-radius: var(--radius-pill);
-    padding: 0.4rem 0.85rem;
-    font-size: 0.75rem; font-weight: 500;
-    color: var(--c24-text);
-    box-shadow: 0 4px 20px rgba(0,60,91,0.10);
-    white-space: nowrap; z-index: 2; opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
   }
-  .badge-float--1 { top: -14px; left: -16px; animation: fadeUp 0.4s var(--ease-out) 1.0s forwards; }
-  .badge-float--2 { top: -14px; right: -16px; animation: fadeUp 0.4s var(--ease-out) 1.2s forwards; }
-  .badge-float--3 { top: 42%; right: -20px; animation: fadeUp 0.4s var(--ease-out) 1.4s forwards; }
-  .badge-float--4 { bottom: -14px; right: 10%; animation: fadeUp 0.4s var(--ease-out) 1.6s forwards; }
-  .badge-float--5 { bottom: -14px; left: -16px; animation: fadeUp 0.4s var(--ease-out) 1.8s forwards; }
 
-  .badge-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .badge-dot--green { background: #22c55e; animation: glowGreen 2s ease-in-out infinite; }
-  .badge-dot--teal  { background: var(--c24-teal); animation: glowTeal 2.4s ease-in-out infinite; }
+  .cl {
+    animation: flowLine 2s linear infinite;
+  }
+  .cl1 { animation-delay: 0s; }
+  .cl2 { animation-delay: 0.28s; }
+  .cl3 { animation-delay: 0.56s; }
+  .cl4 { animation-delay: 0.14s; }
+  .cl5 { animation-delay: 0.42s; }
+  .cl6 { animation-delay: 0.70s; }
 
+  /* Dark mode: boost connector brightness and thickness */
+  :global([data-theme="dark"]) .bconn {
+    filter: brightness(1.9) saturate(1.3);
+  }
+  :global([data-theme="dark"]) .cl {
+    stroke-width: 2.2;
+  }
+
+  @keyframes flowLine {
+    from { stroke-dashoffset: 22; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  /* Card columns — asymmetric: left wider to push building right */
+  .bcol {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 1;
+  }
+  .bcol--left  { flex: 0 0 220px; }
+  .bcol--right { flex: 0 0 190px; }
+
+  /* Cards — 3D floating */
+  .bcard {
+    position: relative;
+    height: 108px;
+    background: linear-gradient(150deg, #ffffff 0%, #f4f8fb 100%);
+    border: 1px solid rgba(0,60,91,0.09);
+    border-top: 1px solid rgba(255,255,255,0.95);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.85) inset,
+      0 4px 8px rgba(0,60,91,0.06),
+      0 12px 28px rgba(0,60,91,0.10),
+      0 24px 48px rgba(0,60,91,0.07);
+    animation: cardFloat 5s ease-in-out infinite;
+  }
+  :global([data-theme="dark"]) .bcard {
+    background: linear-gradient(150deg, rgba(20,38,58,0.98) 0%, rgba(12,26,42,0.95) 100%);
+    border-color: rgba(69,191,162,0.14);
+    border-top-color: rgba(69,191,162,0.22);
+    box-shadow:
+      0 1px 0 rgba(69,191,162,0.12) inset,
+      0 4px 8px rgba(0,0,0,0.20),
+      0 12px 28px rgba(0,0,0,0.28),
+      0 24px 48px rgba(0,0,0,0.18);
+  }
+
+  @keyframes cardFloat {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-5px); }
+  }
+  .bcol .bcard:nth-child(1) { animation-delay: 0s; }
+  .bcol .bcard:nth-child(2) { animation-delay: 1.65s; }
+  .bcol .bcard:nth-child(3) { animation-delay: 0.82s; }
+  .bcol--right .bcard:nth-child(1) { animation-delay: 2.4s; }
+  .bcol--right .bcard:nth-child(2) { animation-delay: 0.4s; }
+  .bcol--right .bcard:nth-child(3) { animation-delay: 3.2s; }
+
+  .bcard-state {
+    position: absolute;
+    inset: 0;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.55s ease;
+    pointer-events: none;
+  }
+  .bcard-state.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .bcard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .bcard-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--c24-text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex: 1;
+    min-width: 0;
+    line-height: 1.3;
+  }
+
+  .bcard-badge {
+    flex-shrink: 0;
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+  }
+  .bcard-badge--review {
+    background: rgba(234, 88, 12, 0.11);
+    color: #c2410c;
+  }
+  .bcard-badge--done {
+    background: rgba(22, 163, 74, 0.11);
+    color: #15803d;
+  }
+
+  .bcard-val {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--c24-navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  :global([data-theme="dark"]) .bcard-val { color: #e8f4ff; }
+  .bcard-val--done {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: #15803d;
+    letter-spacing: -0.01em;
+  }
+
+  .bcard-desc {
+    font-size: 0.62rem;
+    color: var(--c24-text-muted);
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  /* Building */
+  .bbuilding {
+    flex: 0 0 130px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bbuilding-img {
+    height: 300px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 18px rgba(69,191,162,0.22)) drop-shadow(0 0 48px rgba(69,191,162,0.10));
+  }
+  :global([data-theme="dark"]) .bbuilding-img {
+    filter: drop-shadow(0 0 22px rgba(69,191,162,0.40)) drop-shadow(0 0 60px rgba(69,191,162,0.18));
+  }
+
+  /* ── Global keyframes ── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes fadeLeft {
-    from { opacity: 0; transform: translateX(36px); }
+    from { opacity: 0; transform: translateX(30px); }
     to   { opacity: 1; transform: translateX(0); }
   }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(1.6); }
-  }
-  @keyframes glowGreen {
-    0%, 100% { box-shadow: 0 0 3px rgba(34,197,94,0.4); }
-    50%       { box-shadow: 0 0 10px 3px rgba(34,197,94,0.75); }
-  }
-  @keyframes glowTeal {
-    0%, 100% { box-shadow: 0 0 3px rgba(69,191,162,0.4); }
-    50%       { box-shadow: 0 0 10px 3px rgba(69,191,162,0.75); }
+
+  /* ── Responsive ── */
+  @media (max-width: 1020px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3.5rem; }
+    .bstage { height: 300px; }
+    .bcol { gap: 10px; }
+    .bcol--left  { flex: 0 0 178px; margin-right: 54px; }
+    .bcol--right { flex: 0 0 154px; margin-left: 46px; }
+    .bbuilding { flex: 0 0 110px; }
+    .bbuilding-img { height: 270px; }
+    .bcard { height: 92px; }
+    .bcard-val { font-size: 1.25rem; }
   }
 
-  @media (max-width: 960px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .hero-mockup { display: none; }
-  }
   @media (max-width: 640px) {
     .hero { padding: 8rem 1.5rem 4rem; }
-    .hero-actions { flex-direction: column; align-items: stretch; }
-    .hero-actions .btn { justify-content: center; }
-    .hero-trust { gap: 1rem; }
+    .hstat-val { font-size: 1.2rem; }
+    .bstage { height: 260px; }
+    .bcol--left  { flex: 0 0 143px; margin-right: 42px; }
+    .bcol--right { flex: 0 0 124px; margin-left: 36px; }
+    .bbuilding { flex: 0 0 90px; }
+    .bbuilding-img { height: 235px; }
+    .bcard { height: 80px; border-radius: 10px; }
+    .bcard-label { font-size: 0.56rem; }
+    .bcard-badge { font-size: 0.48rem; }
+    .bcard-val { font-size: 1.1rem; }
+    .bcard-desc { font-size: 0.56rem; }
+  }
+
+  @media (max-width: 420px) {
+    .bcol--left  { flex: 0 0 121px; margin-right: 34px; }
+    .bcol--right { flex: 0 0 105px; margin-left: 30px; }
+    .bbuilding { flex: 0 0 78px; }
+    .bbuilding-img { height: 200px; }
+    .bcard { height: 72px; }
+    .bcard-val { font-size: 0.95rem; }
   }
 </style>
 
 <script>
-  document.getElementById('heroCtaBtn')?.addEventListener('click', () => {
-    document.getElementById('calculadora')?.scrollIntoView({ behavior: 'smooth' });
-  });
+  // ── Typewriter ──
+  const twEl = document.getElementById('heroTw') as HTMLElement | null;
+  if (twEl) {
+    const tw: HTMLElement = twEl;
+    const words: string[] = JSON.parse(tw.dataset.words || '[]');
+    let wi = 0, ci = 0, erasing = false;
+
+    function tick() {
+      const word = words[wi] ?? '';
+      if (!erasing) {
+        ci++;
+        tw.textContent = word.slice(0, ci);
+        if (ci >= word.length) {
+          erasing = true;
+          setTimeout(tick, 2500);
+        } else {
+          setTimeout(tick, 78);
+        }
+      } else {
+        ci--;
+        tw.textContent = word.slice(0, ci);
+        if (ci <= 0) {
+          erasing = false;
+          wi = (wi + 1) % words.length;
+          setTimeout(tick, 320);
+        } else {
+          setTimeout(tick, 46);
+        }
+      }
+    }
+    setTimeout(tick, 1200);
+  }
+
+  // ── Card cycling ──
+  function initCardGroup(groupIdx: number, delayMs: number) {
+    setTimeout(() => {
+      const leftCards  = document.querySelectorAll('.bcol--left  .bcard');
+      const rightCards = document.querySelectorAll('.bcol--right .bcard');
+      const lCard = leftCards[groupIdx] as HTMLElement | undefined;
+      const rCard = rightCards[groupIdx] as HTMLElement | undefined;
+      if (!lCard || !rCard) return;
+
+      function toggle() {
+        ([lCard, rCard] as HTMLElement[]).forEach(card => {
+          const a = card.querySelector('.bcard-a');
+          const b = card.querySelector('.bcard-b');
+          if (a?.classList.contains('is-active')) {
+            a.classList.remove('is-active');
+            b?.classList.add('is-active');
+          } else {
+            b?.classList.remove('is-active');
+            a?.classList.add('is-active');
+          }
+        });
+      }
+
+      setInterval(toggle, 4200);
+    }, delayMs);
+  }
+
+  initCardGroup(0, 2800);
+  initCardGroup(1, 900);
+  initCardGroup(2, 4500);
+
 </script>

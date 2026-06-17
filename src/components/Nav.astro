@@ -1,10 +1,20 @@
 ---
 interface Props {
   t: {
-    como: string;
-    calculadora: string;
-    go: string;
+    soluciones: string;
+    tecnologia: string;
+    innovacion: string;
+    empresa: string;
     acceso: string;
+    dd_hotel: string;
+    dd_hotel_desc: string;
+    dd_cool_desc: string;
+    dd_home_desc: string;
+    dd_sub1: string;
+    dd_sub2: string;
+    dd_sub3: string;
+    dd_sub4: string;
+    dd_sub5: string;
   };
   lang: string;
 }
@@ -12,18 +22,100 @@ const { t, lang } = Astro.props;
 ---
 
 <nav id="nav">
+  <!-- Bloque izquierdo: Logo -->
   <a href="/" class="nav-logo">
     <img src="/logo.png" alt="Connect24" class="nav-logo-img" />
   </a>
 
-  <div class="nav-links">
-    <a href="#como">{t.como}</a>
-    <a href="#calculadora">{t.calculadora}</a>
-    <a href="https://go.connect24.io" target="_blank" rel="noopener">{t.go}</a>
+  <!-- Bloque central: Links (centrado absoluto en el viewport) -->
+  <div class="nav-links" id="navLinks">
+
+    <!-- Soluciones con dropdown -->
+    <div class="nav-dropdown" id="solDropdown">
+      <button class="nav-link nav-link--dd" id="solBtn">
+        {t.soluciones}
+        <svg class="dd-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="dd-panel" id="solPanel" role="menu">
+        <!-- Columna izquierda: categorías -->
+        <div class="dd-left">
+          <div class="dd-cat dd-cat--hotel" id="catHotel" data-sub="hotel">
+            <div class="dd-cat-icon">
+              <img src="/Icon_Hotel.svg" alt="" class="dd-hotel-icon" />
+            </div>
+            <div class="dd-cat-text">
+              <span class="dd-cat-name">{t.dd_hotel}</span>
+              <span class="dd-cat-desc">{t.dd_hotel_desc}</span>
+            </div>
+            <svg class="dd-cat-chevron" width="6" height="10" viewBox="0 0 6 10" fill="none">
+              <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <a href="/soluciones/cool-protect" class="dd-cat" id="catCool" data-sub="">
+            <div class="dd-cat-icon" style="background: transparent;">
+              <img src="/CoolProtect_SoloEscudo.svg" alt="Cool Protect" height="34" style="width: auto; display: block;" />
+            </div>
+            <div class="dd-cat-text">
+              <span class="dd-cat-name">Cool Protect</span>
+              <span class="dd-cat-desc">{t.dd_cool_desc}</span>
+            </div>
+          </a>
+
+          <a href="/soluciones/home-protect" class="dd-cat" id="catHome" data-sub="">
+            <div class="dd-cat-icon" style="background: transparent;">
+              <img src="/HomeProtect_SoloEscudo.svg" alt="Home Protect" height="34" style="width: auto; display: block;" />
+            </div>
+            <div class="dd-cat-text">
+              <span class="dd-cat-name">Home Protect</span>
+              <span class="dd-cat-desc">{t.dd_home_desc}</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Separador vertical -->
+        <div class="dd-sep hidden" id="ddSep"></div>
+
+        <!-- Columna derecha: sub-items (oculta hasta hover de hotel) -->
+        <div class="dd-right hidden" id="ddRight">
+          <!-- Sub-items de Hotel -->
+          <div class="dd-sub-group" id="subHotel">
+            <span class="dd-sub-label">{t.dd_hotel}</span>
+            <a href="/soluciones/gestion-tecnica-hotelera/cumplimiento-normativo" class="dd-sub-link">
+              <span class="dd-dot"></span>
+              {t.dd_sub1}
+            </a>
+            <a href="/soluciones/gestion-tecnica-hotelera/operativa-tecnica" class="dd-sub-link">
+              <span class="dd-dot"></span>
+              {t.dd_sub2}
+            </a>
+            <a href="/soluciones/gestion-tecnica-hotelera/eficiencia-sostenibilidad" class="dd-sub-link">
+              <span class="dd-dot"></span>
+              {t.dd_sub3}
+            </a>
+            <a href="/soluciones/gestion-tecnica-hotelera/integraciones" class="dd-sub-link">
+              <span class="dd-dot"></span>
+              {t.dd_sub4}
+            </a>
+            <a href="/soluciones/gestion-tecnica-hotelera/plataforma-iot" class="dd-sub-link">
+              <span class="dd-dot"></span>
+              {t.dd_sub5}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#tecnologia" class="nav-link">{t.tecnologia}</a>
+    <a href="#innovacion" class="nav-link">{t.innovacion}</a>
+    <a href="#empresa" class="nav-link">{t.empresa}</a>
   </div>
 
+  <!-- Bloque derecho: Utilidades -->
   <div class="nav-right">
-
     <!-- Selector de idioma -->
     <div class="lang-selector" id="langSelector">
       <button class="lang-btn" id="langBtn">
@@ -53,214 +145,414 @@ const { t, lang } = Astro.props;
 
     <!-- Tema -->
     <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
-      <span class="theme-icon">☀️</span>
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+      </svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
     </button>
 
     <!-- Acceso -->
-    <a
-      href="https://panel.connect24.io/es/login"
-      target="_blank"
-      rel="noopener"
-      class="btn btn-primary nav-acceso"
-    >
+    <a href="https://panel.connect24.io/es/login" target="_blank" rel="noopener" class="btn btn-primary nav-acceso">
       {t.acceso}
     </a>
 
+    <!-- Burger (solo mobile) -->
     <button class="nav-burger" id="navBurger" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
+<!-- Mobile nav -->
 <div class="mobile-nav" id="mobileNav">
-  <a href="#como" class="mobile-link">{t.como}</a>
-  <a href="#calculadora" class="mobile-link">{t.calculadora}</a>
-  <a href="https://go.connect24.io" target="_blank" rel="noopener" class="mobile-link">{t.go}</a>
-  <div class="mobile-langs">
-    <a href="/" class="mobile-lang" data-lang="es">🇪🇸 Español</a>
-    <a href="/en" class="mobile-lang" data-lang="en">🇬🇧 English</a>
-    <a href="/ca" class="mobile-lang" data-lang="ca">🏴 Català</a>
-    <a href="/de" class="mobile-lang" data-lang="de">🇩🇪 Deutsch</a>
+  <div class="mobile-section">
+    <span class="mobile-section-label">{t.soluciones}</span>
+    <a href="/soluciones/gestion-tecnica-hotelera" class="mobile-link mobile-link--sub">{t.dd_hotel}</a>
+    <a href="/soluciones/gestion-tecnica-hotelera/cumplimiento-normativo" class="mobile-link mobile-link--subsub">{t.dd_sub1}</a>
+    <a href="/soluciones/gestion-tecnica-hotelera/operativa-tecnica" class="mobile-link mobile-link--subsub">{t.dd_sub2}</a>
+    <a href="/soluciones/gestion-tecnica-hotelera/eficiencia-sostenibilidad" class="mobile-link mobile-link--subsub">{t.dd_sub3}</a>
+    <a href="/soluciones/gestion-tecnica-hotelera/integraciones" class="mobile-link mobile-link--subsub">{t.dd_sub4}</a>
+    <a href="/soluciones/gestion-tecnica-hotelera/plataforma-iot" class="mobile-link mobile-link--subsub">{t.dd_sub5}</a>
+    <a href="/soluciones/cool-protect" class="mobile-link mobile-link--sub">Cool Protect</a>
+    <a href="/soluciones/home-protect" class="mobile-link mobile-link--sub">Home Protect</a>
   </div>
-  <a
-    href="https://panel.connect24.io/es/login"
-    target="_blank"
-    rel="noopener"
-    class="btn btn-primary"
-    style="margin-top:0.75rem;justify-content:center"
-  >
+  <a href="#tecnologia" class="mobile-link">{t.tecnologia}</a>
+  <a href="#innovacion" class="mobile-link">{t.innovacion}</a>
+  <a href="#empresa" class="mobile-link">{t.empresa}</a>
+  <div class="mobile-langs">
+    <a href="/" class="mobile-lang" data-lang="es">
+      <img src="https://flagcdn.com/16x12/es.png" alt="ES" /> Español
+    </a>
+    <a href="/en" class="mobile-lang" data-lang="en">
+      <img src="https://flagcdn.com/16x12/gb.png" alt="EN" /> English
+    </a>
+    <a href="/ca" class="mobile-lang" data-lang="ca">
+      <span class="senyera"></span> Català
+    </a>
+    <a href="/de" class="mobile-lang" data-lang="de">
+      <img src="https://flagcdn.com/16x12/de.png" alt="DE" /> Deutsch
+    </a>
+  </div>
+  <a href="https://panel.connect24.io/es/login" target="_blank" rel="noopener"
+     class="btn btn-primary" style="margin-top:0.75rem;justify-content:center">
     {t.acceso}
   </a>
 </div>
 
 <style>
+  /* ── Nav container ── */
   #nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     height: 68px;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    padding: 0 8rem;
+    display: flex;
     align-items: center;
-    gap: 1rem;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid transparent;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--c24-border);
     transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
   }
   #nav.scrolled {
     border-color: var(--c24-border);
-    box-shadow: 0 2px 20px rgba(0,60,91,0.07);
+    box-shadow: 0 2px 24px rgba(0,60,91,0.07);
   }
-  :global([data-theme="dark"]) #nav {
-    background: rgba(8,15,24,0.95);
-  }
+  :global([data-theme="dark"]) #nav { background: rgba(8,15,24,0.96); }
 
+  /* ── Logo ── */
   .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
   .nav-logo-img { height: 60px; width: auto; transition: filter 0.25s; }
   :global([data-theme="dark"]) .nav-logo-img { filter: brightness(0) invert(1); }
 
+  /* ── Center links container ── */
   .nav-links {
-    display: flex; align-items: center; gap: 2rem;
-    justify-content: center;
+    position: absolute;
+    left: 50%; top: 0;
+    height: 68px;
+    transform: translateX(-50%);
+    display: flex; align-items: center;
+    gap: 2.5rem;
+    white-space: nowrap;
   }
-  .nav-links a {
-    font-size: 0.88rem; color: var(--c24-text-muted);
-    transition: color 0.15s;
-  }
-  .nav-links a:hover { color: var(--c24-teal); }
 
+  /* ── Plain nav links ── */
+  .nav-link {
+    position: relative;
+    font-size: 0.875rem; font-weight: 500;
+    color: var(--c24-text-muted);
+    letter-spacing: 0.01em;
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--c24-teal); border-radius: 2px;
+    transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  .nav-link:hover { color: var(--c24-navy); }
+  .nav-link:hover::after { width: 100%; }
+  :global([data-theme="dark"]) .nav-link:hover { color: var(--c24-text); }
+
+  /* ── Dropdown wrapper ── */
+  .nav-dropdown {
+    position: relative;
+    height: 100%;
+    display: flex; align-items: center;
+  }
+
+  /* ── Dropdown trigger button ── */
+  .nav-link--dd {
+    display: flex; align-items: center; gap: 0.3rem;
+    background: none; border: none;
+    font-family: var(--font-body);
+    font-size: 0.875rem; font-weight: 500;
+    color: var(--c24-text-muted);
+    cursor: pointer; padding: 0;
+    position: relative; padding-bottom: 2px;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+  .nav-link--dd::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--c24-teal); border-radius: 2px;
+    transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  .nav-link--dd:hover,
+  .nav-dropdown.open .nav-link--dd { color: var(--c24-navy); }
+  .nav-link--dd:hover::after,
+  .nav-dropdown.open .nav-link--dd::after { width: 100%; }
+  :global([data-theme="dark"]) .nav-link--dd:hover { color: var(--c24-text); }
+
+  .dd-chevron {
+    opacity: 0.45;
+    transition: transform 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .nav-dropdown.open .dd-chevron {
+    transform: rotate(180deg);
+    opacity: 0.7;
+  }
+
+  /* ── Dropdown panel ── */
+  .dd-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: calc(50% - 160px);
+    transform: translateY(-6px);
+    display: flex; flex-direction: row;
+    width: fit-content;
+    background: var(--c24-bg);
+    border: 1px solid var(--c24-border);
+    border-radius: 16px;
+    box-shadow: 0 20px 56px rgba(0,60,91,0.13), 0 4px 16px rgba(0,60,91,0.06);
+    padding: 0.65rem;
+    z-index: 200;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  }
+  .nav-dropdown.open .dd-panel {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+  :global([data-theme="dark"]) .dd-panel { background: var(--c24-surface); }
+
+  /* ── Left column ── */
+  .dd-left {
+    display: flex; flex-direction: column;
+    gap: 0.25rem;
+    flex: 0 0 300px;
+    padding: 0.25rem;
+  }
+
+  .dd-cat {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.85rem 0.9rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.13s;
+    text-decoration: none; color: inherit;
+    border: none; background: none; font-family: inherit; text-align: left;
+    width: 100%;
+  }
+  .dd-cat:hover, .dd-cat.active { background: rgba(69,191,162,0.09); }
+
+  .dd-cat-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--c24-teal-light);
+    color: var(--c24-teal);
+    transition: background 0.13s;
+  }
+  .dd-cat:hover .dd-cat-icon,
+  .dd-cat.active .dd-cat-icon { background: rgba(69,191,162,0.2); }
+
+  .dd-cat-text { flex: 1; min-width: 0; }
+  .dd-cat-name {
+    display: block;
+    font-size: 0.9rem; font-weight: 600;
+    color: var(--c24-text); line-height: 1.3;
+  }
+  .dd-cat-desc {
+    display: block;
+    font-size: 0.78rem; color: var(--c24-text-muted);
+    margin-top: 2px; line-height: 1.3;
+  }
+  .dd-hotel-icon { width: 22px; height: auto; display: block; }
+  :global([data-theme="dark"]) .dd-hotel-icon { filter: brightness(0) invert(1) opacity(0.85); }
+
+  .dd-cat-chevron { opacity: 0.35; flex-shrink: 0; transition: opacity 0.13s; }
+  .dd-cat--hotel:hover .dd-cat-chevron,
+  .dd-cat--hotel.active .dd-cat-chevron { opacity: 0.6; }
+
+  /* ── Separator ── */
+  .dd-sep {
+    width: 1px;
+    background: var(--c24-border);
+    margin: 0.25rem 0.5rem;
+    align-self: stretch;
+    flex-shrink: 0;
+  }
+  .dd-sep.hidden { display: none; }
+
+  /* ── Right column ── */
+  .dd-right {
+    flex: 1;
+    padding: 0.5rem 0.75rem 0.5rem 0.9rem;
+    display: flex; flex-direction: column;
+  }
+  .dd-right.hidden { display: none; }
+
+  .dd-sub-group { display: flex; flex-direction: column; gap: 0.15rem; }
+  .dd-sub-label {
+    display: block;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--c24-teal);
+    padding: 0 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .dd-sub-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.65rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.9rem; font-weight: 400;
+    color: var(--c24-text-muted);
+    transition: background 0.13s, color 0.13s;
+    text-decoration: none;
+  }
+  .dd-sub-link:hover {
+    background: rgba(69,191,162,0.09);
+    color: var(--c24-teal);
+  }
+  .dd-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--c24-teal); opacity: 0.45;
+    flex-shrink: 0;
+    transition: opacity 0.13s;
+  }
+  .dd-sub-link:hover .dd-dot { opacity: 0.9; }
+
+  /* ── Right section ── */
   .nav-right {
     display: flex; align-items: center;
-    gap: 0.75rem; justify-content: flex-end;
+    gap: 0.75rem; flex-shrink: 0;
   }
 
   /* ── Lang selector ── */
   .lang-selector { position: relative; }
   .lang-btn {
     display: flex; align-items: center; gap: 0.4rem;
-    background: none;
-    border: 1px solid var(--c24-border);
-    border-radius: 8px;
-    padding: 0.35rem 0.7rem;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 0.82rem; font-weight: 500;
-    color: var(--c24-text-muted);
-    transition: border-color 0.15s, color 0.15s;
-    height: 34px;
+    background: none; border: 1px solid var(--c24-border);
+    border-radius: 8px; padding: 0.35rem 0.7rem;
+    cursor: pointer; font-family: var(--font-body);
+    font-size: 0.82rem; font-weight: 500; color: var(--c24-text-muted);
+    transition: border-color 0.15s, color 0.15s; height: 34px;
   }
   .lang-btn:hover { border-color: var(--c24-teal); color: var(--c24-text); }
   .lang-btn svg { opacity: 0.5; transition: transform 0.2s; }
   .lang-selector.open .lang-btn svg { transform: rotate(180deg); }
 
   .lang-menu {
-    display: none;
-    position: absolute; top: calc(100% + 8px); right: 0;
-    background: var(--c24-surface);
-    border: 1px solid var(--c24-border);
-    border-radius: 12px;
-    padding: 0.4rem;
-    min-width: 140px;
-    box-shadow: 0 8px 24px rgba(0,60,91,0.12);
-    z-index: 10;
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: var(--c24-surface); border: 1px solid var(--c24-border);
+    border-radius: 12px; padding: 0.4rem; min-width: 140px;
+    box-shadow: 0 8px 24px rgba(0,60,91,0.12); z-index: 10;
   }
   :global([data-theme="dark"]) .lang-menu { background: var(--c24-dropdown-bg); }
   .lang-selector.open .lang-menu { display: flex; flex-direction: column; }
 
   .lang-option {
     display: flex; align-items: center; gap: 0.6rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    color: var(--c24-text-muted);
-    transition: background 0.15s, color 0.15s;
-    text-decoration: none;
+    padding: 0.5rem 0.75rem; border-radius: 8px;
+    font-size: 0.85rem; color: var(--c24-text-muted);
+    transition: background 0.15s, color 0.15s; text-decoration: none;
   }
   .lang-option:hover { background: rgba(69,191,162,0.08); color: var(--c24-teal); }
   .lang-option.active { color: var(--c24-teal); font-weight: 600; }
 
   .senyera {
     display: inline-block; width: 16px; height: 12px;
-    background: repeating-linear-gradient(
-      180deg,
-      #FCDD09 0px, #FCDD09 1.7px,
-      #DA121A 1.7px, #DA121A 3.4px
-    );
+    background: repeating-linear-gradient(180deg,#FCDD09 0px,#FCDD09 1.7px,#DA121A 1.7px,#DA121A 3.4px);
     border-radius: 1px; flex-shrink: 0;
   }
 
+  /* ── Theme toggle ── */
   .theme-toggle {
-    background: none;
-    border: 1px solid var(--c24-border);
+    background: none; border: 1px solid var(--c24-border);
     width: 34px; height: 34px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 0.9rem;
-    transition: border-color 0.15s, background 0.15s;
-    flex-shrink: 0;
+    cursor: pointer; color: var(--c24-text-muted);
+    transition: border-color 0.15s, background 0.15s, color 0.15s; flex-shrink: 0;
   }
-  .theme-toggle:hover { border-color: var(--c24-teal); background: rgba(69,191,162,0.06); }
+  .theme-toggle:hover {
+    border-color: var(--c24-teal); background: rgba(69,191,162,0.06); color: var(--c24-teal);
+  }
+  .icon-sun  { display: block; }
+  .icon-moon { display: none; }
+  :global([data-theme="dark"]) .icon-sun  { display: none; }
+  :global([data-theme="dark"]) .icon-moon { display: block; }
 
-  .nav-acceso { padding: 0.5rem 1.2rem; font-size: 0.88rem; }
+  /* ── Acceso ── */
+  .nav-acceso { padding: 0.5rem 1.25rem; font-size: 0.875rem; flex-shrink: 0; }
 
+  /* ── Burger ── */
   .nav-burger {
     display: none; flex-direction: column; gap: 5px;
     width: 36px; height: 36px; align-items: center; justify-content: center;
     background: none; border: none; cursor: pointer;
   }
-  .nav-burger span {
-    display: block; width: 22px; height: 2px;
-    background: var(--c24-text); border-radius: 2px;
-  }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: var(--c24-text); border-radius: 2px; }
 
+  /* ── Mobile nav ── */
   .mobile-nav {
     display: none; flex-direction: column;
     position: fixed; top: 68px; left: 0; right: 0;
-    background: var(--c24-bg);
-    padding: 1.5rem 2rem; z-index: 99;
+    background: var(--c24-bg); padding: 1.5rem 2rem; z-index: 99;
     border-top: 1px solid var(--c24-border);
     box-shadow: 0 8px 24px rgba(0,60,91,0.08);
+    max-height: calc(100vh - 68px); overflow-y: auto;
   }
   .mobile-nav.open { display: flex; }
-  .mobile-link {
-    font-size: 1rem; color: var(--c24-text);
-    padding: 0.75rem 0; border-bottom: 1px solid var(--c24-border);
+  .mobile-section { margin-bottom: 0.5rem; }
+  .mobile-section-label {
+    display: block; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--c24-teal); padding: 0.5rem 0 0.25rem;
   }
+  .mobile-link {
+    display: block; font-size: 1rem; font-weight: 500;
+    color: var(--c24-text); padding: 0.6rem 0;
+    border-bottom: 1px solid var(--c24-border); transition: color 0.15s;
+  }
+  .mobile-link--sub { font-size: 0.9rem; padding-left: 0.75rem; }
+  .mobile-link--subsub { font-size: 0.82rem; padding-left: 1.5rem; color: var(--c24-text-muted); }
   .mobile-link:hover { color: var(--c24-teal); }
 
   .mobile-langs {
-    display: flex; flex-wrap: wrap; gap: 0.5rem;
-    padding: 1rem 0;
+    display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0;
     border-bottom: 1px solid var(--c24-border);
   }
   .mobile-lang {
+    display: flex; align-items: center; gap: 0.4rem;
     font-size: 0.85rem; color: var(--c24-text-muted);
-    padding: 0.35rem 0.75rem;
-    border: 1px solid var(--c24-border);
-    border-radius: var(--radius-pill);
-    transition: all 0.15s;
+    padding: 0.35rem 0.75rem; border: 1px solid var(--c24-border);
+    border-radius: var(--radius-pill); transition: all 0.15s;
   }
-  .mobile-lang:hover, .mobile-lang.active {
-    border-color: var(--c24-teal);
-    color: var(--c24-teal);
-  }
+  .mobile-lang:hover, .mobile-lang.active { border-color: var(--c24-teal); color: var(--c24-teal); }
 
-  @media (max-width: 768px) {
-    #nav { grid-template-columns: auto auto; }
-    .nav-links  { display: none; }
-    .nav-acceso { display: none; }
-    .nav-burger { display: flex; }
+  @media (max-width: 960px) {
+    .nav-links    { display: none; }
+    .nav-acceso   { display: none; }
     .lang-selector { display: none; }
+    .theme-toggle { display: none; }
+    .nav-burger   { display: flex; }
+    #nav { padding: 0 1.5rem; }
   }
 </style>
 
-<script define:vars={{ lang }}>
-  // ── Scroll state ──
+<script define:vars={{ lang }} is:inline>
+  /* ── Scroll state ── */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav?.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
-  // ── Mobile menu ──
+  /* ── Mobile menu ── */
   const mobileNav = document.getElementById('mobileNav');
   document.getElementById('navBurger')?.addEventListener('click', () => {
     mobileNav?.classList.toggle('open');
@@ -269,7 +561,62 @@ const { t, lang } = Astro.props;
     link.addEventListener('click', () => mobileNav?.classList.remove('open'));
   });
 
-  // ── Lang selector ──
+  /* ── Soluciones dropdown ── */
+  const solDropdown = document.getElementById('solDropdown');
+  const ddSep       = document.getElementById('ddSep');
+  const ddRight     = document.getElementById('ddRight');
+  const catHotel    = document.getElementById('catHotel');
+  const catCool     = document.getElementById('catCool');
+  const catHome     = document.getElementById('catHome');
+
+  let closeTimer = null;
+
+  function openDropdown() {
+    clearTimeout(closeTimer);
+    solDropdown?.classList.add('open');
+  }
+  function scheduleClose() {
+    closeTimer = setTimeout(() => {
+      solDropdown?.classList.remove('open');
+      resetCategories();
+    }, 120);
+  }
+
+  function resetCategories() {
+    catHotel?.classList.remove('active');
+    catCool?.classList.remove('active');
+    catHome?.classList.remove('active');
+    ddRight?.classList.add('hidden');
+    ddSep?.classList.add('hidden');
+  }
+
+  solDropdown?.addEventListener('mouseenter', openDropdown);
+  solDropdown?.addEventListener('mouseleave', scheduleClose);
+
+  /* ── Category hover: switch right panel ── */
+  function setActiveCategory(cat) {
+    catHotel?.classList.remove('active');
+    catCool?.classList.remove('active');
+    catHome?.classList.remove('active');
+
+    if (cat === 'hotel') {
+      catHotel?.classList.add('active');
+      ddRight?.classList.remove('hidden');
+      ddSep?.classList.remove('hidden');
+    } else {
+      ddRight?.classList.add('hidden');
+      ddSep?.classList.add('hidden');
+      if (cat === 'cool') catCool?.classList.add('active');
+      if (cat === 'home') catHome?.classList.add('active');
+    }
+  }
+
+  catHotel?.addEventListener('click', () => { window.location.href = '/soluciones/gestion-tecnica-hotelera'; });
+  catHotel?.addEventListener('mouseenter', () => setActiveCategory('hotel'));
+  catCool?.addEventListener('mouseenter',  () => setActiveCategory('cool'));
+  catHome?.addEventListener('mouseenter',  () => setActiveCategory('home'));
+
+  /* ── Lang selector ── */
   const langSelector = document.getElementById('langSelector');
   const langBtn      = document.getElementById('langBtn');
   const langCode     = document.getElementById('langCode');
@@ -280,15 +627,12 @@ const { t, lang } = Astro.props;
     langSelector?.classList.toggle('open');
   });
   document.addEventListener('click', (e) => {
-    if (!langSelector?.contains(e.target)) {
-      langSelector?.classList.remove('open');
-    }
+    if (!langSelector?.contains(e.target)) langSelector?.classList.remove('open');
+    if (!solDropdown?.contains(e.target))  solDropdown?.classList.remove('open');
   });
 
-  // Actualizar botón con idioma actual
   const flagMap = { es: 'https://flagcdn.com/16x12/es.png', en: 'https://flagcdn.com/16x12/gb.png', de: 'https://flagcdn.com/16x12/de.png', ca: '' };
   const codeMap = { es: 'ES', en: 'EN', ca: 'CA', de: 'DE' };
-
   if (langCode) langCode.textContent = codeMap[lang] || 'ES';
   if (langFlag) {
     if (lang === 'ca') {
@@ -300,31 +644,21 @@ const { t, lang } = Astro.props;
       langFlag.src = flagMap[lang] || flagMap.es;
     }
   }
-
-  // Marcar activo en menú desktop
   document.querySelectorAll('.lang-option').forEach(opt => {
     if (opt.getAttribute('data-lang') === lang) opt.classList.add('active');
   });
-
-  // Marcar activo en menú mobile
   document.querySelectorAll('.mobile-lang').forEach(opt => {
     if (opt.getAttribute('data-lang') === lang) opt.classList.add('active');
   });
 
-  // ── Tema claro/oscuro ──
+  /* ── Tema ── */
   const html = document.documentElement;
   const themeToggle = document.getElementById('themeToggle');
-  const themeIcon = themeToggle?.querySelector('.theme-icon');
-
   const savedTheme = localStorage.getItem('c24-theme') || 'light';
   html.setAttribute('data-theme', savedTheme);
-  if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-
   themeToggle?.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('c24-theme', next);
-    if (themeIcon) themeIcon.textContent = next === 'dark' ? '🌙' : '☀️';
   });
 </script>

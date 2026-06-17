@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  desc?: string;
+  back?: string;
+  backLabel?: string;
+}
+const {
+  title,
+  desc = 'Estamos preparando esta sección. Vuelve pronto.',
+  back = '/',
+  backLabel = '← Volver al inicio',
+} = Astro.props;
+---
+
+<main class="prox">
+  <div class="prox-inner">
+    <div class="prox-badge">Próximamente</div>
+    <h1 class="prox-title">{title}</h1>
+    <p class="prox-desc">{desc}</p>
+    <a href={back} class="btn btn-primary">{backLabel}</a>
+  </div>
+</main>
+
+<style>
+  .prox {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 9rem 2rem 6rem;
+    background: var(--c24-bg);
+  }
+  .prox-inner {
+    text-align: center; max-width: 520px;
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+  }
+  .prox-badge {
+    display: inline-flex; align-items: center;
+    background: var(--c24-teal-light); color: var(--c24-teal);
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.35rem 0.9rem; border-radius: var(--radius-pill);
+  }
+  .prox-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; color: var(--c24-text); line-height: 1.15;
+    margin: 0;
+  }
+  .prox-desc {
+    font-size: 1rem; color: var(--c24-text-muted);
+    line-height: 1.7; font-weight: 300; margin: 0;
+  }
+</style>

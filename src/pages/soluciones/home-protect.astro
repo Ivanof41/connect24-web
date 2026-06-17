@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import ProximamentePage from '../../components/ProximamentePage.astro';
+import Footer from '../../components/Footer.astro';
+import { es } from '../../i18n/es';
+---
+<Layout title="Home Protect — Connect24">
+  <Nav t={es.nav} lang="es" />
+  <ProximamentePage
+    title="Home Protect"
+    desc="Supervisión remota de propiedades residenciales y vacacionales. Detecta incidencias antes de que sean un problema."
+    back="/"
+  />
+  <Footer t={es.footer} />
+</Layout>
