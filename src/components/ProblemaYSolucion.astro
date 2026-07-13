@@ -106,10 +106,6 @@ const N = t.items.length;
           </div>
         ))}
       </div>
-      <div class="ps-m-remate reveal reveal-delay-2">
-        <p class="remate-text">{t.remate1} <em>{t.remate2}</em>.<br />{t.remate3}</p>
-        <a href="#calculadora" class="btn btn-primary">{t.cta}</a>
-      </div>
     </div>
   </div>
 
@@ -136,21 +132,6 @@ const N = t.items.length;
   align-items: center;
   overflow: hidden;
 }
-/* Fondo con glow teal que aparece en la fase solución */
-.ps-sticky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 65% 50%,
-    rgba(69, 191, 162, 0.14) 0%,
-    rgba(69, 191, 162, 0.05) 55%,
-    transparent 75%);
-  opacity: 0;
-  transition: opacity 1s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-.ps-sticky.in-solucion::after { opacity: 1; }
 
 .ps-inner {
   display: grid;

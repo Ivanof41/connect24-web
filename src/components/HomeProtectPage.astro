@@ -1,0 +1,774 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const hp = t.homeprotect;
+
+const STEP_ICONS = ['🔍', '⚡', '🔔', '🤝'];
+
+const BENEFIT_ICONS = ['💰', '⚡', '📈', '📋', '👁️'];
+---
+<Layout title={hp.page_title} description={hp.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-hero">
+    <div class="hp-hero-bg" aria-hidden="true"></div>
+    <div class="hp-hero-inner">
+
+      <div class="hp-hero-content">
+        <div class="hp-sectors">
+          {hp.hero_sectors.map((s: string) => <span>{s}</span>)}
+        </div>
+
+        <h1 class="hp-hero-title">
+          <span class="hp-ht-normal">{hp.hero_title1}</span>
+          <span class="hp-ht-accent">{hp.hero_title2}</span>
+        </h1>
+
+        <p class="hp-hero-sub" set:html={hp.hero_sub} />
+
+        <p class="hp-hero-tagline">
+          <img src="/HomeProtect_SoloEscudo.svg" alt="" class="hp-tagline-shield" aria-hidden="true" />
+          <em>{hp.hero_tagline}</em>
+        </p>
+
+        <div class="hp-hero-actions">
+          <a href="#contacto" class="btn btn-white">{hp.hero_btn_info}</a>
+          <a href="#como-funciona" class="btn btn-ghost-white">{hp.hero_btn_how}</a>
+        </div>
+      </div>
+
+      <div class="hp-hero-visual" aria-hidden="true">
+        <div class="hp-orbit-stage">
+          <!-- Anillo decorativo en la trayectoria de los iconos -->
+          <div class="hp-orbit-ring"></div>
+
+          <!-- Conectores animados: fluyen desde cada icono hacia el logo -->
+          <!-- Posiciones calculadas: centro (260,260), radio 220px, 9 iconos a 40° cada uno -->
+          <svg class="hp-connectors" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="hp-fade" cx="260" cy="235" r="235" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stop-color="#1A7A68" stop-opacity="0"/>
+                <stop offset="30%"  stop-color="#1A7A68" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#1A7A68" stop-opacity="0.55"/>
+              </radialGradient>
+            </defs>
+            <!-- radio 240 desde (260,260): x=260+240·sin(a), y=260-240·cos(a) -->
+            <line class="hp-cl" x1="260" y1="20"  x2="260" y2="235" style="animation-delay:0s"/>
+            <line class="hp-cl" x1="414" y1="76"  x2="260" y2="235" style="animation-delay:-0.27s"/>
+            <line class="hp-cl" x1="496" y1="218" x2="260" y2="235" style="animation-delay:-0.53s"/>
+            <line class="hp-cl" x1="468" y1="380" x2="260" y2="235" style="animation-delay:-0.8s"/>
+            <line class="hp-cl" x1="342" y1="485" x2="260" y2="235" style="animation-delay:-1.07s"/>
+            <line class="hp-cl" x1="178" y1="485" x2="260" y2="235" style="animation-delay:-1.33s"/>
+            <line class="hp-cl" x1="52"  y1="380" x2="260" y2="235" style="animation-delay:-1.6s"/>
+            <line class="hp-cl" x1="24"  y1="218" x2="260" y2="235" style="animation-delay:-1.87s"/>
+            <line class="hp-cl" x1="106" y1="76"  x2="260" y2="235" style="animation-delay:-2.13s"/>
+          </svg>
+
+          <!-- Iconos estáticos posicionados en la órbita -->
+          {[
+            '/icons/i_energia.svg',
+            '/icons/i_water.svg',
+            '/icons/i_solar.svg',
+            '/icons/i_salamaquinas.svg',
+            '/icons/i_ph.svg',
+            '/icons/i_temp.svg',
+            '/icons/i_frio.svg',
+            '/icons/i_co2.svg',
+            '/icons/i_cloro.svg',
+          ].map((icon, i) => (
+            <div class="hp-orbit-slot" style={`--a: ${i * 40}deg`}>
+              <img src={icon} alt="" class="hp-orbit-img" />
+            </div>
+          ))}
+
+          <!-- Logo central -->
+          <div class="hp-orbit-center">
+            <img src="/HomeProtect.svg" alt="Home Protect" class="hp-shield-hero" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PASOS: QUÉ HACEMOS
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-steps" id="como-funciona">
+    <div class="container hp-steps-inner">
+      <div class="hp-steps-header reveal">
+        <span class="eyebrow eyebrow--green">{hp.steps_eyebrow}</span>
+        <h2>{hp.steps_title1}<br/><span class="hp-accent">{hp.steps_title2}</span></h2>
+        <p class="section-desc">{hp.steps_desc}</p>
+      </div>
+
+      <div class="hp-steps-grid reveal reveal-delay-1">
+        {[
+          { num: hp.step1_num, title: hp.step1_title, desc: hp.step1_desc, icon: STEP_ICONS[0] },
+          { num: hp.step2_num, title: hp.step2_title, desc: hp.step2_desc, icon: STEP_ICONS[1] },
+          { num: hp.step3_num, title: hp.step3_title, desc: hp.step3_desc, icon: STEP_ICONS[2] },
+          { num: hp.step4_num, title: hp.step4_title, desc: hp.step4_desc, icon: STEP_ICONS[3] },
+        ].map(step => (
+          <div class="hp-step-card">
+            <div class="hp-step-num">{step.num}</div>
+            <div class="hp-step-icon">{step.icon}</div>
+            <h3 class="hp-step-title">{step.title}</h3>
+            <p class="hp-step-desc">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       QUÉ MONITORIZAMOS
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-monitor">
+    <div class="container">
+      <div class="hp-monitor-grid">
+        <div class="hp-monitor-left reveal">
+          <span class="eyebrow eyebrow--green">{hp.monitor_eyebrow}</span>
+          <h2 class="hp-monitor-title">
+            {hp.monitor_title1}<br/>
+            <span class="hp-monitor-accent">{hp.monitor_title2}</span>
+          </h2>
+          <p class="hp-monitor-desc">{hp.monitor_desc}</p>
+
+          <div class="hp-sensors-callout reveal reveal-delay-2">
+            <div class="hp-sensors-q">{hp.monitor_sensors_q}</div>
+            <div class="hp-sensors-a">{hp.monitor_sensors_a}</div>
+          </div>
+        </div>
+
+        <div class="hp-monitor-right reveal reveal-delay-1">
+          <div class="hp-icons-grid">
+            {hp.monitor_items.map((name: string, i: number) => (
+              <div class="hp-icon-item">
+                <div class="hp-icon-circle">
+                  <img src={`/icons/${hp.monitor_icons[i]}.svg`} alt={name} class="hp-icon-img" />
+                </div>
+                <span class="hp-icon-label">{name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTORES
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-sectors-section">
+    <div class="container">
+      <div class="hp-sectors-header reveal">
+        <span class="eyebrow eyebrow--green">{hp.sectors_eyebrow}</span>
+        <h2>{hp.sectors_title}</h2>
+        <p class="section-desc">{hp.sectors_desc}</p>
+      </div>
+
+      <div class="hp-sectors-grid reveal reveal-delay-1">
+        <div class="hp-sector-card">
+          <img src="/sector_turistico.png" alt="Sector Turístico" class="hp-sector-img" />
+          <div class="hp-sector-body">
+            <h3>{hp.sector1_name}</h3>
+            <p>{hp.sector1_desc}</p>
+          </div>
+        </div>
+        <div class="hp-sector-card">
+          <img src="/sector_residencial.png" alt="Sector Residencial" class="hp-sector-img" />
+          <div class="hp-sector-body">
+            <h3>{hp.sector2_name}</h3>
+            <p>{hp.sector2_desc}</p>
+          </div>
+        </div>
+        <div class="hp-sector-card">
+          <img src="/instalaciones.png" alt="Instalaciones" class="hp-sector-img" />
+          <div class="hp-sector-body">
+            <h3>{hp.sector3_name}</h3>
+            <p>{hp.sector3_desc}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       BENEFICIOS
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-benefits">
+    <div class="container hp-benefits-inner">
+      <div class="hp-benefits-left reveal">
+        <span class="eyebrow eyebrow--green">{hp.benefits_eyebrow}</span>
+        <h2>
+          {hp.benefits_title1}<br/>
+          <span class="hp-accent">{hp.benefits_title2}</span>
+        </h2>
+        <p class="section-desc" style="text-align:left; margin-left:0;">{hp.benefits_desc}</p>
+      </div>
+
+      <div class="hp-benefits-right reveal reveal-delay-1">
+        {[
+          { title: hp.ben1_title, desc: hp.ben1_desc, icon: BENEFIT_ICONS[0] },
+          { title: hp.ben2_title, desc: hp.ben2_desc, icon: BENEFIT_ICONS[1] },
+          { title: hp.ben3_title, desc: hp.ben3_desc, icon: BENEFIT_ICONS[2] },
+          { title: hp.ben4_title, desc: hp.ben4_desc, icon: BENEFIT_ICONS[3] },
+          { title: hp.ben5_title, desc: hp.ben5_desc, icon: BENEFIT_ICONS[4] },
+        ].map(b => (
+          <div class="hp-benefit-row">
+            <div class="hp-benefit-icon">{b.icon}</div>
+            <div class="hp-benefit-text">
+              <strong>{b.title}</strong>
+              <span>{b.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA FINAL
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-cta" id="contacto">
+    <div class="container hp-cta-inner">
+      <div class="hp-cta-text reveal">
+        <h2 class="hp-cta-title">{hp.cta_title}</h2>
+        <p class="hp-cta-sub">{hp.cta_sub}</p>
+        <div class="hp-cta-contact">
+          <a href="tel:+34871153883" class="hp-cta-link">+34 871 153 883</a>
+          <span class="hp-cta-sep">|</span>
+          <a href="mailto:hola@connect24.io" class="hp-cta-link">hola@connect24.io</a>
+        </div>
+        <a href="mailto:hola@connect24.io" class="btn btn-white hp-cta-btn">{hp.cta_btn}</a>
+      </div>
+
+      <div class="hp-cta-badge reveal reveal-delay-2" aria-hidden="true">
+        <div class="hp-cta-circle">
+          <img src="/HomeProtect_SoloEscudo.svg" alt="Home Protect" class="hp-cta-logo" />
+        </div>
+        <p class="hp-cta-distinction" set:html={hp.cta_distinction} />
+      </div>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+</Layout>
+
+<style>
+/* ═══════════════════════════════════════════════
+   VARIABLES LOCALES
+═══════════════════════════════════════════════ */
+:root {
+  --hp-green-dark:  #1A7A68;
+  --hp-green:       #2BA898;
+  --hp-green-mid:   #57C5B4;
+  --hp-teal:        #9CE8D9;
+  --hp-teal-light:  #E1FFF8;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hp-hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 9rem 2rem 6rem;
+  position: relative; overflow: hidden;
+  background: #E1FFF8;
+}
+.hp-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 70% at 75% 50%, rgba(255,255,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(0,0,0,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 90% 10%, rgba(255,255,255,0.05) 0%, transparent 60%);
+}
+.hp-hero-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.hp-sectors {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+.hp-sectors span {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border-radius: var(--radius-pill);
+  background: rgba(26,122,104,0.10); color: var(--hp-green-dark);
+  border: 1px solid rgba(26,122,104,0.20);
+}
+.hp-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 4.2vw, 4rem);
+  font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 1.5rem;
+}
+.hp-ht-normal { display: block; color: var(--c24-navy); }
+.hp-ht-accent { display: block; color: var(--hp-green-dark); }
+.hp-hero-sub {
+  font-size: 1rem; color: var(--c24-text-muted);
+  line-height: 1.8; font-weight: 300; max-width: 440px;
+  margin-bottom: 1rem;
+}
+:global(.hp-hero-sub strong) { color: var(--c24-navy); font-weight: 600; }
+.hp-hero-tagline {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.95rem; color: var(--c24-text-muted);
+  font-style: italic; margin-bottom: 2rem;
+}
+.hp-tagline-shield {
+  width: 22px; opacity: 0.7;
+  filter: none;
+}
+.hp-hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* btn overrides for hero/cta light bg */
+.btn-white {
+  background: var(--hp-green-dark); color: white;
+  font-weight: 700; border: none;
+  padding: 0.75rem 1.75rem; border-radius: var(--radius-pill);
+  font-size: 0.9rem; letter-spacing: 0.02em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex; align-items: center;
+  text-decoration: none;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,122,104,0.28); }
+.btn-ghost-white {
+  background: transparent; color: var(--hp-green-dark);
+  border: 1.5px solid rgba(26,122,104,0.45);
+  padding: 0.75rem 1.75rem; border-radius: var(--radius-pill);
+  font-size: 0.9rem; letter-spacing: 0.02em;
+  transition: background 0.2s, border-color 0.2s;
+  display: inline-flex; align-items: center;
+  text-decoration: none;
+}
+.btn-ghost-white:hover { background: rgba(26,122,104,0.08); border-color: rgba(26,122,104,0.8); }
+
+/* ── Visual con iconos fijos y conectores ── */
+.hp-hero-visual { display: flex; justify-content: center; align-items: center; }
+
+.hp-orbit-stage {
+  position: relative;
+  width: 520px; height: 520px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Anillo decorativo en la trayectoria */
+.hp-orbit-ring {
+  position: absolute;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  border: 1px dashed rgba(26,122,104,0.30);
+  pointer-events: none;
+}
+
+/* SVG conectores */
+.hp-connectors {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+.hp-cl {
+  stroke: url(#hp-fade);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 7;
+  stroke-linecap: round;
+  animation: hpConnFlow 2.4s linear infinite;
+}
+@keyframes hpConnFlow {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Iconos estáticos — sólo posicionamiento */
+.hp-orbit-slot {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 68px; height: 68px;
+  margin: -34px;
+  transform: rotate(var(--a)) translateY(-240px);
+  z-index: 2;
+}
+.hp-orbit-img {
+  width: 68px; height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.22));
+  transition: transform 0.3s;
+  /* Contra-rotar para que el icono siempre mire hacia arriba */
+  transform: rotate(calc(-1 * var(--a)));
+}
+.hp-orbit-slot:hover .hp-orbit-img { transform: rotate(calc(-1 * var(--a))) scale(1.12); }
+
+/* Logo central */
+.hp-orbit-center { position: relative; z-index: 3; }
+.hp-shield-hero {
+  width: clamp(200px, 24vw, 270px);
+  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.30)) drop-shadow(0 0 60px rgba(255,255,255,0.08));
+}
+@keyframes hpFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+/* ═══════════════════════════════════════════════
+   PASOS: QUÉ HACEMOS
+═══════════════════════════════════════════════ */
+.hp-steps { padding: 7rem 2rem; background: #ffffff; }
+.hp-steps-inner { max-width: 1200px; margin: 0 auto; }
+.hp-steps-header { text-align: left; margin-bottom: 4rem; }
+.hp-accent { color: var(--hp-teal); }
+.eyebrow--green { color: var(--hp-green-mid); border-color: rgba(87,197,180,0.25); background: rgba(87,197,180,0.08); }
+.eyebrow--light { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); }
+
+.hp-steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.hp-step-card {
+  background: var(--c24-surface);
+  border: 1px solid var(--c24-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  display: flex; flex-direction: column;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.hp-step-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hp-green-mid), var(--hp-teal));
+}
+.hp-step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(58,140,130,0.12); }
+.hp-step-num {
+  font-family: var(--font-display);
+  font-size: 3rem; font-weight: 800;
+  color: rgba(26,122,104,0.14);
+  line-height: 1; margin-bottom: 0.5rem;
+  letter-spacing: -0.04em;
+}
+.hp-step-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+.hp-step-title {
+  font-size: 0.85rem; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--hp-green-mid); margin-bottom: 0.5rem;
+}
+.hp-step-desc { font-size: 0.9rem; color: var(--c24-text-muted); line-height: 1.6; font-weight: 300; }
+
+/* ═══════════════════════════════════════════════
+   QUÉ MONITORIZAMOS
+═══════════════════════════════════════════════ */
+.hp-monitor {
+  padding: 7rem 2rem;
+  background: #F0FFFB;
+}
+.hp-monitor-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 5rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.hp-monitor-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15; color: var(--c24-navy);
+  margin: 0.75rem 0 1.25rem;
+}
+.hp-monitor-accent { color: var(--hp-green-dark); }
+.hp-monitor-desc { font-size: 1rem; color: var(--c24-text-muted); line-height: 1.75; font-weight: 300; max-width: 380px; }
+.hp-sensors-callout {
+  margin-top: 2.5rem;
+  background: rgba(26,122,104,0.06);
+  border: 1px solid rgba(26,122,104,0.15);
+  border-left: 3px solid var(--hp-green-dark);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+}
+.hp-sensors-q { font-size: 0.9rem; color: var(--c24-text-muted); margin-bottom: 0.4rem; }
+.hp-sensors-a { font-size: 0.95rem; font-weight: 600; color: var(--hp-green-dark); }
+
+.hp-icons-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.hp-icon-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.75rem; text-align: center;
+}
+.hp-icon-circle {
+  width: 72px; height: 72px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+}
+.hp-icon-circle:hover { transform: translateY(-4px); }
+.hp-icon-img { width: 62px; height: 62px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2)); }
+.hp-icon-label { font-size: 0.75rem; font-weight: 600; color: var(--c24-text); letter-spacing: 0.02em; line-height: 1.3; }
+
+/* ═══════════════════════════════════════════════
+   SECTORES
+═══════════════════════════════════════════════ */
+.hp-sectors-section { padding: 7rem 2rem; background: #f5f8fc; }
+.hp-sectors-header { text-align: left; margin-bottom: 3.5rem; }
+.hp-sectors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+.hp-sector-card {
+  border-radius: var(--radius-lg); overflow: hidden;
+  background: white;
+  border: 1px solid rgba(0,60,91,0.08);
+  box-shadow: 0 2px 16px rgba(0,60,91,0.06);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.hp-sector-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(58,140,130,0.12); }
+.hp-sector-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.hp-sector-body {
+  padding: 1.25rem 1.5rem;
+}
+.hp-sector-body h3 {
+  font-size: 1rem; font-weight: 700; color: var(--c24-navy);
+  margin-bottom: 0.25rem;
+}
+.hp-sector-body p { font-size: 0.85rem; color: var(--c24-text-muted); }
+
+/* ═══════════════════════════════════════════════
+   BENEFICIOS
+═══════════════════════════════════════════════ */
+.hp-benefits { padding: 7rem 2rem; background: #ffffff; }
+.hp-benefits-inner {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 5rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.hp-benefits-left h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  color: var(--c24-navy); margin: 0.75rem 0 1.25rem;
+}
+
+.hp-benefit-row {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--c24-border);
+}
+.hp-benefit-row:first-child { padding-top: 0; }
+.hp-benefit-row:last-child { border-bottom: none; padding-bottom: 0; }
+.hp-benefit-icon {
+  flex-shrink: 0; width: 44px; height: 44px;
+  background: rgba(26,122,104,0.10); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.hp-benefit-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.hp-benefit-text strong { font-size: 0.95rem; font-weight: 700; color: var(--c24-text); }
+.hp-benefit-text span { font-size: 0.85rem; color: var(--c24-text-muted); }
+
+/* ═══════════════════════════════════════════════
+   CTA FINAL
+═══════════════════════════════════════════════ */
+.hp-cta {
+  background: #E1FFF8;
+  padding: 7rem 2rem;
+}
+.hp-cta-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.hp-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700; color: var(--c24-navy); line-height: 1.15; margin-bottom: 0.5rem;
+}
+.hp-cta-sub { font-size: 1.05rem; color: var(--c24-text-muted); font-weight: 300; margin-bottom: 1.75rem; }
+.hp-cta-contact { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.hp-cta-link { color: var(--hp-green-dark); font-size: 0.95rem; font-weight: 600; transition: opacity 0.2s; text-decoration: none; }
+.hp-cta-link:hover { opacity: 0.75; }
+.hp-cta-sep { color: var(--c24-border); }
+.hp-cta-btn { margin-top: 0.5rem; }
+.hp-cta-badge { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.hp-cta-circle {
+  width: clamp(120px, 14vw, 155px); aspect-ratio: 1; border-radius: 50%;
+  background: rgba(26,122,104,0.08);
+  border: 1px solid rgba(26,122,104,0.18);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  box-shadow: 0 0 40px rgba(26,122,104,0.12);
+}
+.hp-cta-logo { width: 90%; }
+.hp-cta-distinction {
+  font-size: 0.9rem; color: var(--c24-text-muted);
+  text-align: center; line-height: 1.6; max-width: 200px;
+}
+:global(.hp-cta-distinction strong) { color: var(--c24-navy); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   MODO OSCURO
+═══════════════════════════════════════════════ */
+
+/* ── Hero ── */
+:global([data-theme="dark"]) .hp-hero {
+  background: linear-gradient(135deg, #0a2922 0%, #112e28 45%, #162f2c 100%);
+}
+:global([data-theme="dark"]) .hp-hero-bg {
+  background:
+    radial-gradient(ellipse 55% 70% at 75% 50%, rgba(255,255,255,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(0,0,0,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 90% 10%, rgba(255,255,255,0.02) 0%, transparent 60%);
+}
+:global([data-theme="dark"]) .hp-orbit-ring {
+  border-color: rgba(255,255,255,0.12);
+}
+:global([data-theme="dark"]) .hp-ht-normal  { color: white; }
+:global([data-theme="dark"]) .hp-ht-accent  { color: rgba(255,255,255,0.7); }
+:global([data-theme="dark"]) .hp-hero-sub   { color: rgba(255,255,255,0.8); }
+:global([data-theme="dark"]) .hp-hero-tagline { color: rgba(255,255,255,0.6); }
+:global([data-theme="dark"]) .hp-tagline-shield { filter: brightness(0) invert(1); }
+:global([data-theme="dark"]) .hp-sectors span {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.22);
+}
+:global([data-theme="dark"]) .hp-hero .btn-white {
+  background: white; color: var(--hp-green-dark);
+}
+:global([data-theme="dark"]) .hp-hero .btn-white:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+:global([data-theme="dark"]) .hp-hero .btn-ghost-white {
+  color: white; border-color: rgba(255,255,255,0.45);
+}
+:global([data-theme="dark"]) .hp-hero .btn-ghost-white:hover {
+  background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.8);
+}
+
+/* ── Pasos ── */
+:global([data-theme="dark"]) .hp-steps { background: var(--c24-bg); }
+:global([data-theme="dark"]) .hp-steps-header h2 { color: var(--c24-text); }
+:global([data-theme="dark"]) .hp-steps-header p { color: var(--c24-text-muted); }
+:global([data-theme="dark"]) .hp-step-card {
+  background: var(--c24-surface);
+  border-color: rgba(255,255,255,0.07);
+  box-shadow: 0 1px 0 rgba(156,232,217,0.06) inset;
+}
+:global([data-theme="dark"]) .hp-step-card::before {
+  background: linear-gradient(90deg, rgba(156,232,217,0.6), rgba(225,255,248,0.4));
+}
+:global([data-theme="dark"]) .hp-step-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(156,232,217,0.15);
+}
+:global([data-theme="dark"]) .hp-step-num  { color: rgba(156,232,217,0.18); }
+:global([data-theme="dark"]) .hp-step-title { color: var(--c24-teal); }
+:global([data-theme="dark"]) .hp-step-desc  { color: var(--c24-text-muted); }
+
+/* ── Monitorizamos ── */
+:global([data-theme="dark"]) .hp-monitor {
+  background: linear-gradient(135deg, #071812 0%, #0d2219 50%, #071812 100%);
+}
+:global([data-theme="dark"]) .hp-monitor-title { color: white; }
+:global([data-theme="dark"]) .hp-monitor-accent { color: var(--hp-teal-light); }
+:global([data-theme="dark"]) .hp-monitor-desc { color: rgba(255,255,255,0.7); }
+:global([data-theme="dark"]) .hp-sensors-q { color: rgba(255,255,255,0.65); }
+:global([data-theme="dark"]) .hp-sensors-a { color: var(--hp-teal); }
+:global([data-theme="dark"]) .hp-icon-label { color: rgba(255,255,255,0.85); }
+:global([data-theme="dark"]) .hp-icon-circle {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+:global([data-theme="dark"]) .hp-icon-circle:hover { background: rgba(255,255,255,0.09); }
+:global([data-theme="dark"]) .hp-sensors-callout {
+  background: rgba(0,0,0,0.30);
+  border-color: rgba(255,255,255,0.07);
+  border-left-color: var(--hp-teal);
+}
+
+/* ── Sectores ── */
+:global([data-theme="dark"]) .hp-sectors-section { background: var(--c24-surface); }
+:global([data-theme="dark"]) .hp-sectors-header h2 { color: var(--c24-text); }
+:global([data-theme="dark"]) .hp-sectors-header p  { color: var(--c24-text-muted); }
+:global([data-theme="dark"]) .hp-sector-card {
+  background: var(--c24-bg);
+  border-color: rgba(255,255,255,0.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.30);
+}
+:global([data-theme="dark"]) .hp-sector-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(156,232,217,0.15);
+}
+:global([data-theme="dark"]) .hp-sector-body h3 { color: var(--c24-text); }
+:global([data-theme="dark"]) .hp-sector-body p  { color: var(--c24-text-muted); }
+
+/* ── Beneficios ── */
+:global([data-theme="dark"]) .hp-benefits { background: var(--c24-bg); }
+:global([data-theme="dark"]) .hp-benefits-left h2 { color: var(--c24-text); }
+:global([data-theme="dark"]) .hp-benefits-left p  { color: var(--c24-text-muted); }
+:global([data-theme="dark"]) .hp-benefit-icon { background: rgba(156,232,217,0.10); }
+:global([data-theme="dark"]) .hp-benefit-row  { border-color: rgba(255,255,255,0.07); }
+:global([data-theme="dark"]) .hp-benefit-text strong { color: var(--c24-text); }
+:global([data-theme="dark"]) .hp-benefit-text span   { color: var(--c24-text-muted); }
+
+/* ── CTA final ── */
+:global([data-theme="dark"]) .hp-cta {
+  background: linear-gradient(135deg, #071812 0%, #0d2219 60%, #112c22 100%);
+}
+:global([data-theme="dark"]) .hp-cta-title { color: white; }
+:global([data-theme="dark"]) .hp-cta-sub   { color: rgba(255,255,255,0.7); }
+:global([data-theme="dark"]) .hp-cta-link  { color: rgba(255,255,255,0.9); }
+:global([data-theme="dark"]) .hp-cta-sep   { color: rgba(255,255,255,0.25); }
+:global([data-theme="dark"]) .hp-cta-distinction { color: rgba(255,255,255,0.7); }
+:global([data-theme="dark"]) .hp-cta .btn-white  { background: white; color: var(--hp-green-dark); }
+:global([data-theme="dark"]) .hp-cta-circle {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 0 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(156,232,217,0.10);
+}
+
+/* ── Eyebrows ── */
+:global([data-theme="dark"]) .eyebrow--green {
+  color: var(--hp-teal-light);
+  background: rgba(156,232,217,0.10);
+  border-color: rgba(156,232,217,0.18);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hp-hero-inner      { grid-template-columns: 1fr; gap: 3rem; }
+  .hp-steps-grid      { grid-template-columns: repeat(2, 1fr); }
+  .hp-monitor-grid    { grid-template-columns: 1fr; gap: 3rem; }
+  .hp-sectors-grid    { grid-template-columns: repeat(2, 1fr); }
+  .hp-benefits-inner  { grid-template-columns: 1fr; gap: 3rem; }
+  .hp-cta-inner       { grid-template-columns: 1fr; }
+  .hp-icons-grid      { grid-template-columns: repeat(3, 1fr); }
+  /* Escalar todo el sistema proporcionalmente */
+  .hp-orbit-stage     { transform: scale(0.81); transform-origin: center top; margin-bottom: -100px; }
+}
+@media (max-width: 640px) {
+  .hp-hero            { padding: 8rem 1.5rem 4rem; }
+  .hp-steps-grid      { grid-template-columns: 1fr; }
+  .hp-sectors-grid    { grid-template-columns: 1fr; }
+  .hp-icons-grid      { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .hp-cta             { padding: 5rem 1.5rem; }
+  .hp-cta-badge       { display: none; }
+  .hp-monitor-desc    { max-width: 100%; }
+  .hp-orbit-stage     { transform: scale(0.62); margin-bottom: -198px; }
+}
+@media (max-width: 420px) {
+  .hp-orbit-stage     { transform: scale(0.50); margin-bottom: -260px; }
+}
+</style>

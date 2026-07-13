@@ -110,4 +110,9 @@ const { t } = Astro.props;
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
+
+  @media (max-width: 640px) {
+    .logo-strip-track { gap: 1.5rem; }
+    .logo-strip-track span { font-size: 0.75rem; }
+  }
 </style>

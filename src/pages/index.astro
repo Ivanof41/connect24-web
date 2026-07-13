@@ -4,10 +4,6 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import ProblemaYSolucion from '../components/ProblemaYSolucion.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
-import Calculadora from '../components/Calculadora.astro';
-import Diferenciacion from '../components/Diferenciacion.astro';
-import PruebaSocial from '../components/PruebaSocial.astro';
-import CtaFinal from '../components/CtaFinal.astro';
 import Modal from '../components/Modal.astro';
 import Footer from '../components/Footer.astro';
 
@@ -22,10 +18,6 @@ const t    = useTranslations(lang);
   <Hero t={t.hero} />
   <ProblemaYSolucion t={t.problema} />
   <ComoFunciona t={t.como} />
-  <Calculadora t={t.calculadora} />
-  <Diferenciacion t={t.diferencia} />
-  <PruebaSocial t={t.social} />
-  <CtaFinal t={t.cta} />
   <Modal t={t.modal} t_calc={t.calculadora} />
   <Footer t={t.footer} />
 </Layout>

@@ -251,7 +251,7 @@ const wordsJson = JSON.stringify(Array.from(t.words));
     align-items: center;
     padding: 9rem 2rem 6rem;
     overflow: hidden;
-    background: #e6f7f4;
+    background: #eff6ff;
   }
   :global([data-theme="dark"]) .hero { background: var(--c24-bg); }
 
@@ -272,10 +272,10 @@ const wordsJson = JSON.stringify(Array.from(t.words));
   }
   :global([data-theme="dark"]) .hero::before {
     background:
-      radial-gradient(ellipse 28% 55% at 70% 50%, rgba(69,191,162,0.32) 0%, rgba(69,191,162,0.08) 52%, transparent 74%),
+      radial-gradient(ellipse 28% 55% at 70% 50%, rgba(106,181,171,0.16) 0%, rgba(106,181,171,0.04) 52%, transparent 74%),
       radial-gradient(ellipse 62% 88% at 70% 50%, rgba(0,60,91,0.22) 0%, transparent 80%),
-      radial-gradient(ellipse 38% 18% at 70% 84%, rgba(69,191,162,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 18% 22% at 70% 17%, rgba(69,191,162,0.14) 0%, transparent 65%);
+      radial-gradient(ellipse 38% 18% at 70% 84%, rgba(106,181,171,0.09) 0%, transparent 70%),
+      radial-gradient(ellipse 18% 22% at 70% 17%, rgba(106,181,171,0.07) 0%, transparent 65%);
   }
   @keyframes glowPulse {
     0%, 100% { opacity: 1; }
@@ -629,6 +629,19 @@ const wordsJson = JSON.stringify(Array.from(t.words));
     .bbuilding-img { height: 200px; }
     .bcard { height: 72px; }
     .bcard-val { font-size: 0.95rem; }
+  }
+
+  /* Extra-small screens: scale down bstage to prevent overflow */
+  @media (max-width: 385px) {
+    .bstage { height: 220px; }
+    .bcol--left  { flex: 0 0 102px; margin-right: 24px; }
+    .bcol--right { flex: 0 0 86px; margin-left: 20px; }
+    .bbuilding { flex: 0 0 64px; }
+    .bbuilding-img { height: 168px; }
+    .bcard { height: 60px; border-radius: 8px; }
+    .bcard-val { font-size: 0.82rem; }
+    .bcard-desc { font-size: 0.5rem; }
+    .bcard-label { font-size: 0.52rem; }
   }
 </style>
 

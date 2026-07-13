@@ -73,11 +73,6 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     <div class="como-header reveal">
       <span class="eyebrow">{t.eyebrow}</span>
       <h2>{t.title1}<br/><em>{t.title2}</em></h2>
-      <div class="product-logos">
-        <img src="/ConnectIA.svg"              alt="connectIA"    class="product-logo" />
-        <img src="/CoolProtect_SoloEscudo.svg" alt="COOL Protect" class="product-logo" />
-        <img src="/HomeProtect_SoloEscudo.svg" alt="Protect"      class="product-logo" />
-      </div>
       <p class="section-desc" set:html={t.desc} />
     </div>
 
@@ -94,7 +89,6 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
 
         <div class="h-conn h-conn--teal">
           <div class="conn-bar"><div class="conn-particle"></div></div>
-          <span class="conn-arrow">→</span>
         </div>
 
         <div class="step step--2">
@@ -105,7 +99,6 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
 
         <div class="h-conn h-conn--teal">
           <div class="conn-bar"><div class="conn-particle"></div></div>
-          <span class="conn-arrow">→</span>
         </div>
 
         <div class="step step--3">
@@ -117,17 +110,14 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
         <!-- ── Row 2: Vertical connectors ── -->
         <div class="vert-conn">
           <div class="vert-bar"><div class="vert-particle"></div></div>
-          <span class="vert-arrow">↓</span>
         </div>
         <div></div>
         <div class="vert-conn">
           <div class="vert-bar"><div class="vert-particle"></div></div>
-          <span class="vert-arrow">↓</span>
         </div>
         <div></div>
         <div class="vert-conn">
           <div class="vert-bar"><div class="vert-particle"></div></div>
-          <span class="vert-arrow">↓</span>
         </div>
 
         <!-- ── Row 3: Flow elements ── -->
@@ -157,7 +147,6 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
 
         <div class="h-conn h-conn--red">
           <div class="conn-bar"><div class="conn-particle"></div></div>
-          <span class="conn-arrow">→</span>
         </div>
 
         <div class="flow-center">
@@ -175,7 +164,6 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
 
         <div class="h-conn h-conn--green">
           <div class="conn-bar"><div class="conn-particle"></div></div>
-          <span class="conn-arrow">→</span>
         </div>
 
         <div class="flow-result">
@@ -223,17 +211,9 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
   .como-header h2 { margin-bottom: 1rem; }
   .como-header h2 em { font-style: italic; color: var(--c24-teal); }
 
-  .product-logos {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .product-logo {
-    height: 72px;
-    width: auto;
-    object-fit: contain;
+  /* Dark mode: ConnectIA logo becomes white */
+  :global([data-theme="dark"]) .c24-logo {
+    filter: brightness(0) invert(1);
   }
 
   /* ── Outer card ── */
@@ -305,10 +285,10 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
   .h-conn {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
     min-width: 70px;
     align-self: center;
     justify-self: stretch;
+    position: relative;
   }
 
   .conn-bar {
@@ -317,11 +297,28 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     border-radius: 3px;
     position: relative;
     overflow: hidden;
+    margin-right: 7px; /* room for arrowhead */
+  }
+
+  /* Arrowhead as a single CSS triangle on the connector */
+  .h-conn::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
   }
 
   .h-conn--teal .conn-bar  { background: rgba(69,191,162,0.18); }
   .h-conn--red .conn-bar   { background: rgba(239,68,68,0.18); }
   .h-conn--green .conn-bar { background: rgba(69,191,162,0.18); }
+
+  .h-conn--teal::after  { border-left: 8px solid rgba(69,191,162,0.55); }
+  .h-conn--red::after   { border-left: 8px solid #EF4444; }
+  .h-conn--green::after { border-left: 8px solid var(--c24-teal); }
 
   .conn-particle {
     position: absolute;
@@ -348,19 +345,15 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     to   { left: 110%; }
   }
 
-  .conn-arrow { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
-  .h-conn--teal .conn-arrow  { color: var(--c24-teal); opacity: 0.5; }
-  .h-conn--red .conn-arrow   { color: #EF4444; }
-  .h-conn--green .conn-arrow { color: var(--c24-teal); }
 
   /* ── Vertical connectors (row 2) ── */
   .vert-conn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
     justify-self: center;
     align-self: center;
+    position: relative;
   }
 
   .vert-bar {
@@ -369,6 +362,7 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     background: rgba(69,191,162,0.18);
     position: relative;
     overflow: hidden;
+    margin-bottom: 6px; /* room for arrowhead */
   }
 
   .vert-particle {
@@ -385,11 +379,17 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     to   { top: 110%; }
   }
 
-  .vert-arrow {
-    font-size: 0.9rem;
-    color: var(--c24-teal);
-    opacity: 0.5;
-    line-height: 1;
+  /* Downward arrowhead as CSS triangle */
+  .vert-conn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid rgba(69,191,162,0.55);
   }
 
   /* ── Protocol cycling card (row 3, col 1) ── */
@@ -574,6 +574,7 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     position: relative;
     display: flex; align-items: center; justify-content: center;
     width: 52px; height: 52px;
+    margin-bottom: 1.75rem;
   }
 
   .ripple {
@@ -653,16 +654,54 @@ const CYCLE_DURATION = protocols.length * CARD_DURATION;
     .unified-grid {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
     }
-    .h-conn, .vert-conn { display: none; }
-    .flow-sources { width: 100%; max-width: 100%; height: 118px; }
+    /* Ocultar conectores horizontales entre pasos y conectores verticales */
+    .h-conn--teal, .vert-conn { display: none; }
+    /* Eliminar divs vacíos del flujo flex (causan gaps extra) */
+    .unified-grid > div:empty { display: none; }
+
+    /* Convertir conectores de flujo horizontal en indicadores verticales */
+    .h-conn--red,
+    .h-conn--green {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: unset;
+      align-self: center;
+      height: 2.5rem;
+      gap: 0.2rem;
+    }
+    .h-conn--red .conn-bar,
+    .h-conn--green .conn-bar {
+      width: 2px;
+      height: 1.5rem;
+      flex: none;
+    }
+    .h-conn--red .conn-arrow,
+    .h-conn--green .conn-arrow {
+      transform: rotate(90deg);
+    }
+
+    /* Separación visual entre pasos y demo de flujo */
+    .flow-sources {
+      width: 100%;
+      max-width: 100%;
+      height: 118px;
+      margin-top: 1.25rem;
+    }
     .flow-center, .flow-result { justify-self: unset; }
-    .processor-card, .result-card { width: 100%; align-items: flex-start; }
+    .processor-card { width: 100%; align-items: center; }
+    .result-card { width: 100%; align-items: center; }
+    .step { padding: 1.5rem; }
   }
 
   @media (max-width: 640px) {
     .como { padding: 5rem 1.5rem; }
     .flow-section { padding: 1.5rem; }
+    .product-logo { height: 52px; }
+    .product-logos { gap: 1.25rem; }
+    .processor-card { gap: 0.625rem; }
+    .c24-logo { height: 48px; }
   }
 </style>

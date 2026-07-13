@@ -1,16 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Nav from '../../components/Nav.astro';
-import ProximamentePage from '../../components/ProximamentePage.astro';
-import Footer from '../../components/Footer.astro';
+import CoolProtectPage from '../../components/CoolProtectPage.astro';
 import { es } from '../../i18n/es';
 ---
-<Layout title="Cool Protect — Connect24">
-  <Nav t={es.nav} lang="es" />
-  <ProximamentePage
-    title="Cool Protect"
-    desc="Control automático de cámaras frigoríficas, murales y equipos de frío. APPCC cumplido sin intervención humana."
-    back="/"
-  />
-  <Footer t={es.footer} />
-</Layout>
+<CoolProtectPage t={es} lang="es" />

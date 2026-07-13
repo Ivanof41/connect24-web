@@ -1,0 +1,940 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const tcp = t.coolprotect;
+---
+<Layout title={tcp.page_title} description={tcp.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="cp-hero">
+    <div class="cp-hero-inner">
+
+      <div class="cp-hero-content">
+        <div class="cp-sectors">
+          {tcp.hero_sectors.map((s: string) => <span>{s}</span>)}
+        </div>
+
+        <h1 class="cp-hero-title">
+          <span class="cp-ht-normal">{tcp.hero_title1}</span>
+          <span class="cp-ht-accent">{tcp.hero_title2}</span>
+        </h1>
+
+        <p class="cp-hero-sub" set:html={tcp.hero_sub} />
+        <p class="cp-hero-tagline">
+          <span class="cp-flake">✳</span>
+          {tcp.hero_tagline_pre} <strong>{tcp.hero_tagline_measure}</strong>{tcp.hero_tagline_mid} <strong class="accent">{tcp.hero_tagline_understand}</strong>.
+        </p>
+
+        <div class="cp-hero-actions">
+          <a href="#precios" class="btn btn-primary">{tcp.hero_btn_plans}</a>
+          <a href="#como-funciona" class="btn btn-ghost">{tcp.hero_btn_how}</a>
+        </div>
+      </div>
+
+      <div class="cp-hero-visual" aria-hidden="true">
+        <div class="cp-stage">
+          <svg class="cp-conn" viewBox="0 0 640 340" preserveAspectRatio="none">
+            <path class="cp-cl cp-cl1" d="M175,85 Q260,85 308,170"  fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <path class="cp-cl cp-cl2" d="M175,255 Q260,255 308,170" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <path class="cp-cl cp-cl3" d="M465,85 Q380,85 332,170"  fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <path class="cp-cl cp-cl4" d="M465,255 Q380,255 332,170" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6 6"/>
+          </svg>
+
+          <div class="cp-cards-col cp-cards-left">
+            <div class="cp-tcard cp-tcard--warn">
+              <div class="cp-tc-top">
+                <span class="cp-tc-loc">{tcp.hero_c1_loc}</span>
+                <span class="cp-tc-status cp-ts-warn">● {tcp.dash_warning}</span>
+              </div>
+              <div class="cp-tc-temp">−15.9<span>ºC</span></div>
+              <div class="cp-tc-name">{tcp.hero_c1_name}</div>
+              <div class="cp-tc-hum">💧 67 %HR</div>
+            </div>
+            <div class="cp-tcard cp-tcard--ok">
+              <div class="cp-tc-top">
+                <span class="cp-tc-loc">{tcp.hero_c2_loc}</span>
+                <span class="cp-tc-status cp-ts-ok">● {tcp.dash_ok}</span>
+              </div>
+              <div class="cp-tc-temp">4.8<span>ºC</span></div>
+              <div class="cp-tc-name">{tcp.hero_c2_name}</div>
+              <div class="cp-tc-hum">💧 84 %HR</div>
+            </div>
+          </div>
+
+          <div class="cp-badge-center">
+            <img src="/CoolProtect.svg" alt="Cool Protect" class="cp-shield-hero" />
+          </div>
+
+          <div class="cp-cards-col cp-cards-right">
+            <div class="cp-tcard cp-tcard--crit">
+              <div class="cp-tc-top">
+                <span class="cp-tc-loc">{tcp.hero_c3_loc}</span>
+                <span class="cp-tc-status cp-ts-crit">● {tcp.dash_critical}</span>
+              </div>
+              <div class="cp-tc-temp">+12.1<span>ºC</span></div>
+              <div class="cp-tc-name">{tcp.hero_c3_name}</div>
+              <div class="cp-tc-hum">💧 71 %HR</div>
+            </div>
+            <div class="cp-tcard cp-tcard--ok">
+              <div class="cp-tc-top">
+                <span class="cp-tc-loc">{tcp.hero_c4_loc}</span>
+                <span class="cp-tc-status cp-ts-ok">● {tcp.dash_ok}</span>
+              </div>
+              <div class="cp-tc-temp">2.3<span>ºC</span></div>
+              <div class="cp-tc-name">{tcp.hero_c4_name}</div>
+              <div class="cp-tc-hum">💧 79 %HR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FEATURES
+  ═══════════════════════════════════════════════ -->
+  <section class="cp-features" id="como-funciona">
+    <div class="container cp-features-inner">
+
+      <div class="cp-features-left reveal">
+        <span class="eyebrow">{tcp.feat_eyebrow}</span>
+        <h2>{tcp.feat_title1}<br/>{tcp.feat_title2}</h2>
+        <p class="section-desc" set:html={tcp.feat_desc} />
+        <p class="cp-features-detail" set:html={tcp.feat_detail} />
+
+        <ul class="cp-checklist">
+          {tcp.feat_items.map((item: string) => (
+            <li><span class="cp-check">✓</span>{item}</li>
+          ))}
+        </ul>
+        <p class="cp-footnote">{tcp.feat_footnote}</p>
+      </div>
+
+      <div class="cp-features-right reveal reveal-delay-2">
+        <div class="cp-dashboard" data-expand={tcp.dash_expand}>
+          <div class="cp-dash-card cp-dash-warning">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c1_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c1_name}</span>
+              <span class="cp-dash-status cp-status-warning">● {tcp.dash_warning}</span>
+            </div>
+            <div class="cp-dash-temp">−15.9<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-warn" style="left:10%;width:35%"></div></div>
+              <div class="cp-bar-labels"><span>−22</span><span>VR −22/−18</span><span>−18</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>−16.4</strong></span>
+              <span>{tcp.dash_med} <strong>−15.7</strong></span>
+              <span>{tcp.dash_max} <strong>−14.9</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 67 %HR</div>
+          </div>
+
+          <div class="cp-dash-card cp-dash-ok">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c2_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c2_name}</span>
+              <span class="cp-dash-status cp-status-ok">● {tcp.dash_ok}</span>
+            </div>
+            <div class="cp-dash-temp">4.8<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-ok" style="left:38%;width:28%"></div></div>
+              <div class="cp-bar-labels"><span>0</span><span>VR 0/5</span><span>5</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>4.2</strong></span>
+              <span>{tcp.dash_med} <strong>4.7</strong></span>
+              <span>{tcp.dash_max} <strong>5.1</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 84 %HR</div>
+          </div>
+
+          <div class="cp-dash-card cp-dash-ok">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c3_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c3_name}</span>
+              <span class="cp-dash-status cp-status-ok">● {tcp.dash_ok}</span>
+            </div>
+            <div class="cp-dash-temp">13.5<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-ok" style="left:28%;width:36%"></div></div>
+              <div class="cp-bar-labels"><span>10</span><span>VR 10/18</span><span>18</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>12.9</strong></span>
+              <span>{tcp.dash_med} <strong>13.4</strong></span>
+              <span>{tcp.dash_max} <strong>14.1</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 55 %HR</div>
+          </div>
+
+          <div class="cp-dash-card cp-dash-warning">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c4_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c4_name}</span>
+              <span class="cp-dash-status cp-status-warning">● {tcp.dash_warning}</span>
+            </div>
+            <div class="cp-dash-temp">8.5<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-warn" style="left:72%;width:20%"></div></div>
+              <div class="cp-bar-labels"><span>0</span><span>VR 0/8</span><span>8</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>7.8</strong></span>
+              <span>{tcp.dash_med} <strong>8.1</strong></span>
+              <span>{tcp.dash_max} <strong>8.7</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 98 %HR</div>
+          </div>
+
+          <div class="cp-dash-card cp-dash-ok">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c5_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c5_name}</span>
+              <span class="cp-dash-status cp-status-ok">● {tcp.dash_ok}</span>
+            </div>
+            <div class="cp-dash-temp">8.3<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-ok" style="left:30%;width:30%"></div></div>
+              <div class="cp-bar-labels"><span>0</span><span>VR 0/10</span><span>10</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>7.6</strong></span>
+              <span>{tcp.dash_med} <strong>8.2</strong></span>
+              <span>{tcp.dash_max} <strong>8.9</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 62 %HR</div>
+          </div>
+
+          <div class="cp-dash-card cp-dash-critical">
+            <div class="cp-dash-header">
+              <span class="cp-dash-loc">{tcp.dash_c6_loc}</span>
+              <span class="cp-dash-name">{tcp.dash_c6_name}</span>
+              <span class="cp-dash-status cp-status-critical">● {tcp.dash_critical}</span>
+            </div>
+            <div class="cp-dash-temp">19.2<span>ºC</span></div>
+            <div class="cp-dash-bar">
+              <div class="cp-bar-track"><div class="cp-bar-fill cp-bar-crit" style="left:60%;width:40%"></div></div>
+              <div class="cp-bar-labels"><span>10</span><span>VR 10/16</span><span>16</span></div>
+            </div>
+            <div class="cp-dash-row">
+              <span>{tcp.dash_min} <strong>14.1</strong></span>
+              <span>{tcp.dash_med} <strong>16.5</strong></span>
+              <span>{tcp.dash_max} <strong>19.2</strong></span>
+            </div>
+            <div class="cp-dash-hum">💧 57 %HR</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SENSORES
+  ═══════════════════════════════════════════════ -->
+  <section class="cp-sensors">
+    <div class="container">
+      <div class="cp-sensors-header reveal">
+        <span class="eyebrow">{tcp.sens_eyebrow}</span>
+        <h2>{tcp.sens_title}</h2>
+        <p class="section-desc" style="margin: 0 auto 3rem;">{tcp.sens_desc}</p>
+      </div>
+
+      <div class="cp-sensors-grid reveal reveal-delay-1">
+        {tcp.sens_names.map((name: string, i: number) => (
+          <div class="cp-sensor-item">
+            <div class={`cp-sensor-card${i === 3 ? ' cp-sensor-card--starter' : ''}`}>
+              <div class="cp-sensor-img-wrap">
+                <img src={i === 3 ? '/sensor_coolprotect_2.png' : '/sensor_coolprotect.png'} alt={name} class={`cp-sensor-img${i === 3 ? ' cp-sensor-img--sm' : ''}`} />
+                <div class="cp-sensor-label-side">{i < 3 ? 'Sensor Mod. LW - PRO' : 'Sensor Mod. BLE - STARTER'}</div>
+              </div>
+            </div>
+            <span class="cp-sensor-name">{name}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="cp-notsolo reveal reveal-delay-2">
+        <div class="cp-notsolo-text">
+          <p class="cp-notsolo-big">
+            {tcp.notsolo_line1}<br/>{tcp.notsolo_line2}<br/><span>{tcp.notsolo_accent}</span>
+          </p>
+          <p class="cp-notsolo-sub" set:html={tcp.notsolo_sub} />
+        </div>
+        <div class="cp-connectia">
+          <img src="/ConnectIA.svg" alt="ConnectIA" class="cp-connectia-img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PRECIOS
+  ═══════════════════════════════════════════════ -->
+  <section class="cp-pricing" id="precios">
+    <div class="container">
+      <div class="cp-pricing-header reveal">
+        <span class="eyebrow">{tcp.pricing_eyebrow}</span>
+        <h2>{tcp.pricing_title1}<br/>{tcp.pricing_title2}</h2>
+        <p class="section-desc" style="margin: 0 auto 3.5rem;">{tcp.pricing_desc}</p>
+      </div>
+
+      <div class="cp-plans reveal reveal-delay-1">
+
+        <div class="cp-plan">
+          <div class="cp-plan-name cp-plan-name--starter">{tcp.plan1_name}</div>
+          <div class="cp-plan-cameras">{tcp.plan1_cameras}</div>
+          <div class="cp-plan-price">
+            <span class="cp-price-from">{tcp.plan_from}</span>
+            <span class="cp-price-val">45€</span>
+            <span class="cp-price-period">{tcp.plan_month}</span>
+          </div>
+          <p class="cp-plan-target">{tcp.plan1_target}</p>
+          <ul class="cp-plan-features">
+            {tcp.plan_feats.slice(0, 3).map((f: string) => <li>{f}</li>)}
+          </ul>
+          <div class="cp-plan-equipment">
+            <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan1_equip}
+          </div>
+          <a href="#contacto" class="btn btn-ghost cp-plan-cta">{tcp.plan1_cta}</a>
+        </div>
+
+        <div class="cp-plan cp-plan--popular">
+          <div class="cp-popular-badge">{tcp.plan_popular}</div>
+          <div class="cp-plan-name cp-plan-name--pro">{tcp.plan2_name}</div>
+          <div class="cp-plan-cameras">{tcp.plan2_cameras}</div>
+          <div class="cp-plan-price">
+            <span class="cp-price-from">{tcp.plan_from}</span>
+            <span class="cp-price-val">65€</span>
+            <span class="cp-price-period">{tcp.plan_month}</span>
+          </div>
+          <p class="cp-plan-target">{tcp.plan2_target}</p>
+          <ul class="cp-plan-features">
+            {tcp.plan_feats.slice(0, 5).map((f: string) => <li>{f}</li>)}
+          </ul>
+          <div class="cp-plan-equipment">
+            <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan2_equip}
+          </div>
+          <a href="#contacto" class="btn btn-primary cp-plan-cta">{tcp.plan2_cta}</a>
+        </div>
+
+        <div class="cp-plan">
+          <div class="cp-plan-name cp-plan-name--opera">{tcp.plan3_name}</div>
+          <div class="cp-plan-cameras">{tcp.plan3_cameras}</div>
+          <div class="cp-plan-price cp-plan-price--consultar">
+            <span class="cp-price-val cp-price-val--consult">{tcp.plan_consult}</span>
+          </div>
+          <p class="cp-plan-target">{tcp.plan3_target}</p>
+          <ul class="cp-plan-features">
+            {tcp.plan_feats.map((f: string) => <li>{f}</li>)}
+          </ul>
+          <div class="cp-plan-equipment">
+            <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan3_equip}
+          </div>
+          <a href="#contacto" class="btn btn-navy cp-plan-cta">{tcp.plan3_cta}</a>
+        </div>
+
+      </div>
+      <p class="cp-pricing-note reveal">{tcp.pricing_note}</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA FINAL
+  ═══════════════════════════════════════════════ -->
+  <section class="cp-cta" id="contacto">
+    <div class="container cp-cta-inner">
+      <div class="cp-cta-text reveal">
+        <h2 class="cp-cta-title">{tcp.cta_title}</h2>
+        <p class="cp-cta-sub">{tcp.cta_sub}</p>
+        <div class="cp-cta-contact">
+          <a href="tel:+34871153883" class="cp-cta-link">+34 871 153 883</a>
+          <span class="cp-cta-sep">|</span>
+          <a href="mailto:info@connect24.io" class="cp-cta-link">info@connect24.io</a>
+        </div>
+        <a href="mailto:info@connect24.io" class="btn btn-white cp-cta-btn">{tcp.cta_btn}</a>
+      </div>
+
+      <div class="cp-cta-badge reveal reveal-delay-2" aria-hidden="true">
+        <img src="/CoolProtect.svg" alt="Cool Protect" class="cp-cta-logo" />
+        <p class="cp-cta-distinction" set:html={tcp.cta_distinction} />
+      </div>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+
+  <!-- Modal dashboard card -->
+  <div id="cp-modal" class="cp-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="cp-modal-box">
+      <div class="cp-modal-body"></div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.cp-hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 9rem 2rem 6rem;
+  background: #f5f8fc;
+  position: relative; overflow: hidden;
+}
+:global([data-theme="dark"]) .cp-hero {
+  background: linear-gradient(135deg, #080F18 0%, #0a1520 55%, #080F18 100%);
+}
+.cp-hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 70% at 75% 50%, rgba(255,255,255,0.85) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 50% at 20% 60%, rgba(69,191,162,0.12) 0%, transparent 65%);
+}
+:global([data-theme="dark"]) .cp-hero::before {
+  background:
+    radial-gradient(ellipse 45% 65% at 75% 50%, rgba(69,191,162,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 50% at 20% 60%, rgba(0,60,91,0.30) 0%, transparent 65%);
+}
+.cp-hero-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.cp-sectors {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+.cp-sectors span {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border-radius: var(--radius-pill);
+  background: rgba(69,191,162,0.12); color: var(--c24-teal-dark);
+  border: 1px solid rgba(69,191,162,0.25);
+}
+.cp-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 1.5rem;
+}
+.cp-ht-normal { display: block; color: var(--c24-navy); }
+:global([data-theme="dark"]) .cp-ht-normal { color: #fff; }
+.cp-ht-accent { display: block; color: var(--c24-teal); }
+.cp-hero-sub {
+  font-size: 1rem; color: var(--c24-text-muted);
+  line-height: 1.8; font-weight: 300; max-width: 440px;
+  margin-bottom: 0.75rem;
+}
+:global(.cp-hero-sub strong) { color: var(--c24-text); font-weight: 600; }
+.cp-hero-tagline {
+  font-size: 0.9rem; color: var(--c24-text-muted);
+  font-weight: 300; margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+}
+.cp-hero-tagline strong { font-weight: 600; }
+.cp-hero-tagline strong.accent { color: var(--c24-teal); }
+.cp-flake { color: var(--c24-teal); font-size: 1rem; }
+.cp-hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.cp-hero-visual { display: flex; justify-content: center; align-items: center; }
+
+/* ── Stage ── */
+.cp-stage {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 340px;
+}
+.cp-cards-left  { margin-right: 45px; }
+.cp-cards-right { margin-left: 45px; }
+
+/* SVG connectors */
+.cp-conn {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; overflow: visible; opacity: 0.55;
+}
+.cp-cl { animation: cpConnFlow 2.4s linear infinite; }
+.cp-cl1 { animation-delay: 0s; }
+.cp-cl2 { animation-delay: 0.35s; }
+.cp-cl3 { animation-delay: 0.18s; }
+.cp-cl4 { animation-delay: 0.52s; }
+:global([data-theme="dark"]) .cp-conn { opacity: 0.8; }
+@keyframes cpConnFlow {
+  from { stroke-dashoffset: 18; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Cards column */
+.cp-cards-col {
+  display: flex; flex-direction: column;
+  gap: 16px; z-index: 1; flex: 0 0 175px;
+}
+
+/* Temperature cards */
+.cp-tcard {
+  background: linear-gradient(150deg, #ffffff 0%, #f4f8fb 100%);
+  border: 1px solid rgba(0,60,91,0.09);
+  border-top: 1px solid rgba(255,255,255,0.95);
+  border-radius: 14px; padding: 12px 14px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.85) inset, 0 4px 8px rgba(0,60,91,0.06), 0 12px 28px rgba(0,60,91,0.10);
+  display: flex; flex-direction: column; gap: 5px;
+}
+:global([data-theme="dark"]) .cp-tcard {
+  background: linear-gradient(150deg, rgba(20,38,58,0.98) 0%, rgba(12,26,42,0.95) 100%);
+  border-color: rgba(69,191,162,0.14);
+  border-top-color: rgba(69,191,162,0.22);
+  box-shadow: 0 1px 0 rgba(69,191,162,0.12) inset, 0 4px 8px rgba(0,0,0,0.20), 0 12px 28px rgba(0,0,0,0.28);
+}
+.cp-tcard--warn { border-left: 3px solid #f59e0b; }
+.cp-tcard--ok   { border-left: 3px solid #10b981; }
+.cp-tcard--crit { border-left: 3px solid #ef4444; }
+
+/* Float animation per card — each independent */
+.cp-cards-left .cp-tcard:nth-child(1)  { animation: cpF1 5.8s ease-in-out infinite; }
+.cp-cards-left .cp-tcard:nth-child(2)  { animation: cpF2 6.4s ease-in-out 1.6s infinite; }
+.cp-cards-right .cp-tcard:nth-child(1) { animation: cpF3 5.2s ease-in-out 0.9s infinite; }
+.cp-cards-right .cp-tcard:nth-child(2) { animation: cpF4 6.8s ease-in-out 2.5s infinite; }
+@keyframes cpF1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes cpF2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes cpF3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes cpF4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+.cp-tc-top { display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+.cp-tc-loc { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-text-muted); }
+.cp-tc-status { font-size: 0.52rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0; }
+.cp-ts-warn { color: #d97706; }
+.cp-ts-ok   { color: #059669; }
+.cp-ts-crit { color: #dc2626; }
+.cp-tc-temp {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--c24-navy); line-height: 1; letter-spacing: -0.03em;
+}
+:global([data-theme="dark"]) .cp-tc-temp { color: #e8f4ff; }
+.cp-tc-temp span { font-size: 0.8rem; font-weight: 400; }
+.cp-tc-name { font-size: 0.62rem; color: var(--c24-text-muted); line-height: 1.3; }
+.cp-tc-hum  { font-size: 0.6rem; color: var(--c24-text-muted); }
+
+/* Logo — estático, centrado */
+.cp-badge-center {
+  flex: 0 0 200px;
+  display: flex; align-items: center; justify-content: center; z-index: 1;
+}
+.cp-shield-hero {
+  width: clamp(160px, 20vw, 220px);
+  filter: drop-shadow(0 8px 32px rgba(69,191,162,0.30)) drop-shadow(0 0 60px rgba(69,191,162,0.12));
+}
+:global([data-theme="dark"]) .cp-shield-hero {
+  filter: drop-shadow(0 8px 32px rgba(69,191,162,0.50)) drop-shadow(0 0 60px rgba(69,191,162,0.22));
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURES
+═══════════════════════════════════════════════ */
+.cp-features { padding: 7rem 2rem; background: #ffffff; }
+:global([data-theme="dark"]) .cp-features { background: var(--c24-bg); }
+.cp-features-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+.cp-features-detail {
+  font-size: 0.92rem; color: var(--c24-text-muted);
+  line-height: 1.75; font-weight: 300; margin-bottom: 2rem;
+}
+:global(.cp-features-detail strong) { color: var(--c24-text); font-weight: 600; }
+.cp-checklist {
+  list-style: none; display: flex;
+  flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;
+}
+.cp-checklist li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.95rem; color: var(--c24-text); line-height: 1.4;
+}
+.cp-check {
+  flex-shrink: 0; width: 1.25rem; height: 1.25rem;
+  background: var(--c24-teal); color: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 800; margin-top: 0.1rem;
+}
+.cp-footnote {
+  font-size: 0.75rem; color: var(--c24-text-muted);
+  font-style: italic; margin-top: 0.5rem;
+}
+
+/* Dashboard — push right column slightly right */
+.cp-features-right { padding-left: 1.5rem; }
+
+.cp-dashboard {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.75rem; overflow: visible;
+}
+.cp-dash-card {
+  border-radius: var(--radius-md); padding: 0.9rem 1rem;
+  background: white; border: 1px solid rgba(0,60,120,0.10);
+  box-shadow: 0 2px 12px rgba(0,60,120,0.08), 0 1px 3px rgba(0,60,120,0.05);
+  text-align: center;
+  position: relative; z-index: 1;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s, z-index 0s 0.3s;
+  cursor: default;
+}
+:global([data-theme="dark"]) .cp-dash-card { background: var(--c24-surface); }
+.cp-dash-card:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s, z-index 0s 0s;
+  box-shadow: var(--shadow-md), 0 0 0 2px rgba(69,191,162,0.18);
+}
+.cp-dash-warning { border-top: 3px solid #f59e0b; }
+.cp-dash-ok      { border-top: 3px solid #10b981; }
+.cp-dash-critical{ border-top: 3px solid #ef4444; }
+.cp-dash-header {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px; margin-bottom: 0.5rem;
+}
+.cp-dash-loc {
+  font-size: 0.56rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-text-muted);
+}
+.cp-dash-name { font-size: 0.65rem; font-weight: 600; color: var(--c24-text); line-height: 1.2; }
+.cp-dash-status { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.cp-status-warning { color: #d97706; }
+.cp-status-ok      { color: #059669; }
+.cp-status-critical{ color: #dc2626; }
+.cp-dash-temp {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.5rem; font-weight: 700; color: var(--c24-navy);
+  line-height: 1; letter-spacing: -0.03em; margin-bottom: 0.5rem;
+}
+:global([data-theme="dark"]) .cp-dash-temp { color: #e8f4ff; }
+.cp-dash-temp span { font-size: 0.85rem; font-weight: 400; }
+.cp-dash-bar { margin-bottom: 0.4rem; }
+.cp-bar-track {
+  position: relative; height: 4px;
+  background: var(--c24-border); border-radius: 2px; margin-bottom: 3px;
+}
+.cp-bar-fill { position: absolute; top: 0; height: 100%; border-radius: 2px; }
+.cp-bar-ok   { background: #10b981; }
+.cp-bar-warn { background: #f59e0b; }
+.cp-bar-crit { background: #ef4444; }
+.cp-bar-labels { display: flex; justify-content: space-between; font-size: 0.5rem; color: var(--c24-text-muted); }
+.cp-dash-row {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.55rem; color: var(--c24-text-muted); margin-bottom: 0.3rem;
+}
+:global(.cp-dash-row strong) { color: var(--c24-text); }
+.cp-dash-hum { font-size: 0.58rem; color: var(--c24-text-muted); }
+
+/* ═══════════════════════════════════════════════
+   SENSORES
+═══════════════════════════════════════════════ */
+.cp-sensors { padding: 7rem 2rem; background: #f5f8fc; }
+:global([data-theme="dark"]) .cp-sensors { background: var(--c24-surface); }
+.cp-sensors-header { text-align: center; }
+.cp-sensors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 4rem; }
+.cp-sensor-item { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.cp-sensor-card {
+  width: 100%; aspect-ratio: 4/5;
+  background: #ffffff;
+  border: 1px solid rgba(0,60,120,0.10);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 16px rgba(0,60,120,0.07), 0 1px 4px rgba(0,60,120,0.04);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+:global([data-theme="dark"]) .cp-sensor-card {
+  background: linear-gradient(160deg, #0e2030 0%, #0a1825 100%);
+  border-color: rgba(69,191,162,0.15);
+}
+.cp-sensor-card:hover { transform: translateY(-4px); box-shadow: 0 8px 40px rgba(0,60,120,0.12); }
+.cp-sensor-card--starter { background: #f5fffe; border-color: rgba(69,191,162,0.2); }
+.cp-sensor-img-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem 0.75rem; }
+.cp-sensor-img { width: 90%; max-width: 180px; filter: drop-shadow(0 4px 12px rgba(69,191,162,0.3)); }
+.cp-sensor-img--sm { width: 78%; max-width: 150px; }
+.cp-sensor-label-side {
+  font-size: 0.55rem; font-weight: 600; color: var(--c24-text-muted);
+  letter-spacing: 0.08em; text-transform: uppercase; text-align: center;
+}
+.cp-sensor-name { font-size: 0.9rem; font-weight: 700; color: var(--c24-text); text-align: center; }
+
+/* Not just measure */
+.cp-notsolo {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 3rem; align-items: center;
+  background: var(--c24-navy); border-radius: var(--radius-lg);
+  padding: 3rem 3.5rem;
+}
+:global([data-theme="dark"]) .cp-notsolo {
+  background: linear-gradient(135deg, #0d2035 0%, #091520 100%);
+  border: 1px solid rgba(69,191,162,0.18);
+}
+.cp-notsolo-big {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700; line-height: 1.15; color: white; margin-bottom: 1rem;
+}
+.cp-notsolo-big span { color: var(--c24-teal); }
+.cp-notsolo-sub { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.7; font-weight: 300; max-width: 380px; }
+:global(.cp-notsolo-sub strong) { color: var(--c24-teal); font-weight: 600; }
+.cp-connectia { flex-shrink: 0; }
+.cp-connectia-img {
+  width: clamp(100px, 14vw, 160px);
+  filter: brightness(0) invert(1) drop-shadow(0 0 24px rgba(69,191,162,0.5));
+}
+
+/* ═══════════════════════════════════════════════
+   PRECIOS
+═══════════════════════════════════════════════ */
+.cp-pricing { padding: 7rem 2rem; background: #ffffff; }
+:global([data-theme="dark"]) .cp-pricing { background: var(--c24-bg); }
+.cp-pricing-header { text-align: center; }
+.cp-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch; }
+.cp-plan {
+  border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem; background: var(--c24-surface);
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative; transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.cp-plan:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.cp-plan--popular {
+  border-color: var(--c24-teal); background: white;
+  box-shadow: 0 4px 32px rgba(69,191,162,0.15);
+}
+:global([data-theme="dark"]) .cp-plan--popular { background: var(--c24-surface); box-shadow: 0 4px 32px rgba(69,191,162,0.2); }
+.cp-popular-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--c24-teal); color: white;
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.25rem 0.9rem; border-radius: var(--radius-pill); white-space: nowrap;
+}
+.cp-plan-name { font-family: var(--font-body); font-size: 1.1rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.cp-plan-name--starter { color: #10b981; }
+.cp-plan-name--pro     { color: var(--c24-teal); }
+.cp-plan-name--opera   { color: #f59e0b; }
+.cp-plan-cameras { font-size: 0.85rem; color: var(--c24-text-muted); }
+.cp-plan-price { display: flex; align-items: baseline; gap: 0.2rem; padding: 0.5rem 0; }
+.cp-price-from { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; color: var(--c24-text-muted); text-transform: uppercase; align-self: flex-start; margin-top: 0.4rem; }
+.cp-price-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--c24-navy); line-height: 1; letter-spacing: -0.04em; }
+:global([data-theme="dark"]) .cp-price-val { color: var(--c24-text); }
+.cp-price-val--consult { font-size: 1.4rem; font-weight: 700; color: var(--c24-text-muted); letter-spacing: 0; align-self: center; }
+.cp-price-period { font-size: 0.85rem; font-weight: 600; color: var(--c24-text-muted); align-self: flex-end; padding-bottom: 0.35rem; }
+.cp-plan-price--consultar { padding: 0.75rem 0; }
+.cp-plan-target { font-size: 0.83rem; color: var(--c24-text-muted); line-height: 1.5; font-weight: 300; }
+.cp-plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.cp-plan-features li { font-size: 0.85rem; color: var(--c24-text); }
+.cp-plan-equipment {
+  font-size: 0.72rem; color: var(--c24-text-muted); line-height: 1.5;
+  padding: 0.75rem; background: var(--c24-bg); border-radius: var(--radius-sm); border: 1px solid var(--c24-border);
+}
+:global(.cp-plan-equipment strong) { color: var(--c24-text); }
+.cp-plan-cta { width: 100%; justify-content: center; margin-top: auto; }
+.cp-pricing-note { text-align: center; font-size: 0.82rem; color: var(--c24-text-muted); margin-top: 2rem; font-style: italic; }
+
+/* ═══════════════════════════════════════════════
+   CTA FINAL
+═══════════════════════════════════════════════ */
+.cp-cta { background: var(--c24-navy); padding: 7rem 2rem; }
+:global([data-theme="dark"]) .cp-cta { background: #0a1520; }
+.cp-cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.cp-cta-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: white; line-height: 1.15; margin-bottom: 0.5rem; }
+.cp-cta-sub { font-size: 1.1rem; color: rgba(255,255,255,0.6); font-weight: 300; margin-bottom: 1.75rem; }
+.cp-cta-contact { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.cp-cta-link { color: var(--c24-teal); font-size: 0.95rem; font-weight: 500; transition: opacity 0.2s; }
+.cp-cta-link:hover { opacity: 0.8; }
+.cp-cta-sep { color: rgba(255,255,255,0.3); }
+.cp-cta-badge {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.5rem;
+}
+.cp-cta-logo {
+  width: clamp(180px, 18vw, 240px);
+  animation: cpFloat 7s ease-in-out infinite;
+  filter:
+    drop-shadow(0 8px 0px rgba(0,20,60,0.25))
+    drop-shadow(0 16px 32px rgba(0,20,60,0.35))
+    drop-shadow(0 0 60px rgba(69,191,162,0.25));
+}
+.cp-cta-distinction {
+  font-size: 0.95rem; color: rgba(255,255,255,0.75);
+  text-align: center; line-height: 1.6;
+  max-width: 280px;
+}
+:global(.cp-cta-distinction strong) { color: white; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .cp-hero-inner        { grid-template-columns: 1fr; gap: 3rem; }
+  .cp-hero-visual       { justify-content: flex-start; }
+  .cp-features-inner    { grid-template-columns: 1fr; gap: 3rem; }
+  .cp-sensors-grid      { grid-template-columns: repeat(2, 1fr); }
+  .cp-plans             { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+  .cp-cta-inner         { grid-template-columns: 1fr; }
+  .cp-cta-badge         { justify-content: center; }
+  .cp-notsolo           { grid-template-columns: 1fr; gap: 2rem; }
+  .cp-stage             { height: 300px; }
+  .cp-cards-col         { flex: 0 0 150px; gap: 12px; }
+  .cp-cards-left        { margin-right: 30px; }
+  .cp-cards-right       { margin-left: 30px; }
+  .cp-badge-center      { flex: 0 0 170px; }
+  .cp-shield-hero       { width: 160px; }
+  .cp-tc-temp           { font-size: 1.4rem; }
+}
+@media (max-width: 640px) {
+  .cp-hero              { padding: 8rem 1.5rem 4rem; }
+  .cp-dashboard         { grid-template-columns: 1fr; }
+  .cp-sensors-grid      { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .cp-notsolo           { padding: 2rem 1.5rem; }
+  .cp-cta               { padding: 5rem 1.5rem; }
+  .cp-cta-circle        { width: 240px; padding: 1.5rem; }
+  .cp-cta-shield        { width: 64px; }
+  .cp-cta-logo          { width: 100px; }
+  .cp-stage             { height: 260px; }
+  .cp-cards-col         { flex: 0 0 118px; gap: 10px; }
+  .cp-cards-left        { margin-right: 20px; }
+  .cp-cards-right       { margin-left: 20px; }
+  .cp-badge-center      { flex: 0 0 140px; }
+  .cp-shield-hero       { width: 128px; }
+  .cp-tc-temp           { font-size: 1.2rem; }
+  .cp-tc-name           { display: none; }
+}
+@media (max-width: 420px) {
+  .cp-stage             { height: 220px; }
+  .cp-cards-col         { flex: 0 0 98px; gap: 8px; }
+  .cp-cards-left        { margin-right: 14px; }
+  .cp-cards-right       { margin-left: 14px; }
+  .cp-badge-center      { flex: 0 0 116px; }
+  .cp-shield-hero       { width: 106px; }
+  .cp-tc-temp           { font-size: 1rem; }
+  .cp-tc-hum            { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   MODAL DASHBOARD
+═══════════════════════════════════════════════ */
+.cp-modal-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0, 20, 40, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.cp-modal-overlay.is-open {
+  opacity: 1; pointer-events: all;
+}
+.cp-modal-box {
+  position: relative;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  width: 100%; max-width: 440px;
+  box-shadow: 0 24px 80px rgba(0,20,40,0.35);
+  transform: scale(0.92) translateY(16px);
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+:global([data-theme="dark"]) .cp-modal-box {
+  background: var(--c24-surface);
+  border: 1px solid var(--c24-border);
+}
+.cp-modal-overlay.is-open .cp-modal-box {
+  transform: scale(1) translateY(0);
+}
+.cp-modal-body { padding: 2.5rem 2.5rem 3rem; }
+
+/* Hint ampliar */
+.cp-dash-card { cursor: pointer; }
+.cp-dash-expand {
+  display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+  margin-top: 0.6rem;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: white; background: var(--c24-teal);
+  border-radius: 20px; padding: 0.25rem 0.7rem;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.15s;
+  pointer-events: none; user-select: none;
+}
+.cp-dash-card:hover .cp-dash-expand {
+  opacity: 1; transform: scale(1.05);
+}
+.cp-modal-body .cp-dash-expand { display: none; }
+
+/* Card inside modal — override small-grid sizing */
+.cp-modal-body .cp-dash-card {
+  transform: none !important;
+  box-shadow: none !important;
+  border: none; border-radius: 0;
+  padding: 0; cursor: default;
+  width: 100%; text-align: center;
+}
+.cp-modal-body .cp-dash-card::after { display: none; }
+.cp-modal-body .cp-dash-loc   { font-size: 0.72rem; }
+.cp-modal-body .cp-dash-name  { font-size: 0.9rem; }
+.cp-modal-body .cp-dash-status{ font-size: 0.75rem; }
+.cp-modal-body .cp-dash-temp  { font-size: 3rem; margin-bottom: 1rem; }
+.cp-modal-body .cp-dash-temp span { font-size: 1.2rem; }
+.cp-modal-body .cp-bar-track  { height: 7px; border-radius: 4px; margin-bottom: 6px; }
+.cp-modal-body .cp-bar-labels { font-size: 0.7rem; }
+.cp-modal-body .cp-dash-row   { font-size: 0.78rem; gap: 1.5rem; justify-content: center; margin-bottom: 0.6rem; }
+.cp-modal-body .cp-dash-hum   { font-size: 0.85rem; }
+/* Color stripe at top of modal card */
+.cp-modal-body .cp-dash-warning { border-top: 4px solid #f59e0b; padding-top: 0.75rem; }
+.cp-modal-body .cp-dash-ok      { border-top: 4px solid #10b981; padding-top: 0.75rem; }
+.cp-modal-body .cp-dash-critical{ border-top: 4px solid #ef4444; padding-top: 0.75rem; }
+</style>
+
+<script>
+  const overlay = document.getElementById('cp-modal');
+  const body    = overlay?.querySelector('.cp-modal-body');
+
+  function openModal(card: HTMLElement) {
+    if (!overlay || !body) return;
+    body.innerHTML = '';
+    const clone = card.cloneNode(true) as HTMLElement;
+    clone.style.cssText = '';
+    body.appendChild(clone);
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  const expandLabel = document.querySelector<HTMLElement>('.cp-dashboard')?.dataset.expand ?? '↗';
+
+  document.querySelectorAll<HTMLElement>('.cp-dash-card').forEach(card => {
+    const hint = document.createElement('div');
+    hint.className = 'cp-dash-expand';
+    hint.textContent = expandLabel;
+    card.appendChild(hint);
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  overlay?.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>

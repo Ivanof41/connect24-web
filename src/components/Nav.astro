@@ -19,12 +19,23 @@ interface Props {
   lang: string;
 }
 const { t, lang } = Astro.props;
+
+// Calcula la ruta base sin prefijo de idioma para el selector de idiomas
+const rawPath = Astro.url.pathname;
+const basePath = rawPath.replace(/^\/(en|ca|de)(?=\/|$)/, '') || '/';
+const langUrls = {
+  es: basePath,
+  en: `/en${basePath === '/' ? '' : basePath}`,
+  ca: `/ca${basePath === '/' ? '' : basePath}`,
+  de: `/de${basePath === '/' ? '' : basePath}`,
+};
 ---
 
 <nav id="nav">
   <!-- Bloque izquierdo: Logo -->
   <a href="/" class="nav-logo">
-    <img src="/logo.png" alt="Connect24" class="nav-logo-img" />
+    <img src="/Oficial_Horizontal.png" alt="Connect24" class="nav-logo-img nav-logo-light" />
+    <img src="/Oficial_Horizontal_INV.png" alt="Connect24" class="nav-logo-img nav-logo-dark" />
   </a>
 
   <!-- Bloque central: Links (centrado absoluto en el viewport) -->
@@ -124,19 +135,19 @@ const { t, lang } = Astro.props;
         <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
       <div class="lang-menu" id="langMenu">
-        <a href="/" class="lang-option" data-lang="es">
+        <a href={langUrls.es} class="lang-option" data-lang="es">
           <img src="https://flagcdn.com/16x12/es.png" alt="ES" />
           <span>Español</span>
         </a>
-        <a href="/en" class="lang-option" data-lang="en">
+        <a href={langUrls.en} class="lang-option" data-lang="en">
           <img src="https://flagcdn.com/16x12/gb.png" alt="EN" />
           <span>English</span>
         </a>
-        <a href="/ca" class="lang-option" data-lang="ca">
+        <a href={langUrls.ca} class="lang-option" data-lang="ca">
           <span class="senyera"></span>
           <span>Català</span>
         </a>
-        <a href="/de" class="lang-option" data-lang="de">
+        <a href={langUrls.de} class="lang-option" data-lang="de">
           <img src="https://flagcdn.com/16x12/de.png" alt="DE" />
           <span>Deutsch</span>
         </a>
@@ -183,16 +194,16 @@ const { t, lang } = Astro.props;
   <a href="#innovacion" class="mobile-link">{t.innovacion}</a>
   <a href="#empresa" class="mobile-link">{t.empresa}</a>
   <div class="mobile-langs">
-    <a href="/" class="mobile-lang" data-lang="es">
+    <a href={langUrls.es} class="mobile-lang" data-lang="es">
       <img src="https://flagcdn.com/16x12/es.png" alt="ES" /> Español
     </a>
-    <a href="/en" class="mobile-lang" data-lang="en">
+    <a href={langUrls.en} class="mobile-lang" data-lang="en">
       <img src="https://flagcdn.com/16x12/gb.png" alt="EN" /> English
     </a>
-    <a href="/ca" class="mobile-lang" data-lang="ca">
+    <a href={langUrls.ca} class="mobile-lang" data-lang="ca">
       <span class="senyera"></span> Català
     </a>
-    <a href="/de" class="mobile-lang" data-lang="de">
+    <a href={langUrls.de} class="mobile-lang" data-lang="de">
       <img src="https://flagcdn.com/16x12/de.png" alt="DE" /> Deutsch
     </a>
   </div>
@@ -205,34 +216,69 @@ const { t, lang } = Astro.props;
 <style>
   /* ── Nav container ── */
   #nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 68px;
-    padding: 0 8rem;
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100% - 3rem);
+    max-width: 1320px;
+    z-index: 100;
+    height: 64px;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--c24-border);
-    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.75);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.95) inset,
+      0 8px 32px rgba(0,60,91,0.10),
+      0 2px 8px rgba(0,60,91,0.06),
+      0 0 0 1px rgba(0,60,91,0.05);
+    transition: box-shadow 0.3s ease, background 0.25s;
   }
   #nav.scrolled {
-    border-color: var(--c24-border);
-    box-shadow: 0 2px 24px rgba(0,60,91,0.07);
+    background: rgba(255,255,255,0.96);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.95) inset,
+      0 16px 48px rgba(0,60,91,0.15),
+      0 4px 12px rgba(0,60,91,0.08),
+      0 0 0 1px rgba(0,60,91,0.06);
   }
-  :global([data-theme="dark"]) #nav { background: rgba(8,15,24,0.96); }
+  :global([data-theme="dark"]) #nav {
+    background: rgba(8,15,24,0.90);
+    border-color: rgba(255,255,255,0.07);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 8px 32px rgba(0,0,0,0.45),
+      0 2px 8px rgba(0,0,0,0.25),
+      0 0 0 1px rgba(255,255,255,0.03);
+  }
+  :global([data-theme="dark"]) #nav.scrolled {
+    background: rgba(8,15,24,0.97);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 16px 48px rgba(0,0,0,0.55),
+      0 4px 12px rgba(0,0,0,0.30),
+      0 0 0 1px rgba(255,255,255,0.05);
+  }
 
   /* ── Logo ── */
   .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
-  .nav-logo-img { height: 60px; width: auto; transition: filter 0.25s; }
-  :global([data-theme="dark"]) .nav-logo-img { filter: brightness(0) invert(1); }
+  .nav-logo-img { height: 44px; width: auto; }
+  .nav-logo-dark { display: none; }
+  :global([data-theme="dark"]) .nav-logo-light { display: none; }
+  :global([data-theme="dark"]) .nav-logo-dark  { display: block; }
 
   /* ── Center links container ── */
   .nav-links {
     position: absolute;
     left: 50%; top: 0;
-    height: 68px;
+    height: 64px;
     transform: translateX(-50%);
     display: flex; align-items: center;
     gap: 2.5rem;
@@ -501,11 +547,12 @@ const { t, lang } = Astro.props;
   /* ── Mobile nav ── */
   .mobile-nav {
     display: none; flex-direction: column;
-    position: fixed; top: 68px; left: 0; right: 0;
+    position: fixed; top: 88px; left: 1rem; right: 1rem;
     background: var(--c24-bg); padding: 1.5rem 2rem; z-index: 99;
-    border-top: 1px solid var(--c24-border);
-    box-shadow: 0 8px 24px rgba(0,60,91,0.08);
-    max-height: calc(100vh - 68px); overflow-y: auto;
+    border: 1px solid var(--c24-border);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,60,91,0.12);
+    max-height: calc(100vh - 100px); overflow-y: auto;
   }
   .mobile-nav.open { display: flex; }
   .mobile-section { margin-bottom: 0.5rem; }
@@ -541,7 +588,13 @@ const { t, lang } = Astro.props;
     .lang-selector { display: none; }
     .theme-toggle { display: none; }
     .nav-burger   { display: flex; }
-    #nav { padding: 0 1.5rem; }
+    #nav { padding: 0 1.5rem; top: 8px; width: calc(100% - 2rem); }
+  }
+
+  @media (max-width: 400px) {
+    #nav { padding: 0 1rem; }
+    .nav-logo-img { height: 50px; }
+    .mobile-nav { padding: 1.25rem 1.25rem; }
   }
 </style>
 

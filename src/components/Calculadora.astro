@@ -258,6 +258,14 @@ const { t } = Astro.props;
     .calc-box { padding: 1.75rem; }
     .calculadora { padding: 5rem 1.5rem; }
   }
+
+  @media (max-width: 480px) {
+    .calc-box { padding: 1.25rem; }
+    .slider-limits span { font-size: 0.62rem; }
+    .vertical-tabs { gap: 0.5rem; }
+    .vtab { padding: 0.55rem 1rem; font-size: 0.82rem; }
+    .calc-result { padding: 1.5rem 1.25rem; }
+  }
 </style>
 
 <script define:vars={{ descHotel: t.desc_hotel, descCam: t.desc_cam, descRes: t.desc_res, resultDesc: t.result_desc }}>

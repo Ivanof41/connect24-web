@@ -6,13 +6,14 @@ interface Props {
     col2_title: string;
     col3_title: string;
     como: string;
-    calculadora: string;
     acceder: string;
     go: string;
     sol1: string;
     sol2: string;
     sol3: string;
-    sol4: string;
+    sol5: string;
+    sol6: string;
+    sol7: string;
     emp1: string;
     emp2: string;
     emp3: string;
@@ -45,7 +46,6 @@ const { t } = Astro.props;
     <div class="footer-col">
       <h4>{t.col1_title}</h4>
       <a href="#como">{t.como}</a>
-      <a href="#calculadora">{t.calculadora}</a>
       <a href="https://panel.connect24.io/es/login" target="_blank" rel="noopener">{t.acceder}</a>
       <a href="https://go.connect24.io" target="_blank" rel="noopener">{t.go}</a>
     </div>
@@ -56,7 +56,9 @@ const { t } = Astro.props;
       <a href="/soluciones/operativa-tecnica">{t.sol1}</a>
       <a href="/soluciones/gestion-energetica">{t.sol2}</a>
       <a href="/soluciones/ciclo-del-agua">{t.sol3}</a>
-      <a href="/soluciones/auditoria-audix">{t.sol4}</a>
+      <a href="/soluciones/cool-protect">{t.sol5}</a>
+      <a href="/soluciones/home-protect">{t.sol6}</a>
+      <a href="/soluciones/gestion-tecnica-hotelera">{t.sol7}</a>
     </div>
 
     <!-- Col 3 -->

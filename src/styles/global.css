@@ -3,9 +3,9 @@
 /* ── TOKENS ── */
 :root {
   --c24-navy:        #003C5B;
-  --c24-teal:        #45BFA2;
-  --c24-teal-dark:   #2DA08A;
-  --c24-teal-light:  #E6F7F4;
+  --c24-teal:        #6AB5AB;
+  --c24-teal-dark:   #4F9A91;
+  --c24-teal-light:  #EDF4F3;
   --c24-text:        #003C5B;
   --c24-text-muted:  #4A6070;
   --c24-bg:          #FFFFFF;
@@ -23,7 +23,7 @@
 
   --shadow-sm:   0 2px 8px rgba(0,60,91,0.06);
   --shadow-md:   0 4px 24px rgba(0,60,91,0.10);
-  --shadow-teal: 0 0 32px rgba(69,191,162,0.3);
+  --shadow-teal: 0 0 32px rgba(106,181,171,0.2);
 
   --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,9 +32,9 @@
 /* ── MODO OSCURO ── */
 [data-theme="dark"] {
   --c24-navy:        #003C5B;
-  --c24-teal:        #45BFA2;
-  --c24-teal-dark:   #2DA08A;
-  --c24-teal-light:  rgba(69,191,162,0.15);
+  --c24-teal:        #6AB5AB;
+  --c24-teal-dark:   #4F9A91;
+  --c24-teal-light:  rgba(106,181,171,0.12);
   --c24-bg:          #080F18;
   --c24-text:        #F0F6FF;
   --c24-text-muted:  #7A98B5;
