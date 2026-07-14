@@ -129,7 +129,7 @@ h3 { font-size: 1.1rem; font-weight: 600; font-family: var(--font-body); }
 }
 
 /* ── LAYOUT ── */
-.container { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 .section-pad { padding: 7rem 2rem; }
 
 /* ── SCROLL REVEAL ── */

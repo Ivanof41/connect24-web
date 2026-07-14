@@ -125,9 +125,7 @@ const N = t.items.length;
 
 .ps-sticky {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100dvh;
+  top: 5rem;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -446,7 +444,9 @@ const N = t.items.length;
 
   function update() {
     const rect     = outer.getBoundingClientRect();
-    const maxScroll = outer.offsetHeight - window.innerHeight;
+    // Basado en la altura real del bloque pegajoso (ya no fuerza 100vh),
+    // así el recorrido de scroll coincide exactamente con lo que dura "pegado".
+    const maxScroll = outer.offsetHeight - sticky.offsetHeight;
     const scrolled  = Math.max(0, -rect.top);
     const p         = Math.min(1, scrolled / maxScroll);
 

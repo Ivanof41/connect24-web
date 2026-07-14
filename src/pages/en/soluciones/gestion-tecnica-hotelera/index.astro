@@ -1,0 +1,17 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { en } from '../../../../i18n/en';
+---
+<Layout title="Hotel Technical Management — Connect24">
+  <Nav t={en.nav} lang="en" />
+  <ProximamentePage
+    title="Hotel Technical Management"
+    desc="Operational automation for hotels, resorts and agritourism. Full control of your technical facilities without manual intervention."
+    back="/en"
+    badge="Coming soon"
+  />
+  <Footer t={en.footer} />
+</Layout>

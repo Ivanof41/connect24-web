@@ -1,0 +1,18 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { ca } from '../../../../i18n/ca';
+---
+<Layout title="Compliment Normatiu — Connect24">
+  <Nav t={ca.nav} lang="ca" />
+  <ProximamentePage
+    title="Compliment Normatiu"
+    desc="Registres automàtics de Legionel·la, APPCC, climatització i totes les normatives aplicables a la teva instal·lació hotelera."
+    back="/ca/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Gestió Tècnica Hotelera"
+    badge="Properament"
+  />
+  <Footer t={ca.footer} />
+</Layout>

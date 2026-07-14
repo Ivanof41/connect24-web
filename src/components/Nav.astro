@@ -11,23 +11,30 @@ interface Props {
     dd_cool_desc: string;
     dd_home_desc: string;
     dd_sub1: string;
+    dd_sub1_desc: string;
     dd_sub2: string;
+    dd_sub2_desc: string;
     dd_sub3: string;
+    dd_sub3_desc: string;
     dd_sub4: string;
-    dd_sub5: string;
+    dd_sub4_desc: string;
   };
   lang: string;
 }
 const { t, lang } = Astro.props;
 
+// Prefijo de idioma para los enlaces internos del nav (p.ej. "/en", "" para es)
+const prefix = lang === 'es' ? '' : `/${lang}`;
+
 // Calcula la ruta base sin prefijo de idioma para el selector de idiomas
 const rawPath = Astro.url.pathname;
 const basePath = rawPath.replace(/^\/(en|ca|de)(?=\/|$)/, '') || '/';
+const localizedPath = basePath === '/' ? '' : basePath;
 const langUrls = {
   es: basePath,
-  en: `/en${basePath === '/' ? '' : basePath}`,
-  ca: `/ca${basePath === '/' ? '' : basePath}`,
-  de: `/de${basePath === '/' ? '' : basePath}`,
+  en: `/en${localizedPath}`,
+  ca: `/ca${localizedPath}`,
+  de: `/de${localizedPath}`,
 };
 ---
 
@@ -54,8 +61,8 @@ const langUrls = {
         <!-- Columna izquierda: categorías -->
         <div class="dd-left">
           <div class="dd-cat dd-cat--hotel" id="catHotel" data-sub="hotel">
-            <div class="dd-cat-icon">
-              <img src="/Icon_Hotel.svg" alt="" class="dd-hotel-icon" />
+            <div class="dd-cat-icon" style="background: transparent;">
+              <img src="/maindhotel_icono.svg" alt="MaindHotel" height="34" style="width: auto; display: block;" />
             </div>
             <div class="dd-cat-text">
               <span class="dd-cat-name">{t.dd_hotel}</span>
@@ -66,7 +73,7 @@ const langUrls = {
             </svg>
           </div>
 
-          <a href="/soluciones/cool-protect" class="dd-cat" id="catCool" data-sub="">
+          <a href={`${prefix}/soluciones/cool-protect`} class="dd-cat" id="catCool" data-sub="">
             <div class="dd-cat-icon" style="background: transparent;">
               <img src="/CoolProtect_SoloEscudo.svg" alt="Cool Protect" height="34" style="width: auto; display: block;" />
             </div>
@@ -76,7 +83,7 @@ const langUrls = {
             </div>
           </a>
 
-          <a href="/soluciones/home-protect" class="dd-cat" id="catHome" data-sub="">
+          <a href={`${prefix}/soluciones/home-protect`} class="dd-cat" id="catHome" data-sub="">
             <div class="dd-cat-icon" style="background: transparent;">
               <img src="/HomeProtect_SoloEscudo.svg" alt="Home Protect" height="34" style="width: auto; display: block;" />
             </div>
@@ -94,26 +101,33 @@ const langUrls = {
         <div class="dd-right hidden" id="ddRight">
           <!-- Sub-items de Hotel -->
           <div class="dd-sub-group" id="subHotel">
-            <span class="dd-sub-label">{t.dd_hotel}</span>
-            <a href="/soluciones/gestion-tecnica-hotelera/cumplimiento-normativo" class="dd-sub-link">
+            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/que-es-mainhotel`} class="dd-sub-link">
               <span class="dd-dot"></span>
-              {t.dd_sub1}
+              <span class="dd-cat-text">
+                <span class="dd-cat-name">{t.dd_sub1}</span>
+                <span class="dd-cat-desc">{t.dd_sub1_desc}</span>
+              </span>
             </a>
-            <a href="/soluciones/gestion-tecnica-hotelera/operativa-tecnica" class="dd-sub-link">
+            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/conecta-360`} class="dd-sub-link">
               <span class="dd-dot"></span>
-              {t.dd_sub2}
+              <span class="dd-cat-text">
+                <span class="dd-cat-name">{t.dd_sub2}</span>
+                <span class="dd-cat-desc">{t.dd_sub2_desc}</span>
+              </span>
             </a>
-            <a href="/soluciones/gestion-tecnica-hotelera/eficiencia-sostenibilidad" class="dd-sub-link">
+            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/inteligencia-operativa`} class="dd-sub-link">
               <span class="dd-dot"></span>
-              {t.dd_sub3}
+              <span class="dd-cat-text">
+                <span class="dd-cat-name">{t.dd_sub3}</span>
+                <span class="dd-cat-desc">{t.dd_sub3_desc}</span>
+              </span>
             </a>
-            <a href="/soluciones/gestion-tecnica-hotelera/integraciones" class="dd-sub-link">
+            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/integraciones`} class="dd-sub-link">
               <span class="dd-dot"></span>
-              {t.dd_sub4}
-            </a>
-            <a href="/soluciones/gestion-tecnica-hotelera/plataforma-iot" class="dd-sub-link">
-              <span class="dd-dot"></span>
-              {t.dd_sub5}
+              <span class="dd-cat-text">
+                <span class="dd-cat-name">{t.dd_sub4}</span>
+                <span class="dd-cat-desc">{t.dd_sub4_desc}</span>
+              </span>
             </a>
           </div>
         </div>
@@ -181,14 +195,13 @@ const langUrls = {
 <div class="mobile-nav" id="mobileNav">
   <div class="mobile-section">
     <span class="mobile-section-label">{t.soluciones}</span>
-    <a href="/soluciones/gestion-tecnica-hotelera" class="mobile-link mobile-link--sub">{t.dd_hotel}</a>
-    <a href="/soluciones/gestion-tecnica-hotelera/cumplimiento-normativo" class="mobile-link mobile-link--subsub">{t.dd_sub1}</a>
-    <a href="/soluciones/gestion-tecnica-hotelera/operativa-tecnica" class="mobile-link mobile-link--subsub">{t.dd_sub2}</a>
-    <a href="/soluciones/gestion-tecnica-hotelera/eficiencia-sostenibilidad" class="mobile-link mobile-link--subsub">{t.dd_sub3}</a>
-    <a href="/soluciones/gestion-tecnica-hotelera/integraciones" class="mobile-link mobile-link--subsub">{t.dd_sub4}</a>
-    <a href="/soluciones/gestion-tecnica-hotelera/plataforma-iot" class="mobile-link mobile-link--subsub">{t.dd_sub5}</a>
-    <a href="/soluciones/cool-protect" class="mobile-link mobile-link--sub">Cool Protect</a>
-    <a href="/soluciones/home-protect" class="mobile-link mobile-link--sub">Home Protect</a>
+    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera`} class="mobile-link mobile-link--sub">{t.dd_hotel}</a>
+    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/que-es-mainhotel`} class="mobile-link mobile-link--subsub">{t.dd_sub1}</a>
+    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/conecta-360`} class="mobile-link mobile-link--subsub">{t.dd_sub2}</a>
+    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/inteligencia-operativa`} class="mobile-link mobile-link--subsub">{t.dd_sub3}</a>
+    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/integraciones`} class="mobile-link mobile-link--subsub">{t.dd_sub4}</a>
+    <a href={`${prefix}/soluciones/cool-protect`} class="mobile-link mobile-link--sub">Cool Protect</a>
+    <a href={`${prefix}/soluciones/home-protect`} class="mobile-link mobile-link--sub">Home Protect</a>
   </div>
   <a href="#tecnologia" class="mobile-link">{t.tecnologia}</a>
   <a href="#innovacion" class="mobile-link">{t.innovacion}</a>
@@ -441,31 +454,24 @@ const langUrls = {
   }
   .dd-right.hidden { display: none; }
 
-  .dd-sub-group { display: flex; flex-direction: column; gap: 0.15rem; }
-  .dd-sub-label {
-    display: block;
-    font-size: 0.7rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--c24-teal);
-    padding: 0 0.5rem;
-    margin-bottom: 0.6rem;
-  }
+  .dd-sub-group { display: flex; flex-direction: column; gap: 0.2rem; }
 
   .dd-sub-link {
-    display: flex; align-items: center; gap: 0.6rem;
-    padding: 0.65rem 0.65rem;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    padding: 0.55rem 0.65rem;
     border-radius: 8px;
-    font-size: 0.9rem; font-weight: 400;
-    color: var(--c24-text-muted);
-    transition: background 0.13s, color 0.13s;
     text-decoration: none;
+    transition: background 0.13s;
   }
   .dd-sub-link:hover {
     background: rgba(69,191,162,0.09);
+  }
+  .dd-sub-link:hover .dd-cat-name {
     color: var(--c24-teal);
   }
   .dd-dot {
     width: 5px; height: 5px;
+    margin-top: 8px;
     border-radius: 50%;
     background: var(--c24-teal); opacity: 0.45;
     flex-shrink: 0;
@@ -664,7 +670,7 @@ const langUrls = {
     }
   }
 
-  catHotel?.addEventListener('click', () => { window.location.href = '/soluciones/gestion-tecnica-hotelera'; });
+  catHotel?.addEventListener('click', () => setActiveCategory('hotel'));
   catHotel?.addEventListener('mouseenter', () => setActiveCategory('hotel'));
   catCool?.addEventListener('mouseenter',  () => setActiveCategory('cool'));
   catHome?.addEventListener('mouseenter',  () => setActiveCategory('home'));

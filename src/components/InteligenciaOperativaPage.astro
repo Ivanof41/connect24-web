@@ -1,0 +1,573 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Hero from './Hero.astro';
+import ProblemaYSolucion from './ProblemaYSolucion.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const tio = t.inteligenciaoperativa;
+
+const icons: Record<string, string> = {
+  brain: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v.5A3.5 3.5 0 0 0 5 10a3.5 3.5 0 0 0 1 6.9A3.5 3.5 0 0 0 9.5 21a3.5 3.5 0 0 0 2.5-1.05A3.5 3.5 0 0 0 14.5 21a3.5 3.5 0 0 0 3.5-4.1A3.5 3.5 0 0 0 19 10a3.5 3.5 0 0 0-3-3.5V6a4 4 0 0 0-4-4z"/><line x1="12" y1="6" x2="12" y2="19"/></svg>`,
+  thermo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  bars: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`,
+  statusdot: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  grid: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+  alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  shield: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  shieldcheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  trending: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+  filetext: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  checkcircle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  layers: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+  search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  clipboardcheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><polyline points="9 14 11 16 15 12"/></svg>`,
+  wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+  smile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+};
+
+const s1items = [
+  { title: tio.s1_item1_title, desc: tio.s1_item1_desc, icon: 'brain' },
+  { title: tio.s1_item2_title, desc: tio.s1_item2_desc, icon: 'target' },
+  { title: tio.s1_item3_title, desc: tio.s1_item3_desc, icon: 'checkcircle' },
+];
+const s2items = [
+  { title: tio.s2_item1_title, desc: tio.s2_item1_desc, icon: 'search' },
+  { title: tio.s2_item2_title, desc: tio.s2_item2_desc, icon: 'layers' },
+  { title: tio.s2_item3_title, desc: tio.s2_item3_desc, icon: 'clipboardcheck' },
+];
+const s3items = [
+  { title: tio.s3_item1_title, desc: tio.s3_item1_desc, icon: 'filetext' },
+  { title: tio.s3_item2_title, desc: tio.s3_item2_desc, icon: 'clock' },
+  { title: tio.s3_item3_title, desc: tio.s3_item3_desc, icon: 'settings' },
+];
+const s4items = [
+  { title: tio.s4_item1_title, desc: tio.s4_item1_desc, icon: 'shieldcheck' },
+  { title: tio.s4_item2_title, desc: tio.s4_item2_desc, icon: 'filetext' },
+  { title: tio.s4_item3_title, desc: tio.s4_item3_desc, icon: 'bell' },
+];
+
+const dataCol = [
+  { label: tio.s1_data_1, icon: 'thermo' }, { label: tio.s1_data_2, icon: 'bars' }, { label: tio.s1_data_3, icon: 'zap' },
+  { label: tio.s1_data_4, icon: 'bars' }, { label: tio.s1_data_5, icon: 'statusdot' }, { label: tio.s1_data_6, icon: 'clock' },
+];
+const contextCol = [
+  { label: tio.s1_context_1, icon: 'grid' }, { label: tio.s1_context_2, icon: 'alert' }, { label: tio.s1_context_3, icon: 'shield' },
+  { label: tio.s1_context_4, icon: 'star' }, { label: tio.s1_context_5, icon: 'trending' }, { label: tio.s1_context_6, icon: 'filetext' },
+];
+
+const incidentRows = [
+  { title: tio.s2_row1_title, loc: tio.s2_row1_loc, crit: tio.s2_row1_crit, critClass: 'io-crit-critical', impact: 3, status: tio.s2_row1_status, statusClass: 'io-status-new' },
+  { title: tio.s2_row2_title, loc: tio.s2_row2_loc, crit: tio.s2_row2_crit, critClass: 'io-crit-important', impact: 3, status: tio.s2_row2_status, statusClass: 'io-status-progress' },
+  { title: tio.s2_row3_title, loc: tio.s2_row3_loc, crit: tio.s2_row3_crit, critClass: 'io-crit-moderate', impact: 2, status: tio.s2_row3_status, statusClass: 'io-status-progress' },
+  { title: tio.s2_row4_title, loc: tio.s2_row4_loc, crit: tio.s2_row4_crit, critClass: 'io-crit-info', impact: 1, status: tio.s2_row4_status, statusClass: 'io-status-resolved' },
+];
+
+
+const norms = [
+  { label: tio.s4_norm1, val: tio.s4_norm1_val },
+  { label: tio.s4_norm2, val: tio.s4_norm2_val },
+  { label: tio.s4_norm3, val: tio.s4_norm3_val },
+  { label: tio.s4_norm4, val: tio.s4_norm4_val },
+  { label: tio.s4_norm5, val: tio.s4_norm5_val },
+].map(n => ({ ...n, ok: parseInt(n.val) >= 90 }));
+
+const actions = [
+  { label: tio.s4_action1, date: tio.s4_action1_date, status: tio.s4_action1_status, statusClass: 'io-status-pending' },
+  { label: tio.s4_action2, date: tio.s4_action2_date, status: tio.s4_action2_status, statusClass: 'io-status-pending' },
+  { label: tio.s4_action3, date: tio.s4_action3_date, status: tio.s4_action3_status, statusClass: 'io-status-scheduled' },
+];
+
+const benefits = [
+  { title: tio.benefit1_title, desc: tio.benefit1_desc, icon: 'shieldcheck' },
+  { title: tio.benefit2_title, desc: tio.benefit2_desc, icon: 'checkcircle' },
+  { title: tio.benefit3_title, desc: tio.benefit3_desc, icon: 'filetext' },
+  { title: tio.benefit4_title, desc: tio.benefit4_desc, icon: 'smile' },
+];
+---
+<Layout title={tio.page_title} description={tio.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO (traído de la home)
+  ═══════════════════════════════════════════════ -->
+  <Hero t={t.hero} />
+
+  <!-- ═══════════════════════════════════════════════
+       01 · DE LOS DATOS AL CONTEXTO
+  ═══════════════════════════════════════════════ -->
+  <section class="io-section io-bg-a">
+    <div class="container io-grid">
+      <div class="io-text reveal">
+        <div class="io-num-row">
+          <span class="io-num">{tio.s1_num}</span>
+          <span class="eyebrow" style="margin:0;">{tio.s1_eyebrow}</span>
+        </div>
+        <h2>{tio.s1_title1}<br/><em>{tio.s1_title2}</em></h2>
+        <p class="section-desc">{tio.s1_desc}</p>
+        <ul class="io-list">
+          {s1items.map(item => (
+            <li>
+              <span class="io-list-icon" set:html={icons[item.icon]} />
+              <span class="io-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="io-visual reveal reveal-delay-2">
+        <div class="io-card io-funnel">
+          <div class="io-funnel-col">
+            <span class="io-funnel-title">{tio.s1_data_title}</span>
+            <ul class="io-funnel-list">
+              {dataCol.map(d => <li><span set:html={icons[d.icon]} />{d.label}</li>)}
+            </ul>
+          </div>
+
+          <div class="io-funnel-center">
+            <span class="io-funnel-conn io-funnel-conn--left"></span>
+            <div class="io-hub">
+              <span class="io-hub-icon" set:html={icons.brain} />
+              <span class="io-hub-name">{tio.s1_center_name}</span>
+              <span class="io-hub-sub">{tio.s1_center_sub}</span>
+            </div>
+            <span class="io-funnel-conn io-funnel-conn--right"></span>
+          </div>
+
+          <div class="io-funnel-col">
+            <span class="io-funnel-title">{tio.s1_context_title}</span>
+            <ul class="io-funnel-list">
+              {contextCol.map(c => <li><span set:html={icons[c.icon]} />{c.label}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div class="io-banner">
+          <span set:html={icons.checkcircle} />
+          {tio.s1_banner}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02 · DETECTA, PRIORIZA Y ACTÚA
+  ═══════════════════════════════════════════════ -->
+  <section class="io-section io-bg-b">
+    <div class="container io-grid">
+      <div class="io-text reveal">
+        <div class="io-num-row">
+          <span class="io-num">{tio.s2_num}</span>
+          <span class="eyebrow" style="margin:0;">{tio.s2_eyebrow}</span>
+        </div>
+        <h2>{tio.s2_title1}<br/><em>{tio.s2_title2}</em></h2>
+        <p class="section-desc">{tio.s2_desc}</p>
+        <ul class="io-list">
+          {s2items.map(item => (
+            <li>
+              <span class="io-list-icon" set:html={icons[item.icon]} />
+              <span class="io-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="io-visual reveal reveal-delay-2">
+        <div class="io-card">
+          <div class="io-tabs">
+            <span>{tio.s2_tab1}</span>
+            <span class="active">{tio.s2_tab2}</span>
+            <span>{tio.s2_tab3}</span>
+            <span>{tio.s2_tab4}</span>
+          </div>
+          <div class="io-table-scroll">
+            <table class="io-table">
+              <thead>
+                <tr>
+                  <th>{tio.s2_col_incident}</th>
+                  <th>{tio.s2_col_criticality}</th>
+                  <th>{tio.s2_col_impact}</th>
+                  <th>{tio.s2_col_status}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {incidentRows.map(r => (
+                  <tr>
+                    <td><strong>{r.title}</strong><span class="io-row-loc">{r.loc}</span></td>
+                    <td><span class={`io-crit ${r.critClass}`}>{r.crit}</span></td>
+                    <td>
+                      <span class="io-impact-dots">
+                        {[1,2,3].map(n => <i class={n <= r.impact ? 'on' : ''}></i>)}
+                      </span>
+                    </td>
+                    <td><span class={`io-status ${r.statusClass}`}>● {r.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="io-ai-row">
+          <div class="io-ai-box">
+            <span class="io-ai-icon" set:html={icons.star} />
+            <div>
+              <span class="io-ai-title">{tio.s2_ai_title}</span>
+              <p>{tio.s2_ai_text}</p>
+              <span class="io-ai-impact">{tio.s2_ai_impact}</span>
+            </div>
+          </div>
+          <div class="io-ai-box">
+            <span class="io-ai-icon" set:html={icons.wrench} />
+            <div>
+              <span class="io-ai-title">{tio.s2_action_title}</span>
+              <p>{tio.s2_action_text}</p>
+              <span class="io-action-btn">{tio.s2_action_btn}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03 · AUTOMATIZA Y AHORRA TIEMPO
+       (texto propio + demo interactiva Problema→Solución, traída de la home)
+  ═══════════════════════════════════════════════ -->
+  <section class="io-section io-bg-a" style="padding-bottom: 3rem;">
+    <div class="container">
+      <div class="io-text reveal" style="max-width: 640px;">
+        <div class="io-num-row">
+          <span class="io-num">{tio.s3_num}</span>
+          <span class="eyebrow" style="margin:0;">{tio.s3_eyebrow}</span>
+        </div>
+        <h2>{tio.s3_title1}<br/><em>{tio.s3_title2}</em></h2>
+        <p class="section-desc">{tio.s3_desc}</p>
+        <ul class="io-list">
+          {s3items.map(item => (
+            <li>
+              <span class="io-list-icon" set:html={icons[item.icon]} />
+              <span class="io-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="io-stat-card">
+          <span class="io-stat-icon" set:html={icons.clock} />
+          <div class="io-stat-num">{tio.s3_stat_val}</div>
+          <div class="io-stat-text">
+            <strong>{tio.s3_stat_label}</strong>
+            <span>{tio.s3_stat_desc}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ProblemaYSolucion t={t.problema} />
+
+  <!-- ═══════════════════════════════════════════════
+       04 · CUMPLIMIENTO SIN ESFUERZO
+  ═══════════════════════════════════════════════ -->
+  <section class="io-section io-bg-b">
+    <div class="container">
+      <div class="io-grid">
+        <div class="io-text reveal">
+          <div class="io-num-row">
+            <span class="io-num">{tio.s4_num}</span>
+            <span class="eyebrow" style="margin:0;">{tio.s4_eyebrow}</span>
+          </div>
+          <h2>{tio.s4_title1}<br/><em>{tio.s4_title2}</em></h2>
+          <p class="section-desc">{tio.s4_desc}</p>
+          <ul class="io-list">
+            {s4items.map(item => (
+              <li>
+                <span class="io-list-icon" set:html={icons[item.icon]} />
+                <span class="io-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="io-visual reveal reveal-delay-2">
+          <div class="io-card">
+            <span class="io-card-title">{tio.s4_compliance_title}</span>
+            <div class="io-compliance-row">
+              <div class="io-donut-wrap">
+                <div class="io-donut" style={`--p:${tio.s4_compliance_val}`}>
+                  <span class="io-donut-val">{tio.s4_compliance_val}</span>
+                  <span class="io-donut-label">{tio.s4_compliance_label}</span>
+                </div>
+              </div>
+              <ul class="io-norm-list">
+                {norms.map(n => (
+                  <li>
+                    <i class={n.ok ? 'io-dot-ok' : 'io-dot-warn'}></i>
+                    <span>{n.label}</span>
+                    <strong>{n.val}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div class="io-card">
+            <span class="io-card-title">{tio.s4_actions_title}</span>
+            <ul class="io-actions-list">
+              {actions.map(a => (
+                <li>
+                  <span class="io-action-icon" set:html={icons.calendar} />
+                  <span class="io-action-label">{a.label}</span>
+                  <span class="io-action-date">{a.date}</span>
+                  <span class={`io-status ${a.statusClass}`}>{a.status}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="io-benefits reveal reveal-delay-3">
+        {benefits.map(b => (
+          <div class="io-benefit">
+            <span class="io-benefit-icon" set:html={icons[b.icon]} />
+            <div class="io-benefit-text">
+              <strong>{b.title}</strong>
+              <span>{b.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════ -->
+  <section class="io-cta">
+    <div class="container io-cta-inner reveal">
+      <h2 class="io-cta-title">{tio.cta_title}</h2>
+      <p class="io-cta-sub">{tio.cta_sub}</p>
+      <a href="mailto:info@connect24.io" class="btn btn-white">{tio.cta_btn}</a>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+</Layout>
+
+<style>
+
+/* ═══════════════════════════════════════════════
+   SHARED
+═══════════════════════════════════════════════ */
+.io-section { padding: 6rem 2rem; }
+.io-bg-a { background: #ffffff; }
+:global([data-theme="dark"]) .io-bg-a { background: var(--c24-bg); }
+.io-bg-b { background: #f5f8fc; }
+:global([data-theme="dark"]) .io-bg-b { background: var(--c24-surface); }
+.io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6.5rem; align-items: center; }
+.io-num-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.io-num {
+  font-family: var(--font-body); font-weight: 800; font-size: 0.85rem; width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--c24-navy); color: var(--c24-teal); border: 2px solid var(--c24-teal);
+}
+:global([data-theme="dark"]) .io-num { background: rgba(106,181,171,0.12); }
+.io-section h2 em { font-style: normal; color: var(--c24-teal); }
+
+.io-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin-top: 0.5rem; }
+.io-list li { display: flex; align-items: flex-start; gap: 0.85rem; }
+.io-list-icon {
+  flex-shrink: 0; width: 2.1rem; height: 2.1rem; border-radius: 10px; background: var(--c24-teal-light);
+  display: flex; align-items: center; justify-content: center; color: var(--c24-teal-dark);
+}
+:global([data-theme="dark"]) .io-list-icon { background: rgba(106,181,171,0.14); }
+.io-list-icon :global(svg) { width: 1.1rem; height: 1.1rem; }
+.io-list-text { font-size: 0.9rem; color: var(--c24-text-muted); line-height: 1.6; font-weight: 300; }
+.io-list-text strong { color: var(--c24-text); font-weight: 600; }
+
+.io-card {
+  background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md); padding: 1.4rem 1.5rem; margin-bottom: 1rem;
+}
+:global([data-theme="dark"]) .io-card { background: var(--c24-surface); }
+.io-card-title { display: block; font-size: 0.85rem; font-weight: 700; color: var(--c24-text); margin-bottom: 1rem; }
+
+.io-stat-card {
+  display: flex; align-items: center; gap: 1.1rem; background: var(--c24-navy); border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem; margin-top: 2rem;
+}
+:global([data-theme="dark"]) .io-stat-card { background: linear-gradient(135deg, #0d2035 0%, #091520 100%); }
+.io-stat-icon { flex-shrink: 0; width: 2.2rem; height: 2.2rem; color: var(--c24-teal); }
+.io-stat-icon :global(svg) { width: 100%; height: 100%; }
+.io-stat-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; color: var(--c24-teal); flex-shrink: 0; }
+.io-stat-text { display: flex; flex-direction: column; gap: 0.15rem; }
+.io-stat-text strong { font-size: 0.8rem; color: white; }
+.io-stat-text span { font-size: 0.72rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+
+/* ═══════════════════════════════════════════════
+   01 · FUNNEL (Datos → Inteligencia → Contexto)
+═══════════════════════════════════════════════ */
+.io-funnel { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; padding: 1.75rem 1.5rem; }
+.io-funnel-title { display: block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-text-muted); margin-bottom: 0.75rem; }
+.io-funnel-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.io-funnel-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.76rem; font-weight: 500; color: var(--c24-text); }
+.io-funnel-list li span { flex-shrink: 0; width: 1rem; height: 1rem; color: var(--c24-teal-dark); }
+.io-funnel-list li :global(svg) { width: 100%; height: 100%; }
+
+.io-funnel-center { display: flex; align-items: center; gap: 0.5rem; }
+.io-funnel-conn {
+  width: 26px; height: 2px; flex-shrink: 0; position: relative;
+  background-image: repeating-linear-gradient(90deg, var(--c24-teal) 0 5px, transparent 5px 10px);
+  background-size: 200% 100%; opacity: 0.5; animation: ioDash 1s linear infinite;
+}
+@keyframes ioDash { from { background-position: 0 0; } to { background-position: -20px 0; } }
+.io-hub {
+  width: 130px; aspect-ratio: 1/1; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  gap: 3px; padding: 0.6rem; box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1);
+  animation: ioPulse 4s ease-in-out infinite;
+}
+@keyframes ioPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1); }
+  50%      { box-shadow: 0 8px 40px rgba(0,60,91,0.4), 0 0 0 10px rgba(106,181,171,0.06); }
+}
+.io-hub-icon { width: 1.7rem; height: 1.7rem; color: var(--c24-teal); margin-bottom: 2px; }
+.io-hub-icon :global(svg) { width: 100%; height: 100%; }
+.io-hub-name { font-family: var(--font-body); font-weight: 800; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.03em; color: white; line-height: 1.2; }
+.io-hub-sub { font-size: 0.48rem; font-weight: 600; color: rgba(255,255,255,0.65); line-height: 1.3; }
+
+.io-banner {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25); border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem; font-size: 0.8rem; font-weight: 700; color: var(--c24-teal-dark); text-align: center;
+}
+:global([data-theme="dark"]) .io-banner { background: rgba(106,181,171,0.08); }
+.io-banner :global(svg) { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════
+   02 · INCIDENTS TABLE
+═══════════════════════════════════════════════ */
+.io-tabs { display: flex; gap: 1.25rem; margin-bottom: 1.1rem; border-bottom: 1px solid var(--c24-border); }
+.io-tabs span { font-size: 0.78rem; font-weight: 600; color: var(--c24-text-muted); padding-bottom: 0.7rem; }
+.io-tabs span.active { color: var(--c24-teal-dark); border-bottom: 2px solid var(--c24-teal); font-weight: 700; }
+.io-table-scroll { overflow-x: auto; }
+.io-table { width: 100%; border-collapse: collapse; min-width: 440px; }
+.io-table th { text-align: left; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--c24-text-muted); padding: 0 0.5rem 0.5rem; border-bottom: 1px solid var(--c24-border); }
+.io-table td { padding: 0.65rem 0.5rem; border-bottom: 1px solid var(--c24-border); vertical-align: top; }
+.io-table tr:last-child td { border-bottom: none; }
+.io-table td strong { display: block; font-size: 0.78rem; color: var(--c24-text); font-weight: 600; }
+.io-row-loc { display: block; font-size: 0.65rem; color: var(--c24-text-muted); margin-top: 1px; }
+.io-crit { font-size: 0.68rem; font-weight: 700; }
+.io-crit-critical  { color: #dc2626; }
+.io-crit-important { color: #d97706; }
+.io-crit-moderate  { color: #d97706; }
+.io-crit-info      { color: #64748b; }
+.io-impact-dots { display: flex; gap: 3px; }
+.io-impact-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--c24-border); display: block; }
+.io-impact-dots i.on { background: var(--c24-teal); }
+.io-status { font-size: 0.66rem; font-weight: 700; white-space: nowrap; }
+.io-status-new      { color: var(--c24-teal-dark); }
+.io-status-progress { color: #d97706; }
+.io-status-resolved { color: #059669; }
+.io-status-pending   { color: #d97706; background: rgba(217,119,6,0.1); padding: 0.2rem 0.55rem; border-radius: var(--radius-pill); }
+.io-status-scheduled { color: var(--c24-teal-dark); background: var(--c24-teal-light); padding: 0.2rem 0.55rem; border-radius: var(--radius-pill); }
+:global([data-theme="dark"]) .io-status-scheduled { background: rgba(106,181,171,0.12); }
+
+.io-ai-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.io-ai-box {
+  display: flex; gap: 0.75rem; background: var(--c24-surface); border: 1px solid var(--c24-border);
+  border-radius: var(--radius-md); padding: 1rem 1.1rem;
+}
+:global([data-theme="dark"]) .io-ai-box { background: rgba(255,255,255,0.02); }
+.io-ai-icon { flex-shrink: 0; width: 1.9rem; height: 1.9rem; border-radius: 8px; background: var(--c24-teal-light); color: var(--c24-teal-dark); display: flex; align-items: center; justify-content: center; }
+:global([data-theme="dark"]) .io-ai-icon { background: rgba(106,181,171,0.14); }
+.io-ai-icon :global(svg) { width: 1rem; height: 1rem; }
+.io-ai-title { display: block; font-size: 0.74rem; font-weight: 700; color: var(--c24-text); margin-bottom: 0.3rem; }
+.io-ai-box p { font-size: 0.72rem; color: var(--c24-text-muted); line-height: 1.5; margin-bottom: 0.4rem; }
+.io-ai-impact { font-size: 0.62rem; font-weight: 600; color: var(--c24-teal-dark); }
+.io-action-btn { display: inline-block; font-size: 0.66rem; font-weight: 700; color: white; background: var(--c24-teal); padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); }
+
+/* ═══════════════════════════════════════════════
+   04 · COMPLIANCE
+═══════════════════════════════════════════════ */
+.io-compliance-row { display: flex; align-items: center; gap: 1.5rem; }
+.io-donut-wrap { flex-shrink: 0; }
+.io-donut {
+  --p: 92%;
+  width: 6.5rem; aspect-ratio: 1/1; border-radius: 50%; position: relative;
+  background: conic-gradient(var(--c24-teal) var(--p), var(--c24-border) var(--p));
+  display: flex; align-items: center; justify-content: center;
+}
+.io-donut::after { content: ''; position: absolute; inset: 14%; border-radius: 50%; background: white; }
+:global([data-theme="dark"]) .io-donut::after { background: var(--c24-surface); }
+.io-donut-val, .io-donut-label { position: relative; z-index: 1; }
+.io-donut { flex-direction: column; }
+.io-donut-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--c24-navy); }
+:global([data-theme="dark"]) .io-donut-val { color: var(--c24-text); }
+.io-donut-label { font-size: 0.5rem; font-weight: 600; color: var(--c24-text-muted); text-align: center; max-width: 70px; line-height: 1.2; }
+.io-norm-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.io-norm-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.76rem; color: var(--c24-text-muted); }
+.io-norm-list strong { margin-left: auto; color: var(--c24-text); }
+.io-dot-ok, .io-dot-warn { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.io-dot-ok { background: #059669; }
+.io-dot-warn { background: #d97706; }
+
+.io-actions-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.io-actions-list li { display: flex; align-items: center; gap: 0.6rem; }
+.io-action-icon { flex-shrink: 0; width: 1rem; height: 1rem; color: var(--c24-text-muted); }
+.io-action-icon :global(svg) { width: 100%; height: 100%; }
+.io-action-label { flex: 1; font-size: 0.76rem; color: var(--c24-text); }
+.io-action-date { font-size: 0.68rem; color: var(--c24-text-muted); }
+
+.io-benefits { margin-top: 4rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding-top: 3rem; border-top: 1px solid var(--c24-border); }
+.io-benefit { display: flex; align-items: flex-start; gap: 0.7rem; }
+.io-benefit-icon {
+  flex-shrink: 0; width: 2.1rem; height: 2.1rem; border-radius: 10px; background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+:global([data-theme="dark"]) .io-benefit-icon { background: rgba(106,181,171,0.14); }
+.io-benefit-icon :global(svg) { width: 1.05rem; height: 1.05rem; }
+.io-benefit-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.io-benefit-text strong { font-size: 0.82rem; font-weight: 700; color: var(--c24-text); line-height: 1.3; }
+.io-benefit-text span { font-size: 0.72rem; color: var(--c24-text-muted); line-height: 1.4; }
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+.io-cta { background: var(--c24-teal); padding: 5rem 2rem; text-align: center; }
+:global([data-theme="dark"]) .io-cta { background: var(--c24-teal-dark); }
+.io-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; color: white; margin-bottom: 0.6rem; }
+.io-cta-sub { font-size: 1rem; color: rgba(255,255,255,0.85); font-weight: 300; margin-bottom: 1.75rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .io-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .io-funnel { grid-template-columns: 1fr; }
+  .io-funnel-center { flex-direction: row; justify-content: center; margin: 1rem 0; }
+  .io-ai-row { grid-template-columns: 1fr; }
+  .io-benefits { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .io-section { padding: 4rem 1.5rem; }
+  .io-benefits { grid-template-columns: 1fr; }
+  .io-flow-row { justify-content: center; }
+  .io-flow-arrow { display: none; }
+  .io-compliance-row { flex-direction: column; align-items: flex-start; }
+}
+</style>

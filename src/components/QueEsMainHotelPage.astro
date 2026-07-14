@@ -1,0 +1,804 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const tq = t.queesmainhotel;
+
+const icons: Record<string, string> = {
+  server: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>`,
+  wifi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  droplet: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 8.5 7 13a7 7 0 0 1-14 0c0-4.5 7-13 7-13z"/></svg>`,
+  wind: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M12.59 19.41A2 2 0 1 0 14 16H2"/><path d="M17.73 7.73A2.5 2.5 0 1 1 19.5 12H2"/></svg>`,
+  snow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`,
+  waves: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s2-3 5-3 5 3 8 3 5-3 5-3"/><path d="M2 17s2-3 5-3 5 3 8 3 5-3 5-3"/></svg>`,
+  shieldcheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  clipboard: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>`,
+  filetext: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  smile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+  trending: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+  xcircle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  network: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="19" r="3"/><line x1="8.5" y1="7.6" x2="10.5" y2="16.5"/><line x1="15.5" y1="7.6" x2="13.5" y2="16.5"/><line x1="9" y1="6" x2="15" y2="6"/></svg>`,
+  alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  building: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="22" x2="10" y2="15"/><line x1="14" y1="22" x2="14" y2="15"/></svg>`,
+  grid: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+};
+
+const col1 = [tq.s1_col1_1, tq.s1_col1_2, tq.s1_col1_3, tq.s1_col1_4, tq.s1_col1_5, tq.s1_col1_6, tq.s1_col1_7, tq.s1_col1_8];
+const col1Icons = ['server', 'wifi', 'zap', 'droplet', 'wind', 'snow', 'waves', 'shieldcheck'];
+const col2 = [tq.s1_col2_1, tq.s1_col2_2, tq.s1_col2_3, tq.s1_col2_4, tq.s1_col2_5, tq.s1_col2_6, tq.s1_col2_7, tq.s1_col2_8];
+const col2Icons = ['user', 'wrench', 'shieldcheck', 'clipboard', 'bell', 'filetext', 'smile', 'trending'];
+
+const bottomIcons = ['zap', 'droplet', 'wind', 'snow', 'shieldcheck'];
+
+// Hexagonal radial layout for section 04 (6 nodes) — same technique as the
+// Conecta 360 hub: the connector line stops at the icon's near edge so it
+// never crosses the label beneath it, regardless of the node's position.
+const ICON_R = 9;
+const rawNodes = [
+  { label: tq.s4_node1, x: 50,    y: 8,  icon: 'server' },
+  { label: tq.s4_node2, x: 86.37, y: 29, icon: 'wifi' },
+  { label: tq.s4_node3, x: 86.37, y: 71, icon: 'grid' },
+  { label: tq.s4_node4, x: 50,    y: 92, icon: 'network' },
+  { label: tq.s4_node5, x: 13.63, y: 71, icon: 'building' },
+  { label: tq.s4_node6, x: 13.63, y: 29, icon: 'wrench' },
+];
+const nodes = rawNodes.map(n => {
+  const dx = n.x - 50, dy = n.y - 50;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const lineX = n.x - (dx / dist) * ICON_R;
+  const lineY = n.y - (dy / dist) * ICON_R;
+  return { ...n, lineX, lineY };
+});
+
+// Demo de metodología (Integración → Análisis → Acción), traída de la home
+// (componente ComoFunciona / t.como) para el punto 03.
+const tm = t.como;
+const flowSources = [
+  {
+    logo: '/logos/loxone.svg', brand: 'LOXONE',
+    device: tm.flow_p1_device, category: tm.flow_p1_cat, catClass: 'qmh-cat-teal',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`,
+  },
+  {
+    logo: '/logos/lorawan.svg', brand: 'LoRaWAN',
+    device: tm.flow_p2_device, category: tm.flow_p2_cat, catClass: 'qmh-cat-amber',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="17 7 12 2 7 7"/><polyline points="17 17 12 22 7 17"/><polyline points="7 7 2 12 7 17"/><polyline points="17 7 22 12 17 17"/></svg>`,
+  },
+  {
+    logo: '/logos/huawei.svg', brand: 'HUAWEI',
+    device: tm.flow_p3_device, category: tm.flow_p3_cat, catClass: 'qmh-cat-green',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  },
+  {
+    logo: '/logos/knx.svg', brand: 'KNX',
+    device: tm.flow_p4_device, category: tm.flow_p4_cat, catClass: 'qmh-cat-red',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>`,
+  },
+];
+const CARD_DURATION = 4;
+const CYCLE_DURATION = flowSources.length * CARD_DURATION;
+
+const benefits = [
+  { title: tq.benefit1_title, desc: tq.benefit1_desc, icon: 'star' },
+  { title: tq.benefit2_title, desc: tq.benefit2_desc, icon: 'trending' },
+  { title: tq.benefit3_title, desc: tq.benefit3_desc, icon: 'users' },
+  { title: tq.benefit4_title, desc: tq.benefit4_desc, icon: 'trending' },
+];
+---
+<Layout title={tq.page_title} description={tq.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-hero">
+    <div class="container qmh-hero-inner reveal">
+      <span class="qmh-eyebrow-badge">{tq.hero_eyebrow}</span>
+      <h1 class="qmh-hero-title">{tq.hero_title}</h1>
+      <p class="qmh-hero-sub">{tq.hero_sub}</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       01 · EL PROBLEMA
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-section qmh-bg-a">
+    <div class="container">
+      <div class="qmh-intro reveal">
+        <div class="qmh-num-row">
+          <span class="qmh-num">{tq.s1_num}</span>
+          <span class="eyebrow" style="margin:0;">{tq.s1_eyebrow}</span>
+        </div>
+        <h2>{tq.s1_title1}<br/>{tq.s1_title2}</h2>
+        <p class="section-desc" style="margin-bottom:1.25rem;">{tq.s1_desc}</p>
+        <div class="qmh-note qmh-note--warn">
+          <span class="qmh-note-icon" set:html={icons.alert} />
+          {tq.s1_note}
+        </div>
+      </div>
+
+      <div class="qmh-problem-row reveal reveal-delay-2">
+        <div class="qmh-problem-card">
+          <span class="qmh-problem-title">{tq.s1_col1_title}</span>
+          <ul class="qmh-problem-list">
+            {col1.map((label, i) => (
+              <li><span class="qmh-problem-icon" set:html={icons[col1Icons[i]]} />{label}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="qmh-broken-col">
+          <span class="qmh-conn-line"></span>
+          <div class="qmh-broken-badge" set:html={icons.xcircle} />
+          <span class="qmh-conn-line"></span>
+          <span class="qmh-broken-label">{tq.s1_broken_label}</span>
+        </div>
+
+        <div class="qmh-problem-card">
+          <span class="qmh-problem-title">{tq.s1_col2_title}</span>
+          <ul class="qmh-problem-list">
+            {col2.map((label, i) => (
+              <li><span class="qmh-problem-icon" set:html={icons[col2Icons[i]]} />{label}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02 · QUÉ ES MAINHOTEL
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-section qmh-bg-b">
+    <div class="container qmh-grid">
+      <div class="qmh-text reveal">
+        <div class="qmh-num-row">
+          <span class="qmh-num">{tq.s2_num}</span>
+          <span class="eyebrow" style="margin:0;">{tq.s2_eyebrow}</span>
+        </div>
+        <h2>{tq.s2_title1}<br/><em>{tq.s2_title2}</em></h2>
+        <p class="section-desc">{tq.s2_desc}</p>
+      </div>
+
+      <div class="qmh-visual reveal reveal-delay-2">
+        <div class="qmh-stack">
+          <div class="qmh-stack-box">
+            <span class="qmh-stack-icon" set:html={icons.users} />
+            <div class="qmh-stack-text">
+              <strong>{tq.s2_top_title}</strong>
+              <span>{tq.s2_top_sub}</span>
+            </div>
+          </div>
+
+          <div class="qmh-vconn">
+            <span class="qmh-vconn-arrow qmh-vconn-arrow--up"></span>
+            <span class="qmh-vconn-dot"></span>
+            <span class="qmh-vconn-arrow qmh-vconn-arrow--down"></span>
+          </div>
+
+          <div class="qmh-stack-hub">
+            <img class="qmh-hub-logo" src="/maindhotel_icono.svg" alt="MaindHotel" />
+            <div class="qmh-stack-text">
+              <strong>{tq.s2_mid_title}</strong>
+              <span class="qmh-hub-sub">{tq.s2_mid_sub}</span>
+              <span class="qmh-hub-tags">{tq.s2_mid_tags}</span>
+            </div>
+          </div>
+
+          <div class="qmh-vconn">
+            <span class="qmh-vconn-arrow qmh-vconn-arrow--up"></span>
+            <span class="qmh-vconn-dot" style="animation-delay:1s"></span>
+            <span class="qmh-vconn-arrow qmh-vconn-arrow--down"></span>
+          </div>
+
+          <div class="qmh-stack-box">
+            <span class="qmh-stack-icon" set:html={icons.server} />
+            <div class="qmh-stack-text">
+              <strong>{tq.s2_bottom_title}</strong>
+              <span>{tq.s2_bottom_sub}</span>
+            </div>
+          </div>
+
+          <div class="qmh-stack-icons">
+            {bottomIcons.map(ic => <span set:html={icons[ic]} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03 · QUÉ HACE ESTA CAPA
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-section qmh-bg-a">
+    <div class="container">
+      <div class="qmh-intro reveal" style="margin-bottom: 3.5rem;">
+        <div class="qmh-num-row">
+          <span class="qmh-num">{tq.s3_num}</span>
+          <span class="eyebrow" style="margin:0;">{tq.s3_eyebrow}</span>
+        </div>
+        <h2>{tq.s3_title1} <em>{tq.s3_title2}</em></h2>
+      </div>
+
+      <div class="qmh-flow-card reveal reveal-delay-1">
+        <div class="qmh-flow-grid">
+
+          <div class="qmh-flow-step">
+            <div class="qmh-flow-num qmh-flow-num--1">01</div>
+            <span class="qmh-flow-label">{tm.step1_label}</span>
+            <p>{tm.step1_desc}</p>
+          </div>
+          <div class="qmh-fhconn qmh-fhconn--teal"><span class="qmh-fconn-bar"><span class="qmh-fconn-particle"></span></span></div>
+          <div class="qmh-flow-step">
+            <div class="qmh-flow-num qmh-flow-num--2">02</div>
+            <span class="qmh-flow-label">{tm.step2_label}</span>
+            <p>{tm.step2_desc}</p>
+          </div>
+          <div class="qmh-fhconn qmh-fhconn--teal"><span class="qmh-fconn-bar"><span class="qmh-fconn-particle"></span></span></div>
+          <div class="qmh-flow-step">
+            <div class="qmh-flow-num qmh-flow-num--3">03</div>
+            <span class="qmh-flow-label">{tm.step3_label}</span>
+            <p>{tm.step3_desc}</p>
+          </div>
+
+          <div class="qmh-fvconn"><span class="qmh-fvbar"><span class="qmh-fvparticle"></span></span></div>
+          <div></div>
+          <div class="qmh-fvconn"><span class="qmh-fvbar"><span class="qmh-fvparticle"></span></span></div>
+          <div></div>
+          <div class="qmh-fvconn"><span class="qmh-fvbar"><span class="qmh-fvparticle"></span></span></div>
+
+          <div class="qmh-flow-sources">
+            {flowSources.map((p, i) => (
+              <div class="qmh-proto-card" style={`animation-delay: ${i * CARD_DURATION}s; animation-duration: ${CYCLE_DURATION}s`}>
+                <div class="qmh-proto-header">
+                  <img src={p.logo} alt={p.brand} class="qmh-proto-logo" />
+                  <span class="qmh-online-badge"><span class="qmh-online-dot"></span>Online</span>
+                </div>
+                <div class="qmh-proto-device">
+                  <div class="qmh-device-icon" set:html={p.icon} />
+                  <div class="qmh-device-info">
+                    <span class="qmh-device-name">{p.device}</span>
+                    <span class={`qmh-device-cat ${p.catClass}`}>{p.category}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="qmh-fhconn qmh-fhconn--red"><span class="qmh-fconn-bar"><span class="qmh-fconn-particle"></span></span></div>
+
+          <div class="qmh-flow-center">
+            <div class="qmh-processor-card">
+              <img src="/ConnectIA.svg" alt="connectIA" class="qmh-c24-logo" />
+              <div class="qmh-analysis-progress"><div class="qmh-progress-fill"></div></div>
+              <div class="qmh-proc-text-wrap">
+                <span class="qmh-proc-text qmh-proc-text--analyzing">{tm.flow_analyzing}</span>
+                <span class="qmh-proc-text qmh-proc-text--done">{tm.flow_processing}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="qmh-fhconn qmh-fhconn--green"><span class="qmh-fconn-bar"><span class="qmh-fconn-particle"></span></span></div>
+
+          <div class="qmh-flow-result">
+            <div class="qmh-result-card">
+              <div class="qmh-result-check-wrap">
+                <div class="qmh-ripple qmh-ripple-1"></div>
+                <div class="qmh-ripple qmh-ripple-2"></div>
+                <div class="qmh-result-check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="26" height="26">
+                    <polyline class="qmh-check-stroke" points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+              </div>
+              <span class="qmh-result-label">{tm.flow_completed}</span>
+              <div class="qmh-result-stats">
+                <span class="qmh-result-stat">{tm.flow_stat1}</span>
+                <span class="qmh-result-stat">{tm.flow_stat2}</span>
+                <span class="qmh-result-stat">{tm.flow_stat3}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="qmh-note qmh-note--accent reveal reveal-delay-2">
+        <span class="qmh-note-icon" set:html={icons.target} />
+        {tq.s3_note}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       04 · CÓMO JUEGA EN EQUIPO
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-section qmh-bg-b">
+    <div class="container">
+      <div class="qmh-grid">
+        <div class="qmh-text reveal">
+          <div class="qmh-num-row">
+            <span class="qmh-num">{tq.s4_num}</span>
+            <span class="eyebrow" style="margin:0;">{tq.s4_eyebrow}</span>
+          </div>
+          <h2>{tq.s4_title1}<br/><em>{tq.s4_title2}</em></h2>
+          <p class="section-desc">{tq.s4_desc}</p>
+        </div>
+
+        <div class="qmh-visual reveal reveal-delay-2">
+          <div class="qmh-radial">
+            <svg class="qmh-radial-conn" viewBox="0 0 100 100" preserveAspectRatio="none">
+              {nodes.map((n, i) => (
+                <path class={`qmh-rl qmh-rl${i}`} d={`M${n.lineX},${n.lineY} L50,50`} fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2.2 2.2"/>
+              ))}
+            </svg>
+            <div class="qmh-radial-center">
+              <img class="qmh-center-logo" src="/maindhotel_icono.svg" alt="MaindHotel" />
+              <span class="qmh-center-name">{tq.s4_center_name}</span>
+              <span class="qmh-center-sub">{tq.s4_center_sub}</span>
+            </div>
+            {nodes.map(n => (
+              <div class="qmh-node" style={`left:${n.x}%; top:${n.y}%;`}>
+                <div class="qmh-node-icon" set:html={icons[n.icon]} />
+                <span class="qmh-node-label">{n.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="qmh-benefits reveal reveal-delay-3">
+        {benefits.map(b => (
+          <div class="qmh-benefit">
+            <span class="qmh-benefit-icon" set:html={icons[b.icon]} />
+            <div class="qmh-benefit-text">
+              <strong>{b.title}</strong>
+              <span>{b.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════ -->
+  <section class="qmh-cta">
+    <div class="container qmh-cta-inner reveal">
+      <h2 class="qmh-cta-title">{tq.cta_title}</h2>
+      <p class="qmh-cta-sub">{tq.cta_sub}</p>
+      <a href="mailto:info@connect24.io" class="btn btn-white">{tq.cta_btn}</a>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+</Layout>
+
+<style>
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.qmh-hero {
+  padding: 9rem 2rem 4rem; background: #f5f8fc;
+  position: relative; overflow: hidden;
+}
+:global([data-theme="dark"]) .qmh-hero {
+  background: linear-gradient(135deg, #080F18 0%, #0a1520 55%, #080F18 100%);
+}
+.qmh-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 80% at 50% 0%, rgba(106,181,171,0.14) 0%, transparent 70%);
+}
+.qmh-hero-inner { position: relative; z-index: 1; text-align: center; }
+.qmh-eyebrow-badge {
+  display: inline-flex; align-items: center;
+  background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.9rem; border-radius: var(--radius-pill); margin-bottom: 1.25rem;
+}
+:global([data-theme="dark"]) .qmh-eyebrow-badge { background: rgba(106,181,171,0.14); }
+.qmh-hero-title {
+  font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  font-weight: 700; letter-spacing: -0.02em; color: var(--c24-navy); margin-bottom: 0.75rem;
+}
+:global([data-theme="dark"]) .qmh-hero-title { color: #fff; }
+.qmh-hero-sub { font-size: 1.1rem; color: var(--c24-text-muted); font-weight: 300; max-width: 480px; margin: 0 auto; }
+
+/* ═══════════════════════════════════════════════
+   SHARED
+═══════════════════════════════════════════════ */
+.qmh-section { padding: 6rem 2rem; }
+.qmh-bg-a { background: #ffffff; }
+:global([data-theme="dark"]) .qmh-bg-a { background: var(--c24-bg); }
+.qmh-bg-b { background: #f5f8fc; }
+:global([data-theme="dark"]) .qmh-bg-b { background: var(--c24-surface); }
+
+.qmh-intro { max-width: 620px; }
+.qmh-num-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.qmh-num {
+  font-family: var(--font-body); font-weight: 800; font-size: 0.85rem;
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c24-navy); color: var(--c24-teal); border: 2px solid var(--c24-teal);
+}
+:global([data-theme="dark"]) .qmh-num { background: rgba(106,181,171,0.12); }
+
+.qmh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6.5rem; align-items: center; }
+.qmh-section h2 em { font-style: normal; color: var(--c24-teal); }
+
+.qmh-note {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.85rem; color: var(--c24-text); font-weight: 500;
+  padding: 0.9rem 1.1rem; border-radius: var(--radius-sm);
+  max-width: 460px;
+}
+.qmh-note--warn { background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25); }
+:global([data-theme="dark"]) .qmh-note--warn { background: rgba(106,181,171,0.08); border-color: rgba(106,181,171,0.18); }
+.qmh-note--accent {
+  background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25);
+  max-width: none; margin-top: 3rem; justify-content: center; text-align: center;
+}
+:global([data-theme="dark"]) .qmh-note--accent { background: rgba(106,181,171,0.08); border-color: rgba(106,181,171,0.18); }
+.qmh-note-icon { flex-shrink: 0; width: 1.1rem; height: 1.1rem; color: var(--c24-teal-dark); margin-top: 0.1rem; }
+.qmh-note-icon :global(svg) { width: 100%; height: 100%; }
+
+/* ═══════════════════════════════════════════════
+   01 · PROBLEM ROW
+═══════════════════════════════════════════════ */
+.qmh-problem-row {
+  margin-top: 3rem; display: grid;
+  grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0;
+}
+.qmh-problem-card {
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+  border-radius: var(--radius-lg); padding: 1.25rem 1.4rem;
+}
+:global([data-theme="dark"]) .qmh-problem-card { background: rgba(255,255,255,0.02); }
+.qmh-problem-title { display: block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c24-text-muted); margin-bottom: 0.9rem; }
+.qmh-problem-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+.qmh-problem-list li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; font-weight: 600; color: var(--c24-text); }
+.qmh-problem-icon { flex-shrink: 0; width: 1.1rem; height: 1.1rem; color: var(--c24-teal-dark); }
+.qmh-problem-icon :global(svg) { width: 100%; height: 100%; }
+
+.qmh-broken-col {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  padding: 0 1.5rem; width: 140px;
+}
+.qmh-conn-line {
+  width: 100%; height: 2px;
+  background-image: repeating-linear-gradient(90deg, var(--c24-text-muted) 0 6px, transparent 6px 13px);
+  background-size: 200% 100%; opacity: 0.4;
+  animation: qmhDash 1.1s linear infinite;
+}
+@keyframes qmhDash { from { background-position: 0 0; } to { background-position: -26px 0; } }
+.qmh-broken-badge {
+  flex-shrink: 0; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: rgba(220,38,38,0.1); color: #dc2626;
+  display: flex; align-items: center; justify-content: center;
+  animation: qmhPulseRed 2.4s ease-in-out infinite;
+}
+.qmh-broken-badge :global(svg) { width: 1.3rem; height: 1.3rem; }
+@keyframes qmhPulseRed {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.18); }
+  50%      { box-shadow: 0 0 0 8px rgba(220,38,38,0); }
+}
+.qmh-broken-label { font-size: 0.66rem; font-weight: 700; color: #dc2626; text-align: center; line-height: 1.3; }
+
+/* ═══════════════════════════════════════════════
+   02 · STACK
+═══════════════════════════════════════════════ */
+.qmh-stack { display: flex; flex-direction: column; align-items: center; max-width: 420px; margin: 0 auto; }
+.qmh-stack-box, .qmh-stack-hub {
+  width: 100%; display: flex; align-items: center; gap: 0.9rem;
+  border-radius: var(--radius-md); padding: 1rem 1.25rem;
+}
+.qmh-stack-box { background: white; border: 1px solid var(--c24-border); box-shadow: var(--shadow-sm); }
+:global([data-theme="dark"]) .qmh-stack-box { background: var(--c24-surface); }
+.qmh-stack-icon {
+  flex-shrink: 0; width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+:global([data-theme="dark"]) .qmh-stack-icon { background: rgba(106,181,171,0.14); }
+.qmh-stack-icon :global(svg) { width: 1.1rem; height: 1.1rem; }
+.qmh-stack-text { display: flex; flex-direction: column; gap: 0.1rem; }
+.qmh-stack-text strong { font-size: 0.85rem; font-weight: 700; color: var(--c24-text); letter-spacing: 0.01em; }
+.qmh-stack-text span { font-size: 0.7rem; color: var(--c24-text-muted); }
+
+.qmh-stack-hub {
+  background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  box-shadow: 0 8px 32px rgba(0,60,91,0.22);
+  animation: qmhHubGlow 4s ease-in-out infinite;
+}
+@keyframes qmhHubGlow {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,60,91,0.22); }
+  50%      { box-shadow: 0 8px 40px rgba(106,181,171,0.3); }
+}
+.qmh-hub-logo {
+  flex-shrink: 0; width: 2.4rem; height: 2.4rem; border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.qmh-stack-hub .qmh-stack-text strong { color: white; font-size: 0.95rem; }
+.qmh-hub-sub { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c24-teal); display: block; }
+.qmh-hub-tags { font-size: 0.68rem; color: rgba(255,255,255,0.65); }
+
+.qmh-vconn { position: relative; width: 2px; height: 2.4rem; background: var(--c24-border); margin: 0.15rem 0; }
+.qmh-vconn-arrow { position: absolute; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; }
+.qmh-vconn-arrow--up { top: -1px; border-bottom: 5px solid var(--c24-text-muted); }
+.qmh-vconn-arrow--down { bottom: -1px; border-top: 5px solid var(--c24-text-muted); }
+.qmh-vconn-dot {
+  position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+  width: 5px; height: 5px; border-radius: 50%; background: var(--c24-teal);
+  animation: qmhVFlow 2.4s ease-in-out infinite;
+}
+@keyframes qmhVFlow {
+  0%   { top: 8%;  opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { top: 92%; opacity: 0; }
+}
+
+.qmh-stack-icons { display: flex; gap: 0.9rem; margin-top: 1rem; }
+.qmh-stack-icons span { width: 1.3rem; height: 1.3rem; color: var(--c24-teal-dark); opacity: 0.75; }
+.qmh-stack-icons :global(svg) { width: 100%; height: 100%; }
+
+/* ═══════════════════════════════════════════════
+   03 · METHODOLOGY FLOW DEMO (Integración → Análisis → Acción)
+═══════════════════════════════════════════════ */
+.qmh-flow-card {
+  padding: 2.5rem; background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+}
+:global([data-theme="dark"]) .qmh-flow-card { background: var(--c24-surface); }
+
+.qmh-flow-grid { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; column-gap: 1.25rem; row-gap: 1.75rem; }
+
+.qmh-flow-step {
+  background: var(--c24-surface); border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+  padding: 1.6rem; align-self: stretch; transition: border-color 0.25s, box-shadow 0.25s;
+}
+:global([data-theme="dark"]) .qmh-flow-step { background: rgba(255,255,255,0.02); }
+.qmh-flow-step:hover { border-color: var(--c24-teal); box-shadow: 0 8px 32px rgba(106,181,171,0.08); }
+.qmh-flow-num {
+  width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; margin-bottom: 1rem; letter-spacing: 0.02em;
+}
+.qmh-flow-num--1 { background: var(--c24-navy); color: var(--c24-teal); border: 2px solid var(--c24-teal); }
+.qmh-flow-num--2 { background: var(--c24-teal); color: white; }
+.qmh-flow-num--3 { background: var(--c24-teal-light); color: var(--c24-teal-dark); border: 2px solid var(--c24-teal); }
+:global([data-theme="dark"]) .qmh-flow-num--3 { background: rgba(106,181,171,0.14); }
+.qmh-flow-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-teal-dark); margin-bottom: 0.5rem; }
+.qmh-flow-step p { font-size: 0.85rem; color: var(--c24-text-muted); line-height: 1.65; font-weight: 300; }
+
+/* Horizontal connectors (rows 1 and 3) */
+.qmh-fhconn { display: flex; align-items: center; min-width: 60px; align-self: center; justify-self: stretch; position: relative; }
+.qmh-fconn-bar { flex: 1; height: 3px; border-radius: 3px; position: relative; overflow: hidden; margin-right: 7px; }
+.qmh-fhconn::after {
+  content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+}
+.qmh-fhconn--teal .qmh-fconn-bar  { background: rgba(106,181,171,0.18); }
+.qmh-fhconn--red .qmh-fconn-bar   { background: rgba(239,68,68,0.18); }
+.qmh-fhconn--green .qmh-fconn-bar { background: rgba(106,181,171,0.18); }
+.qmh-fhconn--teal::after  { border-left: 8px solid rgba(106,181,171,0.55); }
+.qmh-fhconn--red::after   { border-left: 8px solid #ef4444; }
+.qmh-fhconn--green::after { border-left: 8px solid var(--c24-teal); }
+.qmh-fconn-particle { position: absolute; top: 0; left: -50%; width: 50%; height: 100%; border-radius: 3px; }
+.qmh-fhconn--teal .qmh-fconn-particle {
+  background: linear-gradient(90deg, transparent, var(--c24-teal), transparent); animation: qmhConnFlow 1.8s linear infinite;
+}
+.qmh-fhconn--red .qmh-fconn-particle {
+  background: linear-gradient(90deg, transparent, #ef4444, transparent); animation: qmhConnFlow 1.5s linear infinite;
+}
+.qmh-fhconn--green .qmh-fconn-particle {
+  background: linear-gradient(90deg, transparent, var(--c24-teal), transparent); animation: qmhConnFlow 1.5s linear infinite 0.75s;
+}
+@keyframes qmhConnFlow { from { left: -50%; } to { left: 110%; } }
+
+/* Vertical connectors (row 2) */
+.qmh-fvconn { display: flex; flex-direction: column; align-items: center; justify-self: center; align-self: center; position: relative; }
+.qmh-fvbar { width: 3px; height: 2.25rem; border-radius: 3px; background: rgba(106,181,171,0.18); position: relative; overflow: hidden; margin-bottom: 6px; }
+.qmh-fvparticle {
+  position: absolute; left: 0; top: -50%; width: 100%; height: 50%; border-radius: 3px;
+  background: linear-gradient(180deg, transparent, var(--c24-teal), transparent); animation: qmhConnFlowV 1.8s linear infinite;
+}
+@keyframes qmhConnFlowV { from { top: -50%; } to { top: 110%; } }
+.qmh-fvconn::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid rgba(106,181,171,0.55);
+}
+
+/* Cycling device card (row 3, col 1) */
+.qmh-flow-sources { position: relative; height: 118px; justify-self: center; width: 100%; max-width: 220px; }
+.qmh-proto-card {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: var(--c24-surface); border: 1px solid var(--c24-border); border-radius: 12px;
+  padding: 0.875rem 1rem; opacity: 0; animation: qmhCardCycle linear infinite both;
+}
+:global([data-theme="dark"]) .qmh-proto-card { background: rgba(255,255,255,0.03); }
+@keyframes qmhCardCycle {
+  0%   { opacity: 0; transform: translateY(8px); }
+  6%   { opacity: 1; transform: translateY(0); }
+  22%  { opacity: 1; transform: translateY(0); }
+  28%  { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 0; }
+}
+.qmh-proto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.625rem; border-bottom: 1px solid var(--c24-border); }
+.qmh-proto-logo { height: 18px; max-width: 80px; object-fit: contain; }
+.qmh-online-badge { display: flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; font-weight: 700; color: #22c55e; letter-spacing: 0.03em; }
+.qmh-online-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: qmhPulseDot 2s ease-in-out infinite; }
+@keyframes qmhPulseDot { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 4px rgba(34,197,94,0); } }
+.qmh-proto-device { display: flex; align-items: center; gap: 0.75rem; }
+.qmh-device-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--c24-teal-light); color: var(--c24-teal); flex-shrink: 0; }
+:global([data-theme="dark"]) .qmh-device-icon { background: rgba(106,181,171,0.14); }
+.qmh-device-info { display: flex; flex-direction: column; gap: 0.2rem; }
+.qmh-device-name { font-size: 0.78rem; font-weight: 600; color: var(--c24-text); text-transform: uppercase; letter-spacing: 0.04em; }
+.qmh-device-cat { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.qmh-cat-teal  { color: var(--c24-teal); }
+.qmh-cat-amber { color: #f59e0b; }
+.qmh-cat-green { color: #22c55e; }
+.qmh-cat-red   { color: #ef4444; }
+
+/* Processor card (row 3, col 3) */
+.qmh-flow-center { justify-self: center; align-self: center; }
+.qmh-processor-card { display: flex; flex-direction: column; align-items: center; gap: 0.875rem; width: 150px; }
+.qmh-c24-logo { height: 64px; width: auto; object-fit: contain; }
+:global([data-theme="dark"]) .qmh-c24-logo { filter: brightness(0) invert(1); }
+.qmh-analysis-progress { width: 90px; height: 5px; background: rgba(106,181,171,0.18); border-radius: 5px; overflow: hidden; }
+.qmh-progress-fill { height: 100%; width: 0%; background: var(--c24-teal); border-radius: 5px; animation: qmhFillProgress 6s ease-in-out infinite; }
+@keyframes qmhFillProgress {
+  0%   { width: 0%;   opacity: 1; }
+  62%  { width: 100%; opacity: 1; }
+  78%  { width: 100%; opacity: 1; }
+  90%  { width: 100%; opacity: 0; }
+  100% { width: 0%;   opacity: 0; }
+}
+.qmh-proc-text-wrap { position: relative; height: 1.1rem; width: 100%; text-align: center; }
+.qmh-proc-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; color: var(--c24-teal); letter-spacing: 0.06em; white-space: nowrap; }
+.qmh-proc-text--analyzing { animation: qmhTextAnalyzing 6s ease-in-out infinite; }
+@keyframes qmhTextAnalyzing { 0% { opacity: 1; } 58% { opacity: 1; } 68% { opacity: 0; } 100% { opacity: 0; } }
+.qmh-proc-text--done { opacity: 0; animation: qmhTextDone 6s ease-in-out infinite; }
+@keyframes qmhTextDone { 0% { opacity: 0; } 65% { opacity: 0; } 73% { opacity: 1; } 82% { opacity: 1; } 90% { opacity: 0; } 100% { opacity: 0; } }
+
+/* Result card (row 3, col 5) */
+.qmh-flow-result { justify-self: center; align-self: center; }
+.qmh-result-card { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; width: 168px; }
+.qmh-result-check-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; margin-bottom: 1.75rem; }
+.qmh-ripple { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #22c55e; animation: qmhRippleOut 2.4s ease-out infinite; }
+.qmh-ripple-2 { animation-delay: 1.2s; }
+@keyframes qmhRippleOut { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(2.4); opacity: 0; } }
+.qmh-result-check { position: relative; width: 52px; height: 52px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; }
+.qmh-check-stroke { stroke-dasharray: 30; stroke-dashoffset: 30; animation: qmhDrawCheck 4s ease-in-out infinite; }
+@keyframes qmhDrawCheck { 0% { stroke-dashoffset: 30; } 15% { stroke-dashoffset: 0; } 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 30; } }
+.qmh-result-label { font-size: 0.78rem; font-weight: 700; color: var(--c24-text); text-align: center; letter-spacing: 0.02em; line-height: 1.4; }
+.qmh-result-stats { position: relative; height: 1rem; width: 100%; overflow: hidden; }
+.qmh-result-stat {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 600; color: #22c55e; letter-spacing: 0.03em; opacity: 0; white-space: nowrap;
+  animation: qmhStatCycle 6s ease-in-out infinite both;
+}
+.qmh-result-stat:nth-child(2) { animation-delay: 2s; }
+.qmh-result-stat:nth-child(3) { animation-delay: 4s; }
+@keyframes qmhStatCycle {
+  0%   { opacity: 0; transform: translateY(6px); }
+  8%   { opacity: 1; transform: translateY(0); }
+  28%  { opacity: 1; transform: translateY(0); }
+  36%  { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   04 · RADIAL + BENEFITS
+═══════════════════════════════════════════════ */
+.qmh-radial { position: relative; width: 100%; aspect-ratio: 1/1; max-width: 440px; margin: 0 auto; }
+.qmh-radial-conn { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--c24-teal); opacity: 0.4; overflow: visible; }
+.qmh-rl { animation: qmhFlow 2.6s linear infinite; }
+.qmh-rl0 { animation-delay: 0s; } .qmh-rl1 { animation-delay: 0.25s; }
+.qmh-rl2 { animation-delay: 0.5s; } .qmh-rl3 { animation-delay: 0.75s; }
+.qmh-rl4 { animation-delay: 1s; }  .qmh-rl5 { animation-delay: 1.25s; }
+@keyframes qmhFlow { from { stroke-dashoffset: 8.8; } to { stroke-dashoffset: 0; } }
+
+.qmh-radial-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 36%; aspect-ratio: 1/1; border-radius: 50%;
+  background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 2px; z-index: 2; padding: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1);
+  animation: qmhPulse 4s ease-in-out infinite;
+}
+@keyframes qmhPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1); }
+  50%      { box-shadow: 0 8px 40px rgba(0,60,91,0.4), 0 0 0 10px rgba(106,181,171,0.06); }
+}
+.qmh-center-logo {
+  width: 1.8rem; height: 1.8rem; border-radius: 6px; margin-bottom: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.qmh-center-name { font-family: var(--font-body); font-weight: 800; font-size: clamp(0.78rem, 1.8vw, 0.95rem); color: white; letter-spacing: -0.01em; }
+.qmh-center-sub { font-size: clamp(0.48rem, 1vw, 0.56rem); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c24-teal); }
+
+.qmh-node {
+  position: absolute; transform: translate(-50%, -1.2rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  z-index: 1; width: 96px; text-align: center;
+}
+.qmh-node-icon {
+  width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c24-teal-dark); box-shadow: var(--shadow-sm);
+}
+.qmh-node-icon :global(svg) { width: 1.15rem; height: 1.15rem; }
+.qmh-node-label { font-size: 0.64rem; font-weight: 600; color: var(--c24-text-muted); line-height: 1.2; }
+
+.qmh-benefits {
+  margin-top: 4rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+  padding-top: 3rem; border-top: 1px solid var(--c24-border);
+}
+.qmh-benefit { display: flex; align-items: flex-start; gap: 0.7rem; }
+.qmh-benefit-icon {
+  flex-shrink: 0; width: 2.1rem; height: 2.1rem; border-radius: 10px;
+  background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+:global([data-theme="dark"]) .qmh-benefit-icon { background: rgba(106,181,171,0.14); }
+.qmh-benefit-icon :global(svg) { width: 1.05rem; height: 1.05rem; }
+.qmh-benefit-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.qmh-benefit-text strong { font-size: 0.82rem; font-weight: 700; color: var(--c24-text); line-height: 1.3; }
+.qmh-benefit-text span { font-size: 0.72rem; color: var(--c24-text-muted); line-height: 1.4; }
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+.qmh-cta { background: var(--c24-teal); padding: 5rem 2rem; text-align: center; }
+:global([data-theme="dark"]) .qmh-cta { background: var(--c24-teal-dark); }
+.qmh-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; color: white; margin-bottom: 0.6rem; }
+.qmh-cta-sub { font-size: 1rem; color: rgba(255,255,255,0.85); font-weight: 300; margin-bottom: 1.75rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .qmh-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .qmh-problem-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  .qmh-broken-col { flex-direction: row; width: 100%; padding: 0.5rem 0; }
+  .qmh-conn-line { height: 2px; }
+  .qmh-broken-label { display: none; }
+  .qmh-radial { max-width: 380px; }
+  .qmh-benefits { grid-template-columns: repeat(2, 1fr); }
+
+  .qmh-flow-card { padding: 1.5rem; }
+  .qmh-flow-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+  .qmh-fhconn--teal, .qmh-fvconn { display: none; }
+  .qmh-flow-grid > div:empty { display: none; }
+  .qmh-fhconn--red, .qmh-fhconn--green {
+    flex-direction: column; align-items: center; justify-content: center;
+    min-width: unset; align-self: center; height: 2.5rem; gap: 0.2rem;
+  }
+  .qmh-fhconn--red .qmh-fconn-bar, .qmh-fhconn--green .qmh-fconn-bar { width: 2px; height: 1.5rem; flex: none; }
+  .qmh-flow-sources { width: 100%; max-width: 100%; height: 118px; margin-top: 1.25rem; }
+  .qmh-flow-center, .qmh-flow-result { justify-self: unset; }
+  .qmh-processor-card, .qmh-result-card { width: 100%; align-items: center; }
+}
+@media (max-width: 640px) {
+  .qmh-hero { padding: 8rem 1.5rem 3rem; }
+  .qmh-section { padding: 4rem 1.5rem; }
+  .qmh-node { width: 78px; }
+  .qmh-node-label { font-size: 0.56rem; }
+  .qmh-benefits { grid-template-columns: 1fr; }
+}
+</style>

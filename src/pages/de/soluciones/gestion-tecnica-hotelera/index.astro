@@ -1,0 +1,17 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { de } from '../../../../i18n/de';
+---
+<Layout title="Technisches Hotelmanagement — Connect24">
+  <Nav t={de.nav} lang="de" />
+  <ProximamentePage
+    title="Technisches Hotelmanagement"
+    desc="Betriebliche Automatisierung für Hotels, Resorts und Agrotourismus. Volle Kontrolle über Ihre technischen Anlagen ohne manuellen Eingriff."
+    back="/de"
+    badge="Demnächst"
+  />
+  <Footer t={de.footer} />
+</Layout>

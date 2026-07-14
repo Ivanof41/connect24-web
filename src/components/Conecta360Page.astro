@@ -1,0 +1,882 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const tc = t.conecta360;
+
+const icons: Record<string, string> = {
+  monitor: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  cpu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg>`,
+  activity: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  cloud: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h.79a4.5 4.5 0 1 1 0 9z"/></svg>`,
+  external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  wifi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
+  radio: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  layers: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+  alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  trending: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+  filetext: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  grid: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+  mqtt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6h10M7 6L5 18M19 6l-2 12"/></svg>`,
+  plug: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v4M15 2v4"/><path d="M6 8h12v4a6 6 0 0 1-12 0V8z"/><path d="M12 18v4"/></svg>`,
+  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  database: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>`,
+  file: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  more: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
+  user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+  wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  shieldcheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+};
+
+// Radius (in the 0-100 viewBox units) of each node icon, used to stop the
+// connector line at the icon's near edge instead of its center — otherwise,
+// for nodes above the hub, the line would cross through the label beneath the icon.
+const ICON_R = 9;
+const rawNodes = [
+  { label: tc.s1_node1, x: 50,   y: 8,    icon: 'monitor' },
+  { label: tc.s1_node2, x: 82.8, y: 23.8, icon: 'cpu' },
+  { label: tc.s1_node3, x: 91,   y: 59.4, icon: 'activity' },
+  { label: tc.s1_node4, x: 68.2, y: 87.8, icon: 'cloud' },
+  { label: tc.s1_node5, x: 31.8, y: 87.8, icon: 'external' },
+  { label: tc.s1_node6, x: 9,    y: 59.4, icon: 'wifi' },
+  { label: tc.s1_node7, x: 17.2, y: 23.8, icon: 'radio' },
+];
+const nodes = rawNodes.map(n => {
+  const dx = n.x - 50, dy = n.y - 50;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const lineX = n.x - (dx / dist) * ICON_R;
+  const lineY = n.y - (dy / dist) * ICON_R;
+  return { ...n, lineX, lineY };
+});
+
+const s1items = [
+  { title: tc.s1_item1_title, desc: tc.s1_item1_desc, icon: 'target' },
+  { title: tc.s1_item2_title, desc: tc.s1_item2_desc, icon: 'layers' },
+  { title: tc.s1_item3_title, desc: tc.s1_item3_desc, icon: 'alert' },
+];
+
+const s3items = [
+  { title: tc.s3_item1_title, desc: tc.s3_item1_desc, icon: 'clock' },
+  { title: tc.s3_item2_title, desc: tc.s3_item2_desc, icon: 'trending' },
+  { title: tc.s3_item3_title, desc: tc.s3_item3_desc, icon: 'alert' },
+  { title: tc.s3_item4_title, desc: tc.s3_item4_desc, icon: 'filetext' },
+];
+
+const s4items = [tc.s4_item1, tc.s4_item2, tc.s4_item3, tc.s4_item4];
+
+const protocols = [
+  { label: tc.s2_p1,  logo: '/logos/knx.svg' },
+  { label: tc.s2_p2,  logo: '/logos/modbus.svg' },
+  { label: tc.s2_p3,  logo: '/logos/bacnet.svg' },
+  { label: tc.s2_p4,  icon: 'mqtt' },
+  { label: tc.s2_p5,  logo: '/logos/lorawan.svg' },
+  { label: tc.s2_p6,  icon: 'plug' },
+  { label: tc.s2_p7,  icon: 'code' },
+  { label: tc.s2_p8,  icon: 'database' },
+  { label: tc.s2_p9,  icon: 'file' },
+  { label: tc.s2_p10, icon: 'more' },
+];
+
+const dataRows = [
+  { device: tc.s2_row1_device, variable: tc.s2_row1_variable, value: tc.s2_row1_value, unit: tc.s2_row1_unit, updated: tc.s2_row1_updated },
+  { device: tc.s2_row2_device, variable: tc.s2_row2_variable, value: tc.s2_row2_value, unit: tc.s2_row2_unit, updated: tc.s2_row2_updated },
+  { device: tc.s2_row3_device, variable: tc.s2_row3_variable, value: tc.s2_row3_value, unit: tc.s2_row3_unit, updated: tc.s2_row3_updated },
+  { device: tc.s2_row4_device, variable: tc.s2_row4_variable, value: tc.s2_row4_value, unit: tc.s2_row4_unit, updated: tc.s2_row4_updated },
+  { device: tc.s2_row5_device, variable: tc.s2_row5_variable, value: tc.s2_row5_value, unit: tc.s2_row5_unit, updated: tc.s2_row5_updated },
+];
+
+const stats2 = [
+  { label: tc.s2_stat1_label, val: tc.s2_stat1_val, delta: tc.s2_stat1_delta },
+  { label: tc.s2_stat2_label, val: tc.s2_stat2_val, delta: tc.s2_stat2_delta },
+  { label: tc.s2_stat3_label, val: tc.s2_stat3_val, delta: tc.s2_stat3_delta },
+  { label: tc.s2_stat4_label, val: tc.s2_stat4_val, delta: tc.s2_stat4_delta },
+];
+
+const energyBars = [40, 55, 35, 70, 50, 65, 80, 45, 60, 75, 55, 90];
+
+const roles = [
+  { label: tc.role1, icon: 'user' },
+  { label: tc.role2, icon: 'wrench' },
+  { label: tc.role3, icon: 'settings' },
+  { label: tc.role4, icon: 'shieldcheck' },
+  { label: tc.role5, icon: 'zap' },
+];
+---
+<Layout title={tc.page_title} description={tc.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-hero">
+    <div class="container c360-hero-inner reveal">
+      <span class="c360-eyebrow-badge">{tc.hero_eyebrow}</span>
+      <h1 class="c360-hero-title">{tc.hero_title}</h1>
+      <p class="c360-hero-sub">{tc.hero_sub}</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       01 · VISIÓN 360°
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-section c360-bg-a">
+    <div class="container c360-grid">
+      <div class="c360-text reveal">
+        <div class="c360-num-row">
+          <span class="c360-num">{tc.s1_num}</span>
+          <span class="eyebrow" style="margin:0;">{tc.s1_eyebrow}</span>
+        </div>
+        <h2>{tc.s1_title1}<br/>{tc.s1_title2}</h2>
+        <p class="section-desc">{tc.s1_desc}</p>
+
+        <ul class="c360-list">
+          {s1items.map(item => (
+            <li>
+              <span class="c360-list-icon" set:html={icons[item.icon]} />
+              <span class="c360-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="c360-visual reveal reveal-delay-2">
+        <div class="c360-radial">
+          <svg class="c360-radial-conn" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {nodes.map((n, i) => (
+              <path class={`c360-rl c360-rl${i}`} d={`M${n.lineX},${n.lineY} L50,50`} fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2.2 2.2"/>
+            ))}
+          </svg>
+          <div class="c360-radial-center">
+            <span class="c360-center-name">{tc.s1_center_name}</span>
+            <span class="c360-center-sub">{tc.s1_center_sub}</span>
+          </div>
+          {nodes.map((n, i) => (
+            <div class="c360-node" style={`left:${n.x}%; top:${n.y}%; animation-delay:${(i * 0.35).toFixed(2)}s`}>
+              <div class="c360-node-icon" set:html={icons[n.icon]} />
+              <span class="c360-node-label">{n.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02 · DATOS SIN LÍMITES
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-section c360-bg-b">
+    <div class="container c360-grid">
+      <div class="c360-text reveal">
+        <div class="c360-num-row">
+          <span class="c360-num">{tc.s2_num}</span>
+          <span class="eyebrow" style="margin:0;">{tc.s2_eyebrow}</span>
+        </div>
+        <h2>{tc.s2_title1}<br/>{tc.s2_title2}</h2>
+        <p class="section-desc" style="margin-bottom:1.5rem;">{tc.s2_desc}</p>
+
+        <div class="c360-protocols">
+          {protocols.map(p => (
+            <div class="c360-proto">
+              <div class="c360-proto-icon">
+                {p.logo ? <img src={p.logo} alt={p.label} /> : <span set:html={icons[p.icon as string]} />}
+              </div>
+              <span>{p.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="c360-note">
+          <span class="c360-note-icon" set:html={icons.target} />
+          {tc.s2_note}
+        </div>
+      </div>
+
+      <div class="c360-visual reveal reveal-delay-2">
+        <div class="c360-card c360-table-card">
+          <div class="c360-table-head">
+            <span class="c360-card-title"><span set:html={icons.grid} />{tc.s2_table_title}</span>
+            <div class="c360-table-controls">
+              <span class="c360-search"><span set:html={icons.search} />{tc.s2_table_search}</span>
+              <span class="c360-filter-pill">{tc.s2_table_filter}</span>
+            </div>
+          </div>
+          <div class="c360-table-scroll">
+            <table class="c360-table">
+              <thead>
+                <tr>
+                  <th>{tc.s2_col_device}</th>
+                  <th>{tc.s2_col_variable}</th>
+                  <th>{tc.s2_col_value}</th>
+                  <th>{tc.s2_col_unit}</th>
+                  <th>{tc.s2_col_updated}</th>
+                  <th>{tc.s2_col_status}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dataRows.map(r => (
+                  <tr>
+                    <td>{r.device}</td>
+                    <td>{r.variable}</td>
+                    <td>{r.value}</td>
+                    <td>{r.unit}</td>
+                    <td>{r.updated}</td>
+                    <td><span class="c360-status-ok">● {tc.s2_status_ok}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="c360-stats-row">
+          {stats2.map(s => (
+            <div class="c360-stat">
+              <span class="c360-stat-label">{s.label}</span>
+              <span class="c360-stat-val">{s.val}</span>
+              <span class="c360-stat-delta">{s.delta}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03 · INFORMACIÓN CENTRALIZADA
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-section c360-bg-a">
+    <div class="container c360-grid">
+      <div class="c360-text reveal">
+        <div class="c360-num-row">
+          <span class="c360-num">{tc.s3_num}</span>
+          <span class="eyebrow" style="margin:0;">{tc.s3_eyebrow}</span>
+        </div>
+        <h2>{tc.s3_title1}<br/>{tc.s3_title2}</h2>
+        <p class="section-desc">{tc.s3_desc}</p>
+
+        <ul class="c360-list">
+          {s3items.map(item => (
+            <li>
+              <span class="c360-list-icon" set:html={icons[item.icon]} />
+              <span class="c360-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="c360-visual reveal reveal-delay-2">
+        <div class="c360-card c360-summary-card">
+          <div class="c360-table-head">
+            <span class="c360-card-title">{tc.s3_dash_title}</span>
+            <div class="c360-table-controls">
+              <span class="c360-filter-pill">{tc.s3_dash_today}</span>
+              <span class="c360-filter-pill">{tc.s3_dash_allinst}</span>
+            </div>
+          </div>
+
+          <div class="c360-summary-stats">
+            <div class="c360-mini-stat">
+              <span>{tc.s3_stat_installs_label}</span>
+              <strong>{tc.s3_stat_installs_val}</strong>
+            </div>
+            <div class="c360-mini-stat">
+              <span>{tc.s3_stat_devices_label}</span>
+              <strong>{tc.s3_stat_devices_val}</strong>
+            </div>
+            <div class="c360-mini-stat">
+              <span>{tc.s3_stat_points_label}</span>
+              <strong>{tc.s3_stat_points_val}</strong>
+            </div>
+            <div class="c360-mini-stat c360-mini-stat--alert">
+              <span>{tc.s3_stat_alarms_label}</span>
+              <strong>{tc.s3_stat_alarms_val}</strong>
+              <em>{tc.s3_stat_alarms_crit}</em>
+            </div>
+          </div>
+
+          <div class="c360-summary-charts">
+            <div class="c360-chart-box">
+              <span class="c360-chart-label">{tc.s3_energy_label}</span>
+              <span class="c360-chart-val">{tc.s3_energy_val} <small>{tc.s3_energy_unit}</small></span>
+              <div class="c360-bars">
+                {energyBars.map(h => <div class="c360-bar" style={`height:${h}%`}></div>)}
+              </div>
+            </div>
+            <div class="c360-chart-box">
+              <span class="c360-chart-label">{tc.s3_temp_label}</span>
+              <span class="c360-chart-val">{tc.s3_temp_val} <small>{tc.s3_temp_unit}</small></span>
+              <svg class="c360-spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                <polyline points="0,20 10,15 20,18 30,10 40,14 50,8 60,12 70,6 80,10 90,4 100,9" fill="none" stroke="var(--c24-teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="c360-summary-bottom">
+            <div class="c360-donut-box">
+              <span class="c360-chart-label">{tc.s3_prio_label}</span>
+              <div class="c360-donut-wrap">
+                <div class="c360-donut"></div>
+                <ul class="c360-donut-legend">
+                  <li><i class="c360-dot c360-dot--crit"></i>{tc.s3_prio1} <strong>{tc.s3_prio1_val}</strong></li>
+                  <li><i class="c360-dot c360-dot--imp"></i>{tc.s3_prio2} <strong>{tc.s3_prio2_val}</strong></li>
+                  <li><i class="c360-dot c360-dot--mod"></i>{tc.s3_prio3} <strong>{tc.s3_prio3_val}</strong></li>
+                  <li><i class="c360-dot c360-dot--info"></i>{tc.s3_prio4} <strong>{tc.s3_prio4_val}</strong></li>
+                </ul>
+              </div>
+            </div>
+            <div class="c360-events-box">
+              <span class="c360-chart-label">{tc.s3_events_label}</span>
+              <ul class="c360-events">
+                <li><i class="c360-dot c360-dot--crit"></i><span>{tc.s3_event1}</span><time>{tc.s3_event1_time}</time></li>
+                <li><i class="c360-dot c360-dot--imp"></i><span>{tc.s3_event2}</span><time>{tc.s3_event2_time}</time></li>
+                <li><i class="c360-dot c360-dot--mod"></i><span>{tc.s3_event3}</span><time>{tc.s3_event3_time}</time></li>
+              </ul>
+              <a href="#" class="c360-events-link">{tc.s3_events_cta} →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       04 · INFORMACIÓN QUE TE HACE AVANZAR
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-section c360-bg-b">
+    <div class="container">
+    <div class="c360-grid">
+      <div class="c360-text reveal">
+        <div class="c360-num-row">
+          <span class="c360-num">{tc.s4_num}</span>
+          <span class="eyebrow" style="margin:0;">{tc.s4_eyebrow}</span>
+        </div>
+        <h2>{tc.s4_title1}<br/>{tc.s4_title2}</h2>
+        <p class="section-desc">{tc.s4_desc}</p>
+
+        <ul class="c360-checklist">
+          {s4items.map(item => (
+            <li><span class="c360-check">✓</span>{item}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="c360-visual reveal reveal-delay-2 c360-devices">
+        <div class="c360-laptop">
+          <div class="c360-laptop-frame">
+            <span class="c360-laptop-cam"></span>
+            <div class="c360-laptop-screen">
+              <div class="c360-laptop-brand-row">
+                <span class="c360-laptop-brand">Conecta 360</span>
+                <span class="c360-laptop-winicon"></span>
+              </div>
+              <div class="c360-laptop-header">
+                <span>{tc.s4_device_energy_label}</span>
+                <span class="c360-laptop-range">{tc.s4_device_range} <em>{tc.s4_device_metric}</em></span>
+              </div>
+              <svg class="c360-laptop-chart" viewBox="0 0 200 60" preserveAspectRatio="none">
+                <polyline points="0,45 20,35 40,40 60,20 80,30 100,15 120,25 140,10 160,20 180,8 200,18" fill="none" stroke="var(--c24-teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="c360-laptop-detail">
+                <span class="c360-laptop-detail-label">{tc.s4_device_detail}</span>
+                <div class="c360-laptop-detail-row"><span>{tc.s4_device_point}</span><strong>{tc.s4_device_point_val}</strong></div>
+                <div class="c360-laptop-detail-row"><span>{tc.s4_device_val_label}</span><strong>{tc.s4_device_val}</strong></div>
+                <div class="c360-laptop-detail-row"><span>{tc.s4_device_updated_label}</span><strong>{tc.s4_device_updated_val}</strong></div>
+                <span class="c360-laptop-detail-cta">{tc.s4_device_history}</span>
+              </div>
+            </div>
+          </div>
+          <div class="c360-laptop-base"></div>
+        </div>
+
+        <div class="c360-phone">
+          <div class="c360-phone-screen">
+            <span class="c360-phone-notch"></span>
+            <div class="c360-phone-title-row">
+              <span class="c360-phone-title">{tc.s4_phone_title}</span>
+            </div>
+            <div class="c360-phone-tabs">
+              <span class="active">{tc.s4_phone_tab1}</span>
+              <span>{tc.s4_phone_tab2}</span>
+              <span>{tc.s4_phone_tab3}</span>
+            </div>
+            <div class="c360-phone-alarms">
+              <div class="c360-phone-alarm">
+                <div class="c360-phone-alarm-top">
+                  <strong>{tc.s4_phone_alarm1}</strong>
+                  <span class="c360-phone-alarm-badge">{tc.s4_phone_alarm1_prio}</span>
+                </div>
+                <span class="c360-phone-alarm-meta">{tc.s4_phone_alarm1_loc} · {tc.s4_phone_alarm1_time}</span>
+              </div>
+              <div class="c360-phone-alarm">
+                <div class="c360-phone-alarm-top">
+                  <strong>{tc.s4_phone_alarm2}</strong>
+                  <span class="c360-phone-alarm-badge">{tc.s4_phone_alarm2_prio}</span>
+                </div>
+                <span class="c360-phone-alarm-meta">{tc.s4_phone_alarm2_loc} · {tc.s4_phone_alarm2_time}</span>
+              </div>
+            </div>
+            <div class="c360-phone-navbar">
+              <span set:html={icons.home} />
+              <span class="active" set:html={icons.bell} />
+              <span set:html={icons.search} />
+              <span set:html={icons.user} />
+            </div>
+          </div>
+          <span class="c360-phone-home-indicator"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="c360-closing-card reveal reveal-delay-3">
+      <div class="c360-closing-text">
+        <span class="c360-closing-icon" set:html={icons.target} />
+        <p>{tc.closing_text}</p>
+      </div>
+      <div class="c360-roles">
+        {roles.map(r => (
+          <div class="c360-role">
+            <span class="c360-role-icon" set:html={icons[r.icon]} />
+            <span>{r.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════ -->
+  <section class="c360-cta">
+    <div class="container c360-cta-inner reveal">
+      <h2 class="c360-cta-title">{tc.cta_title}</h2>
+      <p class="c360-cta-sub">{tc.cta_sub}</p>
+      <a href="mailto:info@connect24.io" class="btn btn-white">{tc.cta_btn}</a>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+</Layout>
+
+<style>
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.c360-hero {
+  padding: 9rem 2rem 4rem;
+  background: #f5f8fc;
+  position: relative; overflow: hidden;
+}
+:global([data-theme="dark"]) .c360-hero {
+  background: linear-gradient(135deg, #080F18 0%, #0a1520 55%, #080F18 100%);
+}
+.c360-hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 80% at 50% 0%, rgba(106,181,171,0.14) 0%, transparent 70%);
+}
+.c360-hero-inner { position: relative; z-index: 1; text-align: center; }
+.c360-eyebrow-badge {
+  display: inline-flex; align-items: center;
+  background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.9rem; border-radius: var(--radius-pill);
+  margin-bottom: 1.25rem;
+}
+:global([data-theme="dark"]) .c360-eyebrow-badge { background: rgba(106,181,171,0.14); }
+.c360-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 700; letter-spacing: -0.02em;
+  color: var(--c24-navy); margin-bottom: 0.75rem;
+}
+:global([data-theme="dark"]) .c360-hero-title { color: #fff; }
+.c360-hero-sub {
+  font-size: 1.1rem; color: var(--c24-text-muted);
+  font-weight: 300; max-width: 480px; margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED SECTION LAYOUT
+═══════════════════════════════════════════════ */
+.c360-section { padding: 6rem 2rem; }
+.c360-bg-a { background: #ffffff; }
+:global([data-theme="dark"]) .c360-bg-a { background: var(--c24-bg); }
+.c360-bg-b { background: #f5f8fc; }
+:global([data-theme="dark"]) .c360-bg-b { background: var(--c24-surface); }
+
+.c360-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6.5rem; align-items: center;
+}
+.c360-num-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.c360-num {
+  font-family: var(--font-body); font-weight: 800; font-size: 0.85rem;
+  width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--c24-navy); color: var(--c24-teal);
+  border: 2px solid var(--c24-teal);
+}
+:global([data-theme="dark"]) .c360-num { background: rgba(106,181,171,0.12); }
+
+/* Title/desc list with icon + title + description */
+.c360-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin-top: 0.5rem; }
+.c360-list li { display: flex; align-items: flex-start; gap: 0.85rem; }
+.c360-list-icon {
+  flex-shrink: 0; width: 2.1rem; height: 2.1rem;
+  border-radius: 10px; background: var(--c24-teal-light);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c24-teal-dark);
+}
+:global([data-theme="dark"]) .c360-list-icon { background: rgba(106,181,171,0.14); }
+.c360-list-icon :global(svg) { width: 1.1rem; height: 1.1rem; }
+.c360-list-text { font-size: 0.9rem; color: var(--c24-text-muted); line-height: 1.6; font-weight: 300; }
+.c360-list-text strong { color: var(--c24-text); font-weight: 600; }
+
+/* Simple checkmark list (section 4) */
+.c360-checklist { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; margin-top: 0.5rem; }
+.c360-checklist li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.95rem; color: var(--c24-text); line-height: 1.4; }
+.c360-check {
+  flex-shrink: 0; width: 1.25rem; height: 1.25rem;
+  background: var(--c24-teal); color: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 800; margin-top: 0.1rem;
+}
+
+/* ═══════════════════════════════════════════════
+   01 · RADIAL DIAGRAM
+═══════════════════════════════════════════════ */
+.c360-radial {
+  position: relative; width: 100%; aspect-ratio: 1/1; max-width: 460px; margin: 0 auto;
+}
+.c360-radial-conn {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  color: var(--c24-teal); opacity: 0.4; overflow: visible;
+}
+.c360-rl { animation: c360Flow 2.6s linear infinite; }
+.c360-rl0 { animation-delay: 0s; } .c360-rl1 { animation-delay: 0.2s; }
+.c360-rl2 { animation-delay: 0.4s; } .c360-rl3 { animation-delay: 0.6s; }
+.c360-rl4 { animation-delay: 0.8s; } .c360-rl5 { animation-delay: 1s; }
+.c360-rl6 { animation-delay: 1.2s; }
+@keyframes c360Flow { from { stroke-dashoffset: 8.8; } to { stroke-dashoffset: 0; } }
+
+.c360-radial-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 34%; aspect-ratio: 1/1; border-radius: 50%;
+  background: linear-gradient(150deg, var(--c24-teal) 0%, var(--c24-teal-dark) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 2px; z-index: 2; padding: 0.5rem;
+  box-shadow: 0 8px 32px rgba(106,181,171,0.35), 0 0 0 6px rgba(106,181,171,0.12);
+  animation: c360Pulse 4s ease-in-out infinite;
+}
+@keyframes c360Pulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(106,181,171,0.35), 0 0 0 6px rgba(106,181,171,0.12); }
+  50%      { box-shadow: 0 8px 40px rgba(106,181,171,0.5), 0 0 0 10px rgba(106,181,171,0.08); }
+}
+.c360-center-name { font-family: var(--font-body); font-weight: 800; font-size: clamp(0.85rem, 2vw, 1.1rem); color: white; letter-spacing: -0.01em; }
+.c360-center-sub { font-size: clamp(0.5rem, 1vw, 0.6rem); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+
+.c360-node {
+  /* Only the icon (2.4rem tall, first child) is centered on the anchor point,
+     so the connector line ends at the icon and never crosses the label below it. */
+  position: absolute; transform: translate(-50%, -1.2rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  z-index: 1; width: 92px; text-align: center;
+}
+.c360-node-icon {
+  width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c24-teal-dark); box-shadow: var(--shadow-sm);
+}
+.c360-node-icon :global(svg) { width: 1.15rem; height: 1.15rem; }
+.c360-node-label { font-size: 0.66rem; font-weight: 600; color: var(--c24-text-muted); line-height: 1.2; }
+
+/* ═══════════════════════════════════════════════
+   02 · PROTOCOL GRID + TABLE CARD
+═══════════════════════════════════════════════ */
+.c360-protocols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
+.c360-proto {
+  display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+  padding: 0.85rem 0.4rem; border-radius: var(--radius-sm);
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+.c360-proto:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.c360-proto-icon { width: 1.7rem; height: 1.7rem; display: flex; align-items: center; justify-content: center; color: var(--c24-teal-dark); }
+.c360-proto-icon img { width: 100%; height: 100%; object-fit: contain; }
+.c360-proto-icon :global(svg) { width: 100%; height: 100%; }
+.c360-proto span { font-size: 0.62rem; font-weight: 600; color: var(--c24-text-muted); text-align: center; line-height: 1.2; }
+
+.c360-note {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.85rem; color: var(--c24-text); font-weight: 500;
+  padding: 0.85rem 1rem; border-radius: var(--radius-sm);
+  background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25);
+}
+:global([data-theme="dark"]) .c360-note { background: rgba(106,181,171,0.1); }
+.c360-note-icon { flex-shrink: 0; width: 1.1rem; height: 1.1rem; color: var(--c24-teal-dark); margin-top: 0.1rem; }
+.c360-note-icon :global(svg) { width: 100%; height: 100%; }
+
+/* Card shell reused by table + summary */
+.c360-card {
+  background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md); padding: 1.25rem 1.4rem; margin-bottom: 1rem;
+}
+:global([data-theme="dark"]) .c360-card { background: var(--c24-surface); }
+.c360-table-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.c360-card-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 700; color: var(--c24-text); }
+.c360-card-title :global(svg) { width: 1rem; height: 1rem; color: var(--c24-teal); }
+.c360-table-controls { display: flex; align-items: center; gap: 0.5rem; }
+.c360-search {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.7rem; color: var(--c24-text-muted);
+  padding: 0.3rem 0.6rem; border-radius: var(--radius-pill); border: 1px solid var(--c24-border);
+}
+.c360-search :global(svg) { width: 0.75rem; height: 0.75rem; }
+.c360-filter-pill {
+  font-size: 0.68rem; font-weight: 600; color: var(--c24-text-muted);
+  padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); border: 1px solid var(--c24-border);
+  white-space: nowrap;
+}
+
+.c360-table-scroll { overflow-x: auto; }
+.c360-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+.c360-table th {
+  text-align: left; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c24-text-muted); padding: 0 0.5rem 0.5rem; border-bottom: 1px solid var(--c24-border);
+}
+.c360-table td {
+  font-size: 0.72rem; color: var(--c24-text); padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--c24-border);
+}
+.c360-table tr:last-child td { border-bottom: none; }
+.c360-status-ok { color: #059669; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.04em; }
+
+.c360-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+.c360-stat {
+  background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-sm);
+  padding: 0.75rem 0.7rem; display: flex; flex-direction: column; gap: 0.15rem;
+}
+:global([data-theme="dark"]) .c360-stat { background: var(--c24-surface); }
+.c360-stat-label { font-size: 0.6rem; font-weight: 600; color: var(--c24-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.c360-stat-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--c24-navy); }
+:global([data-theme="dark"]) .c360-stat-val { color: var(--c24-text); }
+.c360-stat-delta { font-size: 0.6rem; font-weight: 600; color: #059669; }
+
+/* ═══════════════════════════════════════════════
+   03 · SUMMARY DASHBOARD
+═══════════════════════════════════════════════ */
+.c360-summary-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-bottom: 1.1rem; }
+.c360-mini-stat {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  background: var(--c24-surface); border-radius: var(--radius-sm); padding: 0.65rem 0.6rem;
+}
+:global([data-theme="dark"]) .c360-mini-stat { background: rgba(255,255,255,0.03); }
+.c360-mini-stat span { font-size: 0.58rem; font-weight: 600; color: var(--c24-text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.c360-mini-stat strong { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--c24-navy); }
+:global([data-theme="dark"]) .c360-mini-stat strong { color: var(--c24-text); }
+.c360-mini-stat--alert strong { color: #dc2626; }
+.c360-mini-stat--alert em { font-style: normal; font-size: 0.58rem; font-weight: 700; color: #dc2626; }
+
+.c360-summary-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.1rem; }
+.c360-chart-box { background: var(--c24-surface); border-radius: var(--radius-sm); padding: 0.75rem 0.85rem; display: flex; flex-direction: column; }
+:global([data-theme="dark"]) .c360-chart-box { background: rgba(255,255,255,0.03); }
+.c360-chart-label { font-size: 0.6rem; font-weight: 600; color: var(--c24-text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem; }
+.c360-chart-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 800; color: var(--c24-navy); margin-bottom: 0.5rem; }
+:global([data-theme="dark"]) .c360-chart-val { color: var(--c24-text); }
+.c360-chart-val small { font-size: 0.65rem; font-weight: 500; color: var(--c24-text-muted); }
+.c360-bars { display: flex; align-items: flex-end; gap: 3px; height: 34px; }
+.c360-bar { flex: 1; background: var(--c24-teal); border-radius: 2px 2px 0 0; opacity: 0.75; }
+.c360-spark { width: 100%; height: 34px; }
+
+.c360-summary-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.c360-donut-box, .c360-events-box { background: var(--c24-surface); border-radius: var(--radius-sm); padding: 0.75rem 0.85rem; }
+:global([data-theme="dark"]) .c360-donut-box, :global([data-theme="dark"]) .c360-events-box { background: rgba(255,255,255,0.03); }
+.c360-donut-wrap { display: flex; align-items: center; gap: 0.85rem; }
+.c360-donut {
+  flex-shrink: 0; width: 3.6rem; height: 3.6rem; border-radius: 50%;
+  background: conic-gradient(#ef4444 0deg 36deg, #f59e0b 36deg 108deg, var(--c24-teal) 108deg 144deg, #94a3b8 144deg 360deg);
+  position: relative;
+}
+.c360-donut::after {
+  content: ''; position: absolute; inset: 22%; border-radius: 50%; background: var(--c24-surface);
+}
+:global([data-theme="dark"]) .c360-donut::after { background: #101f30; }
+.c360-donut-legend { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+.c360-donut-legend li { font-size: 0.68rem; color: var(--c24-text-muted); display: flex; align-items: center; gap: 0.4rem; }
+.c360-donut-legend strong { color: var(--c24-text); margin-left: auto; }
+.c360-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.c360-dot--crit { background: #ef4444; }
+.c360-dot--imp  { background: #f59e0b; }
+.c360-dot--mod  { background: var(--c24-teal); }
+.c360-dot--info { background: #94a3b8; }
+
+.c360-events { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.6rem; }
+.c360-events li { display: flex; align-items: center; gap: 0.45rem; font-size: 0.68rem; color: var(--c24-text); }
+.c360-events li span { flex: 1; }
+.c360-events li time { font-size: 0.6rem; color: var(--c24-text-muted); flex-shrink: 0; }
+.c360-events-link { font-size: 0.68rem; font-weight: 700; color: var(--c24-teal-dark); }
+
+/* ═══════════════════════════════════════════════
+   04 · DEVICE MOCKUPS
+═══════════════════════════════════════════════ */
+.c360-devices { position: relative; display: flex; justify-content: center; padding: 1.5rem 0 0.5rem; }
+
+/* ── Laptop ── */
+.c360-laptop { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; }
+.c360-laptop-frame {
+  width: 100%; background: linear-gradient(160deg, #1c2b3a 0%, #0f1b28 100%);
+  border-radius: 16px 16px 6px 6px; padding: 12px 12px 16px;
+  box-shadow: var(--shadow-md);
+}
+.c360-laptop-cam { display: block; width: 5px; height: 5px; border-radius: 50%; background: #3a4b5c; margin: 0 auto 8px; }
+.c360-laptop-screen { background: white; border-radius: 6px; padding: 0.9rem 1rem 1.1rem; overflow: hidden; }
+:global([data-theme="dark"]) .c360-laptop-screen { background: var(--c24-surface); }
+.c360-laptop-brand-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+.c360-laptop-brand { font-family: var(--font-body); font-size: 0.7rem; font-weight: 800; color: var(--c24-teal-dark); letter-spacing: -0.01em; }
+.c360-laptop-winicon { width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid var(--c24-border); }
+.c360-laptop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.c360-laptop-header span:first-child { font-size: 0.75rem; font-weight: 700; color: var(--c24-text); }
+.c360-laptop-range { font-size: 0.62rem; color: var(--c24-text-muted); display: flex; align-items: center; gap: 0.3rem; }
+.c360-laptop-range em { font-style: normal; padding: 0.1rem 0.4rem; border-radius: var(--radius-pill); border: 1px solid var(--c24-border); }
+.c360-laptop-chart { width: 100%; height: 58px; margin-bottom: 0.75rem; }
+.c360-laptop-detail { background: var(--c24-surface); border-radius: var(--radius-sm); padding: 0.7rem 0.85rem; position: relative; }
+:global([data-theme="dark"]) .c360-laptop-detail { background: rgba(255,255,255,0.03); }
+.c360-laptop-detail-label { display: block; font-size: 0.62rem; font-weight: 700; color: var(--c24-teal-dark); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+.c360-laptop-detail-row { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--c24-text-muted); padding: 0.15rem 0; }
+.c360-laptop-detail-row strong { color: var(--c24-text); }
+.c360-laptop-detail-cta {
+  display: inline-block; margin-top: 0.5rem;
+  font-size: 0.6rem; font-weight: 700; color: white;
+  background: var(--c24-teal); padding: 0.3rem 0.65rem; border-radius: var(--radius-pill);
+}
+.c360-laptop-base {
+  width: 128%; height: 12px; margin-top: -1px;
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+  border-radius: 0 0 10px 10px;
+  clip-path: polygon(3% 0, 97% 0, 100% 100%, 0% 100%);
+  position: relative;
+}
+:global([data-theme="dark"]) .c360-laptop-base { background: linear-gradient(180deg, #2a3a4a 0%, #17222d 100%); }
+.c360-laptop-base::after {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 56px; height: 4px; background: rgba(0,0,0,0.15); border-radius: 0 0 5px 5px;
+}
+
+/* ── Phone ── */
+.c360-phone {
+  position: absolute; right: 2%; bottom: -1.5rem; width: 156px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.c360-phone-screen {
+  position: relative; width: 100%; overflow: hidden;
+  background: linear-gradient(160deg, #1c2b3a 0%, #0f1b28 100%);
+  border-radius: 24px; padding: 8px 7px 16px;
+  box-shadow: 0 20px 45px rgba(0,60,91,0.22);
+}
+.c360-phone-screen::before {
+  content: ''; position: absolute; inset: 8px 7px 16px;
+  background: white; border-radius: 17px; z-index: 0;
+}
+:global([data-theme="dark"]) .c360-phone-screen::before { background: var(--c24-surface); }
+.c360-phone-notch {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  width: 42px; height: 11px; background: #0f1b28; border-radius: 999px; z-index: 2;
+}
+.c360-phone-title-row, .c360-phone-tabs, .c360-phone-alarms, .c360-phone-navbar { position: relative; z-index: 1; }
+.c360-phone-title-row { padding: 0.9rem 0.35rem 0 0.35rem; }
+.c360-phone-title { font-size: 0.72rem; font-weight: 800; color: var(--c24-text); }
+.c360-phone-tabs { display: flex; gap: 0.3rem; padding: 0.4rem 0.35rem 0; flex-wrap: wrap; }
+.c360-phone-tabs span { font-size: 0.46rem; font-weight: 700; color: var(--c24-text-muted); padding: 0.2rem 0.35rem; border-radius: var(--radius-pill); border: 1px solid var(--c24-border); white-space: nowrap; }
+.c360-phone-tabs span.active { color: white; background: #dc2626; border-color: #dc2626; }
+.c360-phone-alarms { padding: 0.5rem 0.35rem 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.c360-phone-alarm { border-left: 2px solid #ef4444; padding: 0.3rem 0 0.3rem 0.4rem; display: flex; flex-direction: column; gap: 0.15rem; }
+.c360-phone-alarm-top { display: flex; align-items: center; justify-content: space-between; gap: 0.3rem; }
+.c360-phone-alarm strong { font-size: 0.58rem; color: var(--c24-text); line-height: 1.2; }
+.c360-phone-alarm-badge { flex-shrink: 0; font-size: 0.42rem; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: #dc2626; background: rgba(220,38,38,0.1); padding: 0.1rem 0.3rem; border-radius: var(--radius-pill); }
+.c360-phone-alarm-meta { font-size: 0.48rem; color: var(--c24-text-muted); }
+.c360-phone-navbar {
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 0.5rem 0.2rem 0.35rem; border-top: 1px solid var(--c24-border); margin-top: 0.2rem;
+}
+.c360-phone-navbar span { width: 14px; height: 14px; color: var(--c24-text-muted); }
+.c360-phone-navbar span.active { color: #dc2626; }
+.c360-phone-navbar :global(svg) { width: 100%; height: 100%; }
+.c360-phone-home-indicator { width: 36px; height: 4px; border-radius: var(--radius-pill); background: var(--c24-border); margin-top: 0.6rem; }
+
+/* ═══════════════════════════════════════════════
+   CLOSING CARD (part of section 04)
+═══════════════════════════════════════════════ */
+.c360-closing-card {
+  margin-top: 4.5rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+  background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25);
+  border-radius: var(--radius-lg); padding: 1.5rem 2rem;
+}
+:global([data-theme="dark"]) .c360-closing-card { background: rgba(106,181,171,0.08); border-color: rgba(106,181,171,0.18); }
+.c360-closing-text { display: flex; align-items: center; gap: 0.85rem; max-width: 420px; }
+.c360-closing-icon {
+  flex-shrink: 0; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  background: rgba(106,181,171,0.2); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+.c360-closing-icon :global(svg) { width: 1.15rem; height: 1.15rem; }
+.c360-closing-text p { font-size: 0.9rem; font-weight: 600; color: var(--c24-text); line-height: 1.5; }
+.c360-roles { display: flex; gap: 1.75rem; flex-wrap: wrap; }
+.c360-role { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+.c360-role-icon {
+  width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  background: white; border: 1px solid var(--c24-border); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+:global([data-theme="dark"]) .c360-role-icon { background: var(--c24-surface); }
+.c360-role-icon :global(svg) { width: 1rem; height: 1rem; }
+.c360-role span { font-size: 0.62rem; font-weight: 600; color: var(--c24-text-muted); }
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+.c360-cta { background: var(--c24-teal); padding: 5rem 2rem; text-align: center; }
+:global([data-theme="dark"]) .c360-cta { background: var(--c24-teal-dark); }
+.c360-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; color: white; margin-bottom: 0.6rem; }
+.c360-cta-sub { font-size: 1rem; color: rgba(255,255,255,0.85); font-weight: 300; margin-bottom: 1.75rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .c360-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .c360-radial { max-width: 380px; }
+  .c360-devices { padding-bottom: 3rem; }
+}
+@media (max-width: 640px) {
+  .c360-hero { padding: 8rem 1.5rem 3rem; }
+  .c360-section { padding: 4rem 1.5rem; }
+  .c360-protocols { grid-template-columns: repeat(3, 1fr); }
+  .c360-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .c360-summary-stats { grid-template-columns: repeat(2, 1fr); }
+  .c360-summary-charts, .c360-summary-bottom { grid-template-columns: 1fr; }
+  .c360-node { width: 76px; }
+  .c360-node-label { font-size: 0.58rem; }
+  .c360-closing-card { flex-direction: column; align-items: flex-start; }
+  .c360-roles { gap: 1.25rem; }
+  .c360-phone { position: static; margin: 1.5rem auto 0; }
+  .c360-devices { flex-direction: column; align-items: center; padding-bottom: 1rem; }
+}
+</style>

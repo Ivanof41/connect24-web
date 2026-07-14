@@ -1,0 +1,18 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { ca } from '../../../../i18n/ca';
+---
+<Layout title="Eficiència i Sostenibilitat — Connect24">
+  <Nav t={ca.nav} lang="ca" />
+  <ProximamentePage
+    title="Eficiència i Sostenibilitat"
+    desc="Monitorització i optimització del consum energètic i hídric de la teva instal·lació hotelera. Menys despesa, menys petjada."
+    back="/ca/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Gestió Tècnica Hotelera"
+    badge="Properament"
+  />
+  <Footer t={ca.footer} />
+</Layout>

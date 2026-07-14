@@ -1,0 +1,671 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+  t: Translations;
+  lang: string;
+}
+const { t, lang } = Astro.props;
+const tg = t.integraciones;
+
+const icons: Record<string, string> = {
+  server: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>`,
+  building: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="22" x2="10" y2="15"/><line x1="14" y1="22" x2="14" y2="15"/></svg>`,
+  wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  euro: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 7.5a6.5 6.5 0 1 0 0 9"/><line x1="3.5" y1="10" x2="13.5" y2="10"/><line x1="3.5" y1="14" x2="12" y2="14"/></svg>`,
+  external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  trending: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+  grid: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+  wifi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
+  plug: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v4M15 2v4"/><path d="M6 8h12v4a6 6 0 0 1-12 0V8z"/><path d="M12 18v4"/></svg>`,
+  refresh: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  shieldcheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  cloud: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h.79a4.5 4.5 0 1 1 0 9z"/></svg>`,
+  database: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>`,
+  more: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
+  checkcircle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  filetext: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  mqtt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6h10M7 6L5 18M19 6l-2 12"/></svg>`,
+  activity: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+};
+
+const s1items = [
+  { title: tg.s1_item1_title, desc: tg.s1_item1_desc, icon: 'plug' },
+  { title: tg.s1_item2_title, desc: tg.s1_item2_desc, icon: 'refresh' },
+  { title: tg.s1_item3_title, desc: tg.s1_item3_desc, icon: 'users' },
+];
+const s2items = [
+  { title: tg.s2_item1_title, desc: tg.s2_item1_desc, icon: 'plug' },
+  { title: tg.s2_item2_title, desc: tg.s2_item2_desc, icon: 'shieldcheck' },
+  { title: tg.s2_item3_title, desc: tg.s2_item3_desc, icon: 'trending' },
+];
+const s3items = [
+  { title: tg.s3_item1_title, desc: tg.s3_item1_desc, icon: 'database' },
+  { title: tg.s3_item2_title, desc: tg.s3_item2_desc, icon: 'refresh' },
+  { title: tg.s3_item3_title, desc: tg.s3_item3_desc, icon: 'grid' },
+];
+
+// Docking arc (8 nodes) — unlike Conecta 360's full 360° ring, the systems
+// arrive from a left-hand arc into an off-center hub, like ships docking in
+// from one side. Same edge-stop technique so lines never cross the labels.
+const ICON_R = 9;
+const HUB_X = 66, HUB_Y = 50;
+const rawNodes = [
+  { label: tg.s1_node1, x: 66,   y: 10,   icon: 'server' },
+  { label: tg.s1_node2, x: 48.6, y: 14,   icon: 'building' },
+  { label: tg.s1_node3, x: 34.7, y: 25.1, icon: 'wrench' },
+  { label: tg.s1_node4, x: 27,   y: 41.1, icon: 'euro' },
+  { label: tg.s1_node5, x: 27,   y: 58.9, icon: 'external' },
+  { label: tg.s1_node6, x: 34.7, y: 74.9, icon: 'trending' },
+  { label: tg.s1_node7, x: 48.6, y: 86,   icon: 'grid' },
+  { label: tg.s1_node8, x: 66,   y: 90,   icon: 'wifi' },
+];
+const nodes = rawNodes.map(n => {
+  const dx = n.x - HUB_X, dy = n.y - HUB_Y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const lineX = n.x - (dx / dist) * ICON_R;
+  const lineY = n.y - (dy / dist) * ICON_R;
+  return { ...n, lineX, lineY };
+});
+
+const protocols = [
+  { label: tg.s2_p1, icon: 'cloud' },
+  { label: tg.s2_p2, icon: 'mqtt' },
+  { label: tg.s2_p3, icon: 'building' },
+  { label: tg.s2_p4, icon: 'activity' },
+  { label: tg.s2_p5, icon: 'database' },
+  { label: tg.s2_p6, icon: 'more' },
+];
+const navItems = [tg.s2_nav1, tg.s2_nav2, tg.s2_nav3, tg.s2_nav4, tg.s2_nav5];
+const connectorRows = [
+  { name: tg.s2_row1, sync: tg.s2_row1_sync, icon: 'building' },
+  { name: tg.s2_row2, sync: tg.s2_row2_sync, icon: 'wrench' },
+  { name: tg.s2_row3, sync: tg.s2_row3_sync, icon: 'server' },
+  { name: tg.s2_row4, sync: tg.s2_row4_sync, icon: 'euro' },
+  { name: tg.s2_row5, sync: tg.s2_row5_sync, icon: 'cloud' },
+];
+
+const sources = [
+  { label: tg.s3_source1, icon: 'server' },
+  { label: tg.s3_source2, icon: 'wifi' },
+  { label: tg.s3_source3, icon: 'euro' },
+  { label: tg.s3_source4, icon: 'grid' },
+  { label: tg.s3_source5, icon: 'external' },
+];
+const destinations = [
+  { label: tg.s3_dest1, icon: 'building' },
+  { label: tg.s3_dest2, icon: 'wrench' },
+  { label: tg.s3_dest3, icon: 'trending' },
+  { label: tg.s3_dest4, icon: 'euro' },
+  { label: tg.s3_dest5, icon: 'external' },
+];
+const stats3 = [
+  { val: tg.s3_stat1_val, label: tg.s3_stat1_label, icon: 'trending' },
+  { val: tg.s3_stat2_val, label: tg.s3_stat2_label, icon: 'alert' },
+  { val: tg.s3_stat3_val, label: tg.s3_stat3_label, icon: 'clock' },
+  { val: tg.s3_stat4_val, label: tg.s3_stat4_label, icon: 'checkcircle' },
+];
+
+const benefits4 = [
+  { label: tg.s4_benefit1, icon: 'settings' },
+  { label: tg.s4_benefit2, icon: 'checkcircle' },
+  { label: tg.s4_benefit3, icon: 'filetext' },
+  { label: tg.s4_benefit4, icon: 'star' },
+  { label: tg.s4_benefit5, icon: 'trending' },
+];
+---
+<Layout title={tg.page_title} description={tg.page_desc}>
+  <Nav t={t.nav} lang={lang} />
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-hero">
+    <div class="container ig-hero-inner reveal">
+      <span class="ig-eyebrow-badge">{tg.hero_eyebrow}</span>
+      <h1 class="ig-hero-title">{tg.hero_title}</h1>
+      <p class="ig-hero-sub">{tg.hero_sub}</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       01 · UN ECOSISTEMA CONECTADO
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-section ig-bg-a">
+    <div class="container ig-grid">
+      <div class="ig-text reveal">
+        <div class="ig-num-row">
+          <span class="ig-num">{tg.s1_num}</span>
+          <span class="eyebrow" style="margin:0;">{tg.s1_eyebrow}</span>
+        </div>
+        <h2>{tg.s1_title1}<br/><em>{tg.s1_title2}</em></h2>
+        <p class="section-desc">{tg.s1_desc}</p>
+        <ul class="ig-list">
+          {s1items.map(item => (
+            <li>
+              <span class="ig-list-icon" set:html={icons[item.icon]} />
+              <span class="ig-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ig-visual reveal reveal-delay-2">
+        <div class="ig-radial">
+          <svg class="ig-radial-conn" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {nodes.map((n, i) => (
+              <path class={`ig-rl ig-rl${i}`} d={`M${n.lineX},${n.lineY} L${HUB_X},${HUB_Y}`} fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2.2 2.2"/>
+            ))}
+          </svg>
+          <div class="ig-radial-center">
+            <span class="ig-center-logo"><img src="/maindhotel_icono.svg" alt="MaindHotel" /></span>
+            <span class="ig-center-name">{tg.s1_center_name}</span>
+            <span class="ig-center-sub">{tg.s1_center_sub}</span>
+          </div>
+          {nodes.map(n => (
+            <div class="ig-node" style={`left:${n.x}%; top:${n.y}%;`}>
+              <div class="ig-node-icon" set:html={icons[n.icon]} />
+              <span class="ig-node-label">{n.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="ig-banner">
+          <span set:html={icons.checkcircle} />
+          {tg.s1_banner}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02 · INTEGRACIONES FLEXIBLES
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-section ig-bg-b">
+    <div class="container ig-grid">
+      <div class="ig-text reveal">
+        <div class="ig-num-row">
+          <span class="ig-num">{tg.s2_num}</span>
+          <span class="eyebrow" style="margin:0;">{tg.s2_eyebrow}</span>
+        </div>
+        <h2>{tg.s2_title1}<br/><em>{tg.s2_title2}</em></h2>
+        <p class="section-desc">{tg.s2_desc}</p>
+        <ul class="ig-list">
+          {s2items.map(item => (
+            <li>
+              <span class="ig-list-icon" set:html={icons[item.icon]} />
+              <span class="ig-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ig-visual reveal reveal-delay-2">
+        <span class="ig-protocols-label">{tg.s2_protocols_label}</span>
+        <div class="ig-protocols">
+          {protocols.map(p => (
+            <div class="ig-proto">
+              <span class="ig-proto-icon" set:html={icons[p.icon]} />
+              <span>{p.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="ig-card">
+          <div class="ig-panel-head">
+            <span set:html={icons.external} />
+            {tg.s2_panel_title}
+          </div>
+          <div class="ig-panel-body">
+            <ul class="ig-panel-nav">
+              {navItems.map((n, i) => <li class={i === 0 ? 'active' : ''}>{n}</li>)}
+            </ul>
+            <div class="ig-panel-table-wrap">
+              <div class="ig-panel-table-head">
+                <span>{tg.s2_col_connector}</span>
+                <span>{tg.s2_col_status}</span>
+                <span>{tg.s2_col_sync}</span>
+              </div>
+              <ul class="ig-panel-table">
+                {connectorRows.map(r => (
+                  <li>
+                    <span class="ig-panel-row-name"><span class="ig-panel-row-icon" set:html={icons[r.icon]} />{r.name}</span>
+                    <span class="ig-panel-status">● {tg.s2_status_connected}</span>
+                    <span class="ig-panel-sync">{r.sync}</span>
+                  </li>
+                ))}
+              </ul>
+              <span class="ig-panel-add">{tg.s2_add}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03 · INFORMACIÓN QUE FLUYE
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-section ig-bg-a">
+    <div class="container ig-grid">
+      <div class="ig-text reveal">
+        <div class="ig-num-row">
+          <span class="ig-num">{tg.s3_num}</span>
+          <span class="eyebrow" style="margin:0;">{tg.s3_eyebrow}</span>
+        </div>
+        <h2>{tg.s3_title1}<br/><em>{tg.s3_title2}</em></h2>
+        <p class="section-desc">{tg.s3_desc}</p>
+        <ul class="ig-list">
+          {s3items.map(item => (
+            <li>
+              <span class="ig-list-icon" set:html={icons[item.icon]} />
+              <span class="ig-list-text"><strong>{item.title}</strong><br/>{item.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ig-visual reveal reveal-delay-2">
+        <div class="ig-card ig-funnel">
+          <div class="ig-funnel-col">
+            <span class="ig-funnel-title">{tg.s3_sources_title}</span>
+            <ul class="ig-funnel-list">
+              {sources.map(s => <li><span set:html={icons[s.icon]} />{s.label}</li>)}
+            </ul>
+          </div>
+
+          <div class="ig-funnel-center">
+            <span class="ig-funnel-conn ig-funnel-conn--left"></span>
+            <div class="ig-hub">
+              <span class="ig-hub-logo"><img src="/maindhotel_icono.svg" alt="MaindHotel" /></span>
+              <span class="ig-hub-name">{tg.s3_center_name}</span>
+              <span class="ig-hub-sub">{tg.s3_center_sub}</span>
+            </div>
+            <span class="ig-funnel-conn ig-funnel-conn--right"></span>
+          </div>
+
+          <div class="ig-funnel-col">
+            <span class="ig-funnel-title">{tg.s3_dest_title}</span>
+            <ul class="ig-funnel-list">
+              {destinations.map(d => <li><span set:html={icons[d.icon]} />{d.label}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div class="ig-rules-pill">
+          <span set:html={icons.checkcircle} />
+          {tg.s3_rules}
+        </div>
+
+        <div class="ig-stats-row">
+          {stats3.map(s => (
+            <div class="ig-stat">
+              <span class="ig-stat-icon" set:html={icons[s.icon]} />
+              {s.val && <span class="ig-stat-val">{s.val}</span>}
+              <span class="ig-stat-label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       04 · UN EQUIPO, UN OBJETIVO
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-section ig-bg-b">
+    <div class="container">
+      <div class="ig-grid">
+        <div class="ig-text reveal">
+          <div class="ig-num-row">
+            <span class="ig-num">{tg.s4_num}</span>
+            <span class="eyebrow" style="margin:0;">{tg.s4_eyebrow}</span>
+          </div>
+          <h2>{tg.s4_title1}<br/><em>{tg.s4_title2}</em></h2>
+          <p class="section-desc">{tg.s4_desc}</p>
+        </div>
+
+        <div class="ig-visual reveal reveal-delay-2">
+          <div class="ig-triflow">
+            <div class="ig-tri-node">
+              <span class="ig-tri-icon" set:html={icons.database} />
+              <strong>{tg.s4_data_label}</strong>
+              <span>{tg.s4_data_sub}</span>
+            </div>
+            <span class="ig-tri-conn"></span>
+            <div class="ig-tri-hub">
+              <span class="ig-tri-hub-logo"><img src="/maindhotel_icono.svg" alt="MaindHotel" /></span>
+              <strong>{tg.s4_center_name}</strong>
+              <span>{tg.s4_center_sub}</span>
+            </div>
+            <span class="ig-tri-conn"></span>
+            <div class="ig-tri-node">
+              <span class="ig-tri-icon" set:html={icons.users} />
+              <strong>{tg.s4_people_label}</strong>
+              <span>{tg.s4_people_sub}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ig-card ig-benefits-card reveal reveal-delay-3">
+        <span class="ig-card-title" style="text-align:center; display:block;">{tg.s4_benefits_title}</span>
+        <div class="ig-benefits-row">
+          {benefits4.map(b => (
+            <div class="ig-benefit">
+              <span class="ig-benefit-icon" set:html={icons[b.icon]} />
+              <span>{b.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="ig-closing reveal reveal-delay-3">
+        <span class="ig-closing-icon" set:html={icons.plug} />
+        <div class="ig-closing-text">
+          <p>{tg.closing_text1}</p>
+          <p class="ig-closing-accent">{tg.closing_text2}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════ -->
+  <section class="ig-cta">
+    <div class="container ig-cta-inner reveal">
+      <h2 class="ig-cta-title">{tg.cta_title}</h2>
+      <p class="ig-cta-sub">{tg.cta_sub}</p>
+      <a href="mailto:info@connect24.io" class="btn btn-white">{tg.cta_btn}</a>
+    </div>
+  </section>
+
+  <Footer t={t.footer} />
+</Layout>
+
+<style>
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.ig-hero { padding: 9rem 2rem 4rem; background: #f5f8fc; position: relative; overflow: hidden; }
+:global([data-theme="dark"]) .ig-hero { background: linear-gradient(135deg, #080F18 0%, #0a1520 55%, #080F18 100%); }
+.ig-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 80% at 50% 0%, rgba(106,181,171,0.14) 0%, transparent 70%);
+}
+.ig-hero-inner { position: relative; z-index: 1; text-align: center; }
+.ig-eyebrow-badge {
+  display: inline-flex; align-items: center; background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.9rem; border-radius: var(--radius-pill); margin-bottom: 1.25rem;
+}
+:global([data-theme="dark"]) .ig-eyebrow-badge { background: rgba(106,181,171,0.14); }
+.ig-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 700; letter-spacing: -0.02em; color: var(--c24-navy); margin-bottom: 0.75rem; }
+:global([data-theme="dark"]) .ig-hero-title { color: #fff; }
+.ig-hero-sub { font-size: 1.1rem; color: var(--c24-text-muted); font-weight: 300; max-width: 480px; margin: 0 auto; }
+
+/* ═══════════════════════════════════════════════
+   SHARED
+═══════════════════════════════════════════════ */
+.ig-section { padding: 6rem 2rem; }
+.ig-bg-a { background: #ffffff; }
+:global([data-theme="dark"]) .ig-bg-a { background: var(--c24-bg); }
+.ig-bg-b { background: #f5f8fc; }
+:global([data-theme="dark"]) .ig-bg-b { background: var(--c24-surface); }
+.ig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6.5rem; align-items: center; }
+.ig-num-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.ig-num {
+  font-family: var(--font-body); font-weight: 800; font-size: 0.85rem; width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--c24-navy); color: var(--c24-teal); border: 2px solid var(--c24-teal);
+}
+:global([data-theme="dark"]) .ig-num { background: rgba(106,181,171,0.12); }
+.ig-section h2 em { font-style: normal; color: var(--c24-teal); }
+
+.ig-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin-top: 0.5rem; }
+.ig-list li { display: flex; align-items: flex-start; gap: 0.85rem; }
+.ig-list-icon {
+  flex-shrink: 0; width: 2.1rem; height: 2.1rem; border-radius: 10px; background: var(--c24-teal-light);
+  display: flex; align-items: center; justify-content: center; color: var(--c24-teal-dark);
+}
+:global([data-theme="dark"]) .ig-list-icon { background: rgba(106,181,171,0.14); }
+.ig-list-icon :global(svg) { width: 1.1rem; height: 1.1rem; }
+.ig-list-text { font-size: 0.9rem; color: var(--c24-text-muted); line-height: 1.6; font-weight: 300; }
+.ig-list-text strong { color: var(--c24-text); font-weight: 600; }
+
+.ig-card {
+  background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md); padding: 1.4rem 1.5rem;
+}
+:global([data-theme="dark"]) .ig-card { background: var(--c24-surface); }
+.ig-card-title { font-size: 0.85rem; font-weight: 700; color: var(--c24-text); margin-bottom: 1rem; }
+
+.ig-banner, .ig-rules-pill {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  background: var(--c24-teal-light); border: 1px solid rgba(106,181,171,0.25); border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem; font-size: 0.8rem; font-weight: 700; color: var(--c24-teal-dark); text-align: center;
+}
+:global([data-theme="dark"]) .ig-banner, :global([data-theme="dark"]) .ig-rules-pill { background: rgba(106,181,171,0.08); }
+.ig-banner :global(svg), .ig-rules-pill :global(svg) { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+.ig-banner { margin-top: 1rem; }
+
+/* ═══════════════════════════════════════════════
+   01 · RADIAL HUB (8 nodes)
+═══════════════════════════════════════════════ */
+.ig-radial { position: relative; width: 100%; aspect-ratio: 1/1; max-width: 460px; margin: 0 auto; }
+.ig-radial-conn { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--c24-teal); opacity: 0.4; overflow: visible; }
+.ig-rl { animation: igFlow 2.6s linear infinite; }
+.ig-rl0 { animation-delay: 0s; }   .ig-rl1 { animation-delay: 0.2s; }
+.ig-rl2 { animation-delay: 0.4s; } .ig-rl3 { animation-delay: 0.6s; }
+.ig-rl4 { animation-delay: 0.8s; } .ig-rl5 { animation-delay: 1s; }
+.ig-rl6 { animation-delay: 1.2s; } .ig-rl7 { animation-delay: 1.4s; }
+@keyframes igFlow { from { stroke-dashoffset: 8.8; } to { stroke-dashoffset: 0; } }
+
+.ig-radial-center {
+  position: absolute; top: 50%; left: 66%; transform: translate(-50%, -50%);
+  width: 34%; aspect-ratio: 1/1; border-radius: 50%;
+  background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 2px; z-index: 2; padding: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1);
+  animation: igPulse 4s ease-in-out infinite;
+}
+@keyframes igPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1); }
+  50%      { box-shadow: 0 8px 40px rgba(0,60,91,0.4), 0 0 0 10px rgba(106,181,171,0.06); }
+}
+.ig-center-logo { width: 1.8rem; height: 1.8rem; border-radius: 6px; overflow: hidden; margin-bottom: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+.ig-center-logo img { width: 100%; height: 100%; object-fit: cover; }
+.ig-center-name { font-family: var(--font-body); font-weight: 800; font-size: clamp(0.7rem, 1.7vw, 0.85rem); color: white; letter-spacing: -0.01em; }
+.ig-center-sub { font-size: clamp(0.46rem, 1vw, 0.54rem); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c24-teal); }
+
+.ig-node {
+  position: absolute; transform: translate(-50%, -1.2rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  z-index: 1; width: 96px; text-align: center;
+}
+.ig-node-icon {
+  width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c24-teal-dark); box-shadow: var(--shadow-sm);
+}
+.ig-node-icon :global(svg) { width: 1.15rem; height: 1.15rem; }
+.ig-node-label { font-size: 0.62rem; font-weight: 600; color: var(--c24-text-muted); line-height: 1.2; }
+
+/* ═══════════════════════════════════════════════
+   02 · PROTOCOLS + INTEGRATIONS PANEL
+═══════════════════════════════════════════════ */
+.ig-protocols-label { display: block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-text-muted); margin-bottom: 0.75rem; text-align: center; }
+.ig-protocols { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-bottom: 1.25rem; }
+.ig-proto {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  padding: 0.7rem 0.3rem; border-radius: var(--radius-sm);
+  background: var(--c24-surface); border: 1px solid var(--c24-border);
+}
+:global([data-theme="dark"]) .ig-proto { background: rgba(255,255,255,0.03); }
+.ig-proto-icon { width: 1.5rem; height: 1.5rem; color: var(--c24-teal-dark); }
+.ig-proto-icon :global(svg) { width: 100%; height: 100%; }
+.ig-proto span { font-size: 0.58rem; font-weight: 600; color: var(--c24-text-muted); text-align: center; line-height: 1.2; }
+
+.ig-panel-head {
+  display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 700; color: var(--c24-text);
+  margin-bottom: 1rem;
+}
+.ig-panel-head :global(svg) { width: 1rem; height: 1rem; color: var(--c24-teal); }
+.ig-panel-body { display: grid; grid-template-columns: 120px 1fr; gap: 1.1rem; }
+.ig-panel-nav { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; border-right: 1px solid var(--c24-border); padding-right: 1rem; }
+.ig-panel-nav li { font-size: 0.72rem; color: var(--c24-text-muted); padding: 0.4rem 0.5rem; border-radius: var(--radius-sm); }
+.ig-panel-nav li.active { background: var(--c24-teal-light); color: var(--c24-teal-dark); font-weight: 700; }
+:global([data-theme="dark"]) .ig-panel-nav li.active { background: rgba(106,181,171,0.14); }
+.ig-panel-table-wrap { min-width: 0; }
+.ig-panel-table-head { display: grid; grid-template-columns: 1.4fr 0.8fr 1fr; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--c24-text-muted); padding-bottom: 0.5rem; border-bottom: 1px solid var(--c24-border); margin-bottom: 0.4rem; }
+.ig-panel-table { list-style: none; display: flex; flex-direction: column; }
+.ig-panel-table li { display: grid; grid-template-columns: 1.4fr 0.8fr 1fr; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--c24-border); font-size: 0.72rem; }
+.ig-panel-table li:last-child { border-bottom: none; }
+.ig-panel-row-name { display: flex; align-items: center; gap: 0.45rem; color: var(--c24-text); font-weight: 500; }
+.ig-panel-row-icon { flex-shrink: 0; width: 1.2rem; height: 1.2rem; border-radius: 6px; background: var(--c24-teal-light); color: var(--c24-teal-dark); display: flex; align-items: center; justify-content: center; }
+:global([data-theme="dark"]) .ig-panel-row-icon { background: rgba(106,181,171,0.14); }
+.ig-panel-row-icon :global(svg) { width: 0.7rem; height: 0.7rem; }
+.ig-panel-status { color: #059669; font-weight: 600; font-size: 0.68rem; }
+.ig-panel-sync { color: var(--c24-text-muted); font-size: 0.68rem; }
+.ig-panel-add { display: block; margin-top: 0.75rem; font-size: 0.72rem; font-weight: 700; color: var(--c24-teal-dark); cursor: pointer; }
+
+/* ═══════════════════════════════════════════════
+   03 · FUENTES / DESTINOS FUNNEL
+═══════════════════════════════════════════════ */
+.ig-funnel { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; padding: 1.75rem 1.5rem; }
+.ig-funnel-title { display: block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c24-text-muted); margin-bottom: 0.75rem; }
+.ig-funnel-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.ig-funnel-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.76rem; font-weight: 500; color: var(--c24-text); }
+.ig-funnel-list li span { flex-shrink: 0; width: 1rem; height: 1rem; color: var(--c24-teal-dark); }
+.ig-funnel-list li :global(svg) { width: 100%; height: 100%; }
+.ig-funnel-center { display: flex; align-items: center; gap: 0.5rem; }
+.ig-funnel-conn {
+  width: 26px; height: 2px; flex-shrink: 0; position: relative;
+  background-image: repeating-linear-gradient(90deg, var(--c24-teal) 0 5px, transparent 5px 10px);
+  background-size: 200% 100%; opacity: 0.5; animation: igDash 1s linear infinite;
+}
+@keyframes igDash { from { background-position: 0 0; } to { background-position: -20px 0; } }
+.ig-hub {
+  width: 130px; aspect-ratio: 1/1; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  gap: 3px; padding: 0.6rem; box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1);
+  animation: igPulse 4s ease-in-out infinite;
+}
+.ig-hub-logo { width: 1.7rem; height: 1.7rem; border-radius: 6px; overflow: hidden; margin-bottom: 2px; }
+.ig-hub-logo img { width: 100%; height: 100%; object-fit: cover; }
+.ig-hub-name { font-family: var(--font-body); font-weight: 800; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: white; line-height: 1.2; }
+.ig-hub-sub { font-size: 0.46rem; font-weight: 600; color: rgba(255,255,255,0.65); line-height: 1.3; }
+
+.ig-rules-pill { margin-top: 1rem; }
+.ig-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-top: 1rem; }
+.ig-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem; text-align: center;
+  background: white; border: 1px solid var(--c24-border); border-radius: var(--radius-sm); padding: 0.85rem 0.5rem;
+}
+:global([data-theme="dark"]) .ig-stat { background: var(--c24-surface); }
+.ig-stat-icon { width: 1.3rem; height: 1.3rem; color: var(--c24-teal-dark); }
+.ig-stat-icon :global(svg) { width: 100%; height: 100%; }
+.ig-stat-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--c24-navy); }
+:global([data-theme="dark"]) .ig-stat-val { color: var(--c24-text); }
+.ig-stat-label { font-size: 0.6rem; color: var(--c24-text-muted); font-weight: 500; line-height: 1.25; }
+
+/* ═══════════════════════════════════════════════
+   04 · TRI-FLOW + BENEFITS + CLOSING
+═══════════════════════════════════════════════ */
+.ig-triflow { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.ig-tri-node, .ig-tri-hub {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.4rem;
+  border-radius: 50%; flex-shrink: 0;
+}
+.ig-tri-node { width: 130px; aspect-ratio: 1/1; background: var(--c24-teal-light); border: 2px solid rgba(106,181,171,0.3); justify-content: center; padding: 0.6rem; }
+:global([data-theme="dark"]) .ig-tri-node { background: rgba(106,181,171,0.1); }
+.ig-tri-icon { width: 1.8rem; height: 1.8rem; color: var(--c24-teal-dark); }
+.ig-tri-icon :global(svg) { width: 100%; height: 100%; }
+.ig-tri-node strong { font-size: 0.78rem; color: var(--c24-text); }
+.ig-tri-node span { font-size: 0.56rem; color: var(--c24-text-muted); max-width: 90px; line-height: 1.25; }
+.ig-tri-hub {
+  width: 150px; background: linear-gradient(160deg, #0f2438 0%, #081420 100%);
+  box-shadow: 0 8px 32px rgba(0,60,91,0.3), 0 0 0 6px rgba(106,181,171,0.1);
+  justify-content: center; padding: 0.6rem; animation: igPulse 4s ease-in-out infinite;
+}
+.ig-tri-hub-logo { width: 2rem; height: 2rem; border-radius: 8px; overflow: hidden; }
+.ig-tri-hub-logo img { width: 100%; height: 100%; object-fit: cover; }
+.ig-tri-hub strong { font-size: 0.85rem; color: white; }
+.ig-tri-hub span { font-size: 0.58rem; color: var(--c24-teal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.ig-tri-conn {
+  width: 2.5rem; height: 2px; flex-shrink: 0;
+  background-image: repeating-linear-gradient(90deg, var(--c24-teal) 0 5px, transparent 5px 10px);
+  background-size: 200% 100%; opacity: 0.5; animation: igDash 1s linear infinite;
+}
+
+.ig-benefits-card { margin-top: 3.5rem; }
+.ig-benefits-row { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.ig-benefit { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; flex: 1; min-width: 110px; }
+.ig-benefit-icon {
+  width: 2.4rem; height: 2.4rem; border-radius: 10px; background: var(--c24-teal-light); color: var(--c24-teal-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+:global([data-theme="dark"]) .ig-benefit-icon { background: rgba(106,181,171,0.14); }
+.ig-benefit-icon :global(svg) { width: 1.15rem; height: 1.15rem; }
+.ig-benefit span { font-size: 0.78rem; font-weight: 600; color: var(--c24-text); line-height: 1.3; }
+
+.ig-closing {
+  margin-top: 2rem; display: flex; align-items: center; gap: 1.25rem;
+  background: var(--c24-navy); border-radius: var(--radius-lg); padding: 2rem 2.25rem;
+}
+:global([data-theme="dark"]) .ig-closing { background: linear-gradient(135deg, #0d2035 0%, #091520 100%); }
+.ig-closing-icon {
+  flex-shrink: 0; width: 3rem; height: 3rem; border-radius: 50%;
+  background: rgba(106,181,171,0.18); color: var(--c24-teal);
+  display: flex; align-items: center; justify-content: center;
+}
+.ig-closing-icon :global(svg) { width: 1.4rem; height: 1.4rem; }
+.ig-closing-text p { font-size: 1rem; font-weight: 600; color: white; line-height: 1.4; }
+.ig-closing-accent { color: var(--c24-teal) !important; margin-top: 0.2rem; }
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+.ig-cta { background: var(--c24-teal); padding: 5rem 2rem; text-align: center; }
+:global([data-theme="dark"]) .ig-cta { background: var(--c24-teal-dark); }
+.ig-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; color: white; margin-bottom: 0.6rem; }
+.ig-cta-sub { font-size: 1rem; color: rgba(255,255,255,0.85); font-weight: 300; margin-bottom: 1.75rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .ig-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .ig-radial { max-width: 380px; }
+  .ig-funnel { grid-template-columns: 1fr; }
+  .ig-funnel-center { flex-direction: row; justify-content: center; margin: 1rem 0; }
+  .ig-panel-body { grid-template-columns: 1fr; }
+  .ig-panel-nav { display: flex; flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--c24-border); padding-right: 0; padding-bottom: 0.75rem; }
+  .ig-triflow { flex-direction: column; }
+  .ig-tri-conn { width: 2px; height: 2rem; }
+  .ig-benefits-row { justify-content: center; }
+  .ig-closing { flex-direction: column; text-align: center; }
+}
+@media (max-width: 640px) {
+  .ig-hero { padding: 8rem 1.5rem 3rem; }
+  .ig-section { padding: 4rem 1.5rem; }
+  .ig-node { width: 78px; }
+  .ig-node-label { font-size: 0.56rem; }
+  .ig-protocols { grid-template-columns: repeat(3, 1fr); }
+  .ig-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .ig-panel-table-head span:nth-child(3), .ig-panel-sync { display: none; }
+  .ig-panel-table-head, .ig-panel-table li { grid-template-columns: 1.4fr 0.8fr; }
+}
+</style>

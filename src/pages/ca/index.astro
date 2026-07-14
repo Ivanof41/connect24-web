@@ -1,23 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Nav from '../../components/Nav.astro';
-import Hero from '../../components/Hero.astro';
-import ProblemaYSolucion from '../../components/ProblemaYSolucion.astro';
-import ComoFunciona from '../../components/ComoFunciona.astro';
-import Modal from '../../components/Modal.astro';
-import Footer from '../../components/Footer.astro';
-
+import HomePage from '../../components/HomePage.astro';
 import { getLang, useTranslations } from '../../i18n/index';
 
 const lang = getLang(Astro.url);
 const t    = useTranslations(lang);
 ---
 
-<Layout title={`Connect24 — ${t.hero.slogan1}. ${t.hero.slogan2}.`}>
-  <Nav t={t.nav} lang={lang} />
-  <Hero t={t.hero} />
-  <ProblemaYSolucion t={t.problema} />
-  <ComoFunciona t={t.como} />
-  <Modal t={t.modal} t_calc={t.calculadora} />
-  <Footer t={t.footer} />
-</Layout>
+<HomePage t={t} lang={lang} />

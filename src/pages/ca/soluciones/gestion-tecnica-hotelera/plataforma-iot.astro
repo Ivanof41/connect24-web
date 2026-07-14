@@ -1,0 +1,18 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { ca } from '../../../../i18n/ca';
+---
+<Layout title="Plataforma IoT — Connect24">
+  <Nav t={ca.nav} lang="ca" />
+  <ProximamentePage
+    title="Plataforma IoT"
+    desc="Sensors, gateways i connectivitat IoT per a les teves instal·lacions. Dades en temps real, sense infraestructura complexa."
+    back="/ca/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Gestió Tècnica Hotelera"
+    badge="Properament"
+  />
+  <Footer t={ca.footer} />
+</Layout>

@@ -4,18 +4,20 @@ interface Props {
   desc?: string;
   back?: string;
   backLabel?: string;
+  badge?: string;
 }
 const {
   title,
   desc = 'Estamos preparando esta sección. Vuelve pronto.',
   back = '/',
   backLabel = '← Volver al inicio',
+  badge = 'Próximamente',
 } = Astro.props;
 ---
 
 <main class="prox">
   <div class="prox-inner">
-    <div class="prox-badge">Próximamente</div>
+    <div class="prox-badge">{badge}</div>
     <h1 class="prox-title">{title}</h1>
     <p class="prox-desc">{desc}</p>
     <a href={back} class="btn btn-primary">{backLabel}</a>

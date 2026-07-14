@@ -22,6 +22,11 @@ interface Props {
   };
 }
 const { t } = Astro.props;
+
+// Prefijo de idioma para los enlaces internos, deducido de la URL actual
+// (igual que en Nav.astro), sin necesidad de pasar una prop `lang` extra.
+const langMatch = Astro.url.pathname.match(/^\/(en|ca|de)(?=\/|$)/);
+const prefix = langMatch ? `/${langMatch[1]}` : '';
 ---
 
 <footer class="footer">
@@ -56,9 +61,9 @@ const { t } = Astro.props;
       <a href="/soluciones/operativa-tecnica">{t.sol1}</a>
       <a href="/soluciones/gestion-energetica">{t.sol2}</a>
       <a href="/soluciones/ciclo-del-agua">{t.sol3}</a>
-      <a href="/soluciones/cool-protect">{t.sol5}</a>
-      <a href="/soluciones/home-protect">{t.sol6}</a>
-      <a href="/soluciones/gestion-tecnica-hotelera">{t.sol7}</a>
+      <a href={`${prefix}/soluciones/cool-protect`}>{t.sol5}</a>
+      <a href={`${prefix}/soluciones/home-protect`}>{t.sol6}</a>
+      <a href={`${prefix}/soluciones/gestion-tecnica-hotelera`}>{t.sol7}</a>
     </div>
 
     <!-- Col 3 -->

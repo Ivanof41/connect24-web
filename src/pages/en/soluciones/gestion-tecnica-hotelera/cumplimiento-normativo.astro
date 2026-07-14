@@ -1,0 +1,18 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { en } from '../../../../i18n/en';
+---
+<Layout title="Regulatory Compliance — Connect24">
+  <Nav t={en.nav} lang="en" />
+  <ProximamentePage
+    title="Regulatory Compliance"
+    desc="Automatic logging of Legionella, HACCP, HVAC and all regulations applicable to your hotel facility."
+    back="/en/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Hotel Technical Management"
+    badge="Coming soon"
+  />
+  <Footer t={en.footer} />
+</Layout>

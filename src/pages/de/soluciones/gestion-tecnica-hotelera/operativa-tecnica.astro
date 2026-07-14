@@ -1,0 +1,18 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import ProximamentePage from '../../../../components/ProximamentePage.astro';
+import Footer from '../../../../components/Footer.astro';
+import { de } from '../../../../i18n/de';
+---
+<Layout title="Technischer Betrieb — Connect24">
+  <Nav t={de.nav} lang="de" />
+  <ProximamentePage
+    title="Technischer Betrieb"
+    desc="Automatische Prüfungen von Kühlräumen, Pools, Warmwasser, Pumpendruck und dem gesamten Tagesbetrieb Ihres Hotels."
+    back="/de/soluciones/gestion-tecnica-hotelera"
+    backLabel="← Technisches Hotelmanagement"
+    badge="Demnächst"
+  />
+  <Footer t={de.footer} />
+</Layout>
