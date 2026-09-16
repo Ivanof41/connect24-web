@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Nav from './Nav.astro';
-import CtaFinal from './CtaFinal.astro';
 import Modal from './Modal.astro';
-import Footer from './Footer.astro';
 import type { Translations } from '../i18n/es';
 
 interface Props {
@@ -323,10 +321,7 @@ const s4Benefits = [
     </div>
   </section>
 
-  <CtaFinal t={t.cta} />
   <Modal t={t.modal} t_calc={t.calculadora} />
-
-  <Footer t={t.footer} />
 </Layout>
 
 <style>

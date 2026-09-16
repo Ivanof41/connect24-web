@@ -9,14 +9,6 @@ interface Props {
     dd_hotel: string;
     dd_hotel_desc: string;
     dd_cool_desc: string;
-    dd_sub1: string;
-    dd_sub1_desc: string;
-    dd_sub2: string;
-    dd_sub2_desc: string;
-    dd_sub3: string;
-    dd_sub3_desc: string;
-    dd_sub4: string;
-    dd_sub4_desc: string;
   };
   lang: string;
 }
@@ -57,9 +49,8 @@ const langUrls = {
       </button>
 
       <div class="dd-panel" id="solPanel" role="menu">
-        <!-- Columna izquierda: categorías -->
         <div class="dd-left">
-          <div class="dd-cat dd-cat--hotel" id="catHotel" data-sub="hotel">
+          <a href={`${prefix}/soluciones/maindhotel`} class="dd-cat">
             <div class="dd-cat-icon" style="background: transparent;">
               <img src="/maindhotel_icono.svg" alt="MaindHotel" height="34" style="width: auto; display: block;" />
             </div>
@@ -67,12 +58,9 @@ const langUrls = {
               <span class="dd-cat-name">{t.dd_hotel}</span>
               <span class="dd-cat-desc">{t.dd_hotel_desc}</span>
             </div>
-            <svg class="dd-cat-chevron" width="6" height="10" viewBox="0 0 6 10" fill="none">
-              <path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </div>
+          </a>
 
-          <a href={`${prefix}/soluciones/cool-protect`} class="dd-cat" id="catCool" data-sub="">
+          <a href={`${prefix}/soluciones/cool-protect`} class="dd-cat">
             <div class="dd-cat-icon" style="background: transparent;">
               <img src="/CoolProtect_SoloEscudo.svg" alt="Cool Protect" height="34" style="width: auto; display: block;" />
             </div>
@@ -81,44 +69,6 @@ const langUrls = {
               <span class="dd-cat-desc">{t.dd_cool_desc}</span>
             </div>
           </a>
-        </div>
-
-        <!-- Separador vertical -->
-        <div class="dd-sep hidden" id="ddSep"></div>
-
-        <!-- Columna derecha: sub-items (oculta hasta hover de hotel) -->
-        <div class="dd-right hidden" id="ddRight">
-          <!-- Sub-items de Hotel -->
-          <div class="dd-sub-group" id="subHotel">
-            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/que-es-mainhotel`} class="dd-sub-link">
-              <span class="dd-dot"></span>
-              <span class="dd-cat-text">
-                <span class="dd-cat-name">{t.dd_sub1}</span>
-                <span class="dd-cat-desc">{t.dd_sub1_desc}</span>
-              </span>
-            </a>
-            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/conecta-360`} class="dd-sub-link">
-              <span class="dd-dot"></span>
-              <span class="dd-cat-text">
-                <span class="dd-cat-name">{t.dd_sub2}</span>
-                <span class="dd-cat-desc">{t.dd_sub2_desc}</span>
-              </span>
-            </a>
-            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/inteligencia-operativa`} class="dd-sub-link">
-              <span class="dd-dot"></span>
-              <span class="dd-cat-text">
-                <span class="dd-cat-name">{t.dd_sub3}</span>
-                <span class="dd-cat-desc">{t.dd_sub3_desc}</span>
-              </span>
-            </a>
-            <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/integraciones`} class="dd-sub-link">
-              <span class="dd-dot"></span>
-              <span class="dd-cat-text">
-                <span class="dd-cat-name">{t.dd_sub4}</span>
-                <span class="dd-cat-desc">{t.dd_sub4_desc}</span>
-              </span>
-            </a>
-          </div>
         </div>
       </div>
     </div>
@@ -184,11 +134,7 @@ const langUrls = {
 <div class="mobile-nav" id="mobileNav">
   <div class="mobile-section">
     <span class="mobile-section-label">{t.soluciones}</span>
-    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera`} class="mobile-link mobile-link--sub">{t.dd_hotel}</a>
-    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/que-es-mainhotel`} class="mobile-link mobile-link--subsub">{t.dd_sub1}</a>
-    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/conecta-360`} class="mobile-link mobile-link--subsub">{t.dd_sub2}</a>
-    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/inteligencia-operativa`} class="mobile-link mobile-link--subsub">{t.dd_sub3}</a>
-    <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/integraciones`} class="mobile-link mobile-link--subsub">{t.dd_sub4}</a>
+    <a href={`${prefix}/soluciones/maindhotel`} class="mobile-link mobile-link--sub">{t.dd_hotel}</a>
     <a href={`${prefix}/soluciones/cool-protect`} class="mobile-link mobile-link--sub">Cool Protect</a>
   </div>
   <a href="#tecnologia" class="mobile-link">{t.tecnologia}</a>
@@ -393,7 +339,7 @@ const langUrls = {
     border: none; background: none; font-family: inherit; text-align: left;
     width: 100%;
   }
-  .dd-cat:hover, .dd-cat.active { background: rgba(69,191,162,0.09); }
+  .dd-cat:hover { background: rgba(69,191,162,0.09); }
 
   .dd-cat-icon {
     width: 40px; height: 40px; flex-shrink: 0;
@@ -403,8 +349,7 @@ const langUrls = {
     color: var(--c24-teal);
     transition: background 0.13s;
   }
-  .dd-cat:hover .dd-cat-icon,
-  .dd-cat.active .dd-cat-icon { background: rgba(69,191,162,0.2); }
+  .dd-cat:hover .dd-cat-icon { background: rgba(69,191,162,0.2); }
 
   .dd-cat-text { flex: 1; min-width: 0; }
   .dd-cat-name {
@@ -417,56 +362,6 @@ const langUrls = {
     font-size: 0.78rem; color: var(--c24-text-muted);
     margin-top: 2px; line-height: 1.3;
   }
-  .dd-hotel-icon { width: 22px; height: auto; display: block; }
-  :global([data-theme="dark"]) .dd-hotel-icon { filter: brightness(0) invert(1) opacity(0.85); }
-
-  .dd-cat-chevron { opacity: 0.35; flex-shrink: 0; transition: opacity 0.13s; }
-  .dd-cat--hotel:hover .dd-cat-chevron,
-  .dd-cat--hotel.active .dd-cat-chevron { opacity: 0.6; }
-
-  /* ── Separator ── */
-  .dd-sep {
-    width: 1px;
-    background: var(--c24-border);
-    margin: 0.25rem 0.5rem;
-    align-self: stretch;
-    flex-shrink: 0;
-  }
-  .dd-sep.hidden { display: none; }
-
-  /* ── Right column ── */
-  .dd-right {
-    flex: 1;
-    padding: 0.5rem 0.75rem 0.5rem 0.9rem;
-    display: flex; flex-direction: column;
-  }
-  .dd-right.hidden { display: none; }
-
-  .dd-sub-group { display: flex; flex-direction: column; gap: 0.2rem; }
-
-  .dd-sub-link {
-    display: flex; align-items: flex-start; gap: 0.6rem;
-    padding: 0.55rem 0.65rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.13s;
-  }
-  .dd-sub-link:hover {
-    background: rgba(69,191,162,0.09);
-  }
-  .dd-sub-link:hover .dd-cat-name {
-    color: var(--c24-teal);
-  }
-  .dd-dot {
-    width: 5px; height: 5px;
-    margin-top: 8px;
-    border-radius: 50%;
-    background: var(--c24-teal); opacity: 0.45;
-    flex-shrink: 0;
-    transition: opacity 0.13s;
-  }
-  .dd-sub-link:hover .dd-dot { opacity: 0.9; }
-
   /* ── Right section ── */
   .nav-right {
     display: flex; align-items: center;
@@ -610,10 +505,6 @@ const langUrls = {
 
   /* ── Soluciones dropdown ── */
   const solDropdown = document.getElementById('solDropdown');
-  const ddSep       = document.getElementById('ddSep');
-  const ddRight     = document.getElementById('ddRight');
-  const catHotel    = document.getElementById('catHotel');
-  const catCool     = document.getElementById('catCool');
 
   let closeTimer = null;
 
@@ -624,39 +515,11 @@ const langUrls = {
   function scheduleClose() {
     closeTimer = setTimeout(() => {
       solDropdown?.classList.remove('open');
-      resetCategories();
     }, 120);
-  }
-
-  function resetCategories() {
-    catHotel?.classList.remove('active');
-    catCool?.classList.remove('active');
-    ddRight?.classList.add('hidden');
-    ddSep?.classList.add('hidden');
   }
 
   solDropdown?.addEventListener('mouseenter', openDropdown);
   solDropdown?.addEventListener('mouseleave', scheduleClose);
-
-  /* ── Category hover: switch right panel ── */
-  function setActiveCategory(cat) {
-    catHotel?.classList.remove('active');
-    catCool?.classList.remove('active');
-
-    if (cat === 'hotel') {
-      catHotel?.classList.add('active');
-      ddRight?.classList.remove('hidden');
-      ddSep?.classList.remove('hidden');
-    } else {
-      ddRight?.classList.add('hidden');
-      ddSep?.classList.add('hidden');
-      if (cat === 'cool') catCool?.classList.add('active');
-    }
-  }
-
-  catHotel?.addEventListener('click', () => setActiveCategory('hotel'));
-  catHotel?.addEventListener('mouseenter', () => setActiveCategory('hotel'));
-  catCool?.addEventListener('mouseenter',  () => setActiveCategory('cool'));
 
   /* ── Lang selector ── */
   const langSelector = document.getElementById('langSelector');
