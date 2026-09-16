@@ -44,6 +44,7 @@ const tcp = t.coolprotect;
 
       <div class="cp-hero-visual" aria-hidden="true">
         <div class="cp-stage">
+          <div class="cp-hero-glow" aria-hidden="true"></div>
           <svg class="cp-conn" viewBox="0 0 640 340" preserveAspectRatio="none">
             <path class="cp-cl cp-cl1" d="M175,85 Q260,85 308,170"  fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6 6"/>
             <path class="cp-cl cp-cl2" d="M175,255 Q260,255 308,170" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6 6"/>
@@ -124,7 +125,7 @@ const tcp = t.coolprotect;
 
       <div class="cp-features-right reveal reveal-delay-2">
         <div class="cp-dashboard" data-expand={tcp.dash_expand}>
-          <div class="cp-dash-card cp-dash-warning">
+          <div class="cp-dash-card spotlight cp-dash-warning">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c1_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c1_name}</span>
@@ -143,7 +144,7 @@ const tcp = t.coolprotect;
             <div class="cp-dash-hum">💧 67 %HR</div>
           </div>
 
-          <div class="cp-dash-card cp-dash-ok">
+          <div class="cp-dash-card spotlight cp-dash-ok">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c2_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c2_name}</span>
@@ -162,7 +163,7 @@ const tcp = t.coolprotect;
             <div class="cp-dash-hum">💧 84 %HR</div>
           </div>
 
-          <div class="cp-dash-card cp-dash-ok">
+          <div class="cp-dash-card spotlight cp-dash-ok">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c3_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c3_name}</span>
@@ -181,7 +182,7 @@ const tcp = t.coolprotect;
             <div class="cp-dash-hum">💧 55 %HR</div>
           </div>
 
-          <div class="cp-dash-card cp-dash-warning">
+          <div class="cp-dash-card spotlight cp-dash-warning">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c4_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c4_name}</span>
@@ -200,7 +201,7 @@ const tcp = t.coolprotect;
             <div class="cp-dash-hum">💧 98 %HR</div>
           </div>
 
-          <div class="cp-dash-card cp-dash-ok">
+          <div class="cp-dash-card spotlight cp-dash-ok">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c5_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c5_name}</span>
@@ -219,7 +220,7 @@ const tcp = t.coolprotect;
             <div class="cp-dash-hum">💧 62 %HR</div>
           </div>
 
-          <div class="cp-dash-card cp-dash-critical">
+          <div class="cp-dash-card spotlight cp-dash-critical">
             <div class="cp-dash-header">
               <span class="cp-dash-loc">{tcp.dash_c6_loc}</span>
               <span class="cp-dash-name">{tcp.dash_c6_name}</span>
@@ -295,7 +296,7 @@ const tcp = t.coolprotect;
 
       <div class="cp-plans reveal reveal-delay-1">
 
-        <div class="cp-plan">
+        <div class="cp-plan spotlight">
           <div class="cp-plan-name cp-plan-name--starter">{tcp.plan1_name}</div>
           <div class="cp-plan-cameras">{tcp.plan1_cameras}</div>
           <div class="cp-plan-price">
@@ -313,7 +314,7 @@ const tcp = t.coolprotect;
           <a href="#contacto" class="btn btn-ghost cp-plan-cta">{tcp.plan1_cta}</a>
         </div>
 
-        <div class="cp-plan cp-plan--popular">
+        <div class="cp-plan cp-plan--popular spotlight">
           <div class="cp-popular-badge">{tcp.plan_popular}</div>
           <div class="cp-plan-name cp-plan-name--pro">{tcp.plan2_name}</div>
           <div class="cp-plan-cameras">{tcp.plan2_cameras}</div>
@@ -332,7 +333,7 @@ const tcp = t.coolprotect;
           <a href="#contacto" class="btn btn-primary cp-plan-cta">{tcp.plan2_cta}</a>
         </div>
 
-        <div class="cp-plan">
+        <div class="cp-plan spotlight">
           <div class="cp-plan-name cp-plan-name--opera">{tcp.plan3_name}</div>
           <div class="cp-plan-cameras">{tcp.plan3_cameras}</div>
           <div class="cp-plan-price cp-plan-price--consultar">
@@ -394,7 +395,7 @@ const tcp = t.coolprotect;
   min-height: 100vh;
   display: flex; align-items: center;
   padding: 9rem 2rem 6rem;
-  background: #f5f8fc;
+  background: linear-gradient(135deg, #e9eff2 0%, #d5e2e7 55%, #e9eff2 100%);
   position: relative; overflow: hidden;
 }
 :global([data-theme="dark"]) .cp-hero {
@@ -412,12 +413,39 @@ const tcp = t.coolprotect;
     radial-gradient(ellipse 45% 65% at 75% 50%, rgba(69,191,162,0.18) 0%, transparent 70%),
     radial-gradient(ellipse 30% 50% at 20% 60%, rgba(0,60,91,0.30) 0%, transparent 65%);
 }
+/* Animated gradient mesh — subtle drifting color blobs behind the hero */
+.cp-hero::after {
+  content: '';
+  position: absolute; inset: -20%; pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 35%, rgba(69,191,162,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(0,60,91,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 50% 15%, rgba(69,191,162,0.12) 0%, transparent 40%);
+  filter: blur(50px);
+  animation: cpMeshDrift 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+:global([data-theme="dark"]) .cp-hero::after {
+  background:
+    radial-gradient(circle at 30% 35%, rgba(69,191,162,0.26) 0%, transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(69,191,162,0.16) 0%, transparent 50%),
+    radial-gradient(circle at 50% 15%, rgba(0,60,91,0.35) 0%, transparent 40%);
+}
+@keyframes cpMeshDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-2%, 2%) scale(1.08); }
+  100% { transform: translate(2%, -2%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cp-hero::after { animation: none; }
+}
 .cp-hero-inner {
   position: relative; z-index: 1;
   max-width: 1200px; margin: 0 auto; width: 100%;
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 4rem; align-items: center;
 }
+.cp-hero-content { position: relative; z-index: 2; }
 .cp-sectors {
   display: flex; flex-wrap: wrap; gap: 0.5rem;
   margin-bottom: 1.75rem;
@@ -464,6 +492,44 @@ const tcp = t.coolprotect;
 .cp-cards-left  { margin-right: 45px; }
 .cp-cards-right { margin-left: 45px; }
 
+/* Luz blanca detrás del logo, expandiéndose y difuminándose hacia los bordes */
+.cp-hero-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 165vmax; height: 165vmax;
+  transform: translate(-50%, -50%) scale(0.92);
+  background: radial-gradient(circle,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.9) 12%,
+    rgba(255,255,255,0.65) 28%,
+    rgba(255,255,255,0.42) 45%,
+    rgba(255,255,255,0.24) 62%,
+    rgba(255,255,255,0.10) 78%,
+    rgba(255,255,255,0.03) 92%,
+    rgba(255,255,255,0) 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: cpGlowPulse 7s ease-in-out infinite;
+}
+:global([data-theme="dark"]) .cp-hero-glow {
+  background: radial-gradient(circle,
+    rgba(255,255,255,0.65) 0%,
+    rgba(255,255,255,0.55) 12%,
+    rgba(255,255,255,0.40) 28%,
+    rgba(255,255,255,0.26) 45%,
+    rgba(255,255,255,0.15) 62%,
+    rgba(255,255,255,0.06) 78%,
+    rgba(255,255,255,0.02) 92%,
+    rgba(255,255,255,0) 100%);
+}
+@keyframes cpGlowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.85; }
+  50%      { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cp-hero-glow { animation: none; transform: translate(-50%, -50%) scale(1); }
+}
+
 /* SVG connectors */
 .cp-conn {
   position: absolute; inset: 0;
@@ -502,9 +568,12 @@ const tcp = t.coolprotect;
   border-top-color: rgba(69,191,162,0.22);
   box-shadow: 0 1px 0 rgba(69,191,162,0.12) inset, 0 4px 8px rgba(0,0,0,0.20), 0 12px 28px rgba(0,0,0,0.28);
 }
-.cp-tcard--warn { border-left: 3px solid #f59e0b; }
-.cp-tcard--ok   { border-left: 3px solid #10b981; }
-.cp-tcard--crit { border-left: 3px solid #ef4444; }
+.cp-tcard--warn { border-width: 1.5px; border-color: #f59e0b; }
+.cp-tcard--ok   { border-width: 1.5px; border-color: #10b981; }
+.cp-tcard--crit { border-width: 1.5px; border-color: #ef4444; }
+:global([data-theme="dark"]) .cp-tcard--warn { border-color: #f59e0b; }
+:global([data-theme="dark"]) .cp-tcard--ok   { border-color: #10b981; }
+:global([data-theme="dark"]) .cp-tcard--crit { border-color: #ef4444; }
 
 /* Float animation per card — each independent */
 .cp-cards-left .cp-tcard:nth-child(1)  { animation: cpF1 5.8s ease-in-out infinite; }
@@ -780,6 +849,28 @@ const tcp = t.coolprotect;
 :global(.cp-cta-distinction strong) { color: white; font-weight: 600; }
 
 /* ═══════════════════════════════════════════════
+   SPOTLIGHT — glow que sigue al cursor (precios y features)
+═══════════════════════════════════════════════ */
+.spotlight { position: relative; }
+.spotlight::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(circle 220px at var(--sx, 50%) var(--sy, 50%), rgba(69,191,162,0.20), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+:global([data-theme="dark"]) .spotlight::after {
+  background: radial-gradient(circle 220px at var(--sx, 50%) var(--sy, 50%), rgba(69,191,162,0.30), transparent 70%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .spotlight:hover::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spotlight::after { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
@@ -937,4 +1028,26 @@ const tcp = t.coolprotect;
 
   overlay?.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── Spotlight: glow que sigue al cursor en cards de precios y dashboard ── */
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canHover && !prefersReducedMotion) {
+    let ticking = false;
+    document.querySelectorAll<HTMLElement>('.spotlight').forEach(el => {
+      el.addEventListener('mousemove', (e: MouseEvent) => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const rect = el.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          el.style.setProperty('--sx', `${x}%`);
+          el.style.setProperty('--sy', `${y}%`);
+          ticking = false;
+        });
+      });
+    });
+  }
 </script>
