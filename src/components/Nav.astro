@@ -9,7 +9,6 @@ interface Props {
     dd_hotel: string;
     dd_hotel_desc: string;
     dd_cool_desc: string;
-    dd_home_desc: string;
     dd_sub1: string;
     dd_sub1_desc: string;
     dd_sub2: string;
@@ -80,16 +79,6 @@ const langUrls = {
             <div class="dd-cat-text">
               <span class="dd-cat-name">Cool Protect</span>
               <span class="dd-cat-desc">{t.dd_cool_desc}</span>
-            </div>
-          </a>
-
-          <a href={`${prefix}/soluciones/home-protect`} class="dd-cat" id="catHome" data-sub="">
-            <div class="dd-cat-icon" style="background: transparent;">
-              <img src="/HomeProtect_SoloEscudo.svg" alt="Home Protect" height="34" style="width: auto; display: block;" />
-            </div>
-            <div class="dd-cat-text">
-              <span class="dd-cat-name">Home Protect</span>
-              <span class="dd-cat-desc">{t.dd_home_desc}</span>
             </div>
           </a>
         </div>
@@ -201,7 +190,6 @@ const langUrls = {
     <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/inteligencia-operativa`} class="mobile-link mobile-link--subsub">{t.dd_sub3}</a>
     <a href={`${prefix}/soluciones/gestion-tecnica-hotelera/integraciones`} class="mobile-link mobile-link--subsub">{t.dd_sub4}</a>
     <a href={`${prefix}/soluciones/cool-protect`} class="mobile-link mobile-link--sub">Cool Protect</a>
-    <a href={`${prefix}/soluciones/home-protect`} class="mobile-link mobile-link--sub">Home Protect</a>
   </div>
   <a href="#tecnologia" class="mobile-link">{t.tecnologia}</a>
   <a href="#innovacion" class="mobile-link">{t.innovacion}</a>
@@ -626,7 +614,6 @@ const langUrls = {
   const ddRight     = document.getElementById('ddRight');
   const catHotel    = document.getElementById('catHotel');
   const catCool     = document.getElementById('catCool');
-  const catHome     = document.getElementById('catHome');
 
   let closeTimer = null;
 
@@ -644,7 +631,6 @@ const langUrls = {
   function resetCategories() {
     catHotel?.classList.remove('active');
     catCool?.classList.remove('active');
-    catHome?.classList.remove('active');
     ddRight?.classList.add('hidden');
     ddSep?.classList.add('hidden');
   }
@@ -656,7 +642,6 @@ const langUrls = {
   function setActiveCategory(cat) {
     catHotel?.classList.remove('active');
     catCool?.classList.remove('active');
-    catHome?.classList.remove('active');
 
     if (cat === 'hotel') {
       catHotel?.classList.add('active');
@@ -666,14 +651,12 @@ const langUrls = {
       ddRight?.classList.add('hidden');
       ddSep?.classList.add('hidden');
       if (cat === 'cool') catCool?.classList.add('active');
-      if (cat === 'home') catHome?.classList.add('active');
     }
   }
 
   catHotel?.addEventListener('click', () => setActiveCategory('hotel'));
   catHotel?.addEventListener('mouseenter', () => setActiveCategory('hotel'));
   catCool?.addEventListener('mouseenter',  () => setActiveCategory('cool'));
-  catHome?.addEventListener('mouseenter',  () => setActiveCategory('home'));
 
   /* ── Lang selector ── */
   const langSelector = document.getElementById('langSelector');
