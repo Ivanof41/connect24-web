@@ -175,9 +175,7 @@ export const en = {
     title1: 'Ready to free up',
     title2: 'your team?',
     desc: 'Tell us about your facility. Within 24 hours we\'ll tell you exactly what we can automate.',
-    btn1: 'I want to free up hours →',
-    btn2: 'Learn about GO! Installation',
-    note: 'No commitment · Nothing to install yet · Response within 24h',
+    btn_info: 'Request information',
   },
 
   // ── Modal ──

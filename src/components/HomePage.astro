@@ -321,6 +321,29 @@ const s4Benefits = [
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════════════
+       CTA FINAL
+  ═══════════════════════════════════════════════ -->
+  <section class="hp-cta" id="contacto">
+    <div class="container hp-cta-inner">
+      <div class="hp-cta-text reveal">
+        <h2 class="hp-cta-title">{t.cta.title1}<br/>{t.cta.title2}</h2>
+        <p class="hp-cta-sub">{t.cta.desc}</p>
+        <div class="hp-cta-contact">
+          <a href="tel:+34871153883" class="hp-cta-link">+34 871 153 883</a>
+          <span class="hp-cta-sep">|</span>
+          <a href="mailto:info@connect24.io" class="hp-cta-link">info@connect24.io</a>
+        </div>
+        <a href="mailto:info@connect24.io" class="btn btn-white hp-cta-btn">{t.cta.btn_info}</a>
+      </div>
+
+      <div class="hp-cta-badge reveal reveal-delay-2" aria-hidden="true">
+        <img src="/connect24_mark_white.png" alt="Connect24" class="hp-cta-logo" />
+        <p class="hp-cta-distinction">{t.footer.tagline}</p>
+      </div>
+    </div>
+  </section>
+
   <Modal t={t.modal} t_calc={t.calculadora} />
 </Layout>
 
@@ -582,6 +605,40 @@ const s4Benefits = [
 .h-benefit span { font-size: 0.82rem; font-weight: 600; color: var(--c24-text); line-height: 1.35; }
 
 /* ═══════════════════════════════════════════════
+   CTA FINAL
+═══════════════════════════════════════════════ */
+.hp-cta { background: var(--c24-navy); padding: 7rem 2rem; }
+:global([data-theme="dark"]) .hp-cta { background: #0a1520; }
+.hp-cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.hp-cta-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: white; line-height: 1.15; margin-bottom: 0.5rem; }
+.hp-cta-sub { font-size: 1.1rem; color: rgba(255,255,255,0.6); font-weight: 300; margin-bottom: 1.75rem; }
+.hp-cta-contact { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.hp-cta-link { color: var(--c24-teal); font-size: 0.95rem; font-weight: 500; transition: opacity 0.2s; }
+.hp-cta-link:hover { opacity: 0.8; }
+.hp-cta-sep { color: rgba(255,255,255,0.3); }
+.hp-cta-badge {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.5rem;
+}
+.hp-cta-logo {
+  width: clamp(90px, 10vw, 120px);
+  animation: hpFloat 7s ease-in-out infinite;
+  filter:
+    drop-shadow(0 8px 0px rgba(0,20,60,0.25))
+    drop-shadow(0 16px 32px rgba(0,20,60,0.35))
+    drop-shadow(0 0 60px rgba(69,191,162,0.25));
+}
+@keyframes hpFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@media (prefers-reduced-motion: reduce) {
+  .hp-cta-logo { animation: none; }
+}
+.hp-cta-distinction {
+  font-size: 0.95rem; color: rgba(255,255,255,0.75);
+  text-align: center; line-height: 1.6;
+  max-width: 320px;
+}
+
+/* ═══════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
@@ -594,6 +651,8 @@ const s4Benefits = [
   .h-tri-conn { width: 2px; height: 2rem; }
   .h-benefits { grid-template-columns: repeat(2, 1fr); }
   .h-protocols { grid-template-columns: repeat(4, 1fr); }
+  .hp-cta-inner { grid-template-columns: 1fr; text-align: center; }
+  .hp-cta-contact { justify-content: center; }
 }
 @media (max-width: 640px) {
   .h-hero { padding: 8rem 1.5rem 4rem; }
@@ -607,5 +666,6 @@ const s4Benefits = [
   .h-cycle-icon { width: 2rem; height: 2rem; }
   .h-protocols { grid-template-columns: repeat(2, 1fr); }
   .h-benefits { grid-template-columns: 1fr; }
+  .hp-cta { padding: 5rem 1.5rem; }
 }
 </style>

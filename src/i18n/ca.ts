@@ -175,9 +175,7 @@ export const ca = {
     title1: 'Preparat per alliberar',
     title2: 'el teu equip?',
     desc: 'Explica\'ns com és la teva instal·lació. En menys de 24h et diem exactament què podem automatitzar.',
-    btn1: 'Vull alliberar hores →',
-    btn2: 'Conèixer GO! Instal·lació',
-    note: 'Sense compromís · Sense instal·lar res encara · Resposta en menys de 24h',
+    btn_info: 'Sol·licitar informació',
   },
 
   // ── Modal ──

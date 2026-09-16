@@ -175,9 +175,7 @@ export const es = {
     title1: '¿Listo para liberar',
     title2: 'a tu equipo?',
     desc: 'Cuéntanos cómo es tu instalación. En menos de 24h te decimos exactamente qué podemos automatizar.',
-    btn1: 'Quiero liberar horas →',
-    btn2: 'Conocer GO! Instalación',
-    note: 'Sin compromiso · Sin instalar nada todavía · Respuesta en menos de 24h',
+    btn_info: 'Solicitar información',
   },
 
   // ── Modal ──

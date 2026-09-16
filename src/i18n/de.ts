@@ -175,9 +175,7 @@ export const de = {
     title1: 'Bereit, Ihr Team',
     title2: 'zu entlasten?',
     desc: 'Erzählen Sie uns von Ihrer Anlage. Innerhalb von 24 Stunden sagen wir Ihnen genau, was wir automatisieren können.',
-    btn1: 'Ich möchte Stunden einsparen →',
-    btn2: 'GO! Installation kennenlernen',
-    note: 'Keine Verpflichtung · Noch nichts installieren · Antwort innerhalb von 24h',
+    btn_info: 'Informationen anfordern',
   },
 
   // ── Modal ──
