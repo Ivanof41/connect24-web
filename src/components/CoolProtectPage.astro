@@ -298,10 +298,8 @@ const tcp = t.coolprotect;
         <div class="cp-plan spotlight">
           <div class="cp-plan-name cp-plan-name--starter">{tcp.plan1_name}</div>
           <div class="cp-plan-cameras">{tcp.plan1_cameras}</div>
-          <div class="cp-plan-price">
-            <span class="cp-price-from">{tcp.plan_from}</span>
-            <span class="cp-price-val">45€</span>
-            <span class="cp-price-period">{tcp.plan_month}</span>
+          <div class="cp-plan-price cp-plan-price--consultar">
+            <span class="cp-price-val cp-price-val--consult">{tcp.plan_solicit}</span>
           </div>
           <p class="cp-plan-target">{tcp.plan1_target}</p>
           <ul class="cp-plan-features">
@@ -310,17 +308,15 @@ const tcp = t.coolprotect;
           <div class="cp-plan-equipment">
             <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan1_equip}
           </div>
-          <a href="#contacto" class="btn btn-ghost cp-plan-cta">{tcp.plan1_cta}</a>
+          <a href={`mailto:info@connect24.io?subject=${encodeURIComponent(`${tcp.cta_btn} — ${tcp.plan1_name}`)}`} class="btn btn-ghost cp-plan-cta">{tcp.plan1_cta}</a>
         </div>
 
         <div class="cp-plan cp-plan--popular spotlight">
           <div class="cp-popular-badge">{tcp.plan_popular}</div>
           <div class="cp-plan-name cp-plan-name--pro">{tcp.plan2_name}</div>
           <div class="cp-plan-cameras">{tcp.plan2_cameras}</div>
-          <div class="cp-plan-price">
-            <span class="cp-price-from">{tcp.plan_from}</span>
-            <span class="cp-price-val">65€</span>
-            <span class="cp-price-period">{tcp.plan_month}</span>
+          <div class="cp-plan-price cp-plan-price--consultar">
+            <span class="cp-price-val cp-price-val--consult">{tcp.plan_solicit}</span>
           </div>
           <p class="cp-plan-target">{tcp.plan2_target}</p>
           <ul class="cp-plan-features">
@@ -329,7 +325,7 @@ const tcp = t.coolprotect;
           <div class="cp-plan-equipment">
             <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan2_equip}
           </div>
-          <a href="#contacto" class="btn btn-primary cp-plan-cta">{tcp.plan2_cta}</a>
+          <a href={`mailto:info@connect24.io?subject=${encodeURIComponent(`${tcp.cta_btn} — ${tcp.plan2_name}`)}`} class="btn btn-primary cp-plan-cta">{tcp.plan2_cta}</a>
         </div>
 
         <div class="cp-plan spotlight">
@@ -345,7 +341,7 @@ const tcp = t.coolprotect;
           <div class="cp-plan-equipment">
             <strong>{tcp.plan_equip_base}</strong> {tcp.plan_equip_costs}<br/>{tcp.plan3_equip}
           </div>
-          <a href="#contacto" class="btn btn-navy cp-plan-cta">{tcp.plan3_cta}</a>
+          <a href={`mailto:info@connect24.io?subject=${encodeURIComponent(`${tcp.cta_btn} — ${tcp.plan3_name}`)}`} class="btn btn-navy cp-plan-cta">{tcp.plan3_cta}</a>
         </div>
 
       </div>
@@ -797,11 +793,9 @@ const tcp = t.coolprotect;
 .cp-plan-name--opera   { color: #f59e0b; }
 .cp-plan-cameras { font-size: 0.85rem; color: var(--c24-text-muted); }
 .cp-plan-price { display: flex; align-items: baseline; gap: 0.2rem; padding: 0.5rem 0; }
-.cp-price-from { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; color: var(--c24-text-muted); text-transform: uppercase; align-self: flex-start; margin-top: 0.4rem; }
 .cp-price-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--c24-navy); line-height: 1; letter-spacing: -0.04em; }
 :global([data-theme="dark"]) .cp-price-val { color: var(--c24-text); }
 .cp-price-val--consult { font-size: 1.4rem; font-weight: 700; color: var(--c24-text-muted); letter-spacing: 0; align-self: center; }
-.cp-price-period { font-size: 0.85rem; font-weight: 600; color: var(--c24-text-muted); align-self: flex-end; padding-bottom: 0.35rem; }
 .cp-plan-price--consultar { padding: 0.75rem 0; }
 .cp-plan-target { font-size: 0.83rem; color: var(--c24-text-muted); line-height: 1.5; font-weight: 300; }
 .cp-plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
